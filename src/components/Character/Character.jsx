@@ -11,14 +11,27 @@ const Kropek = styled.div`
   cursor: pointer;
   z-index: 10;
 
+  ${props => props.isSecondary && css`
+    background-color: white;
+    border: 1px solid black;
+  `};
+
+  &:hover {
+    ${props => !props.active && css`
+      border: 2px solid gold;
+    `};
+  }
+
   ${props => props.active && css`
-    border: 1px solid gold;
+    border: 2px solid goldenrod;
   `};
 `;
 
-const Character = ({ isCharacterActive, toggleCharacterActive }) => {
+const Character = ({ character, isCharacterActive, toggleCharacterActive, isCharacterOn }) => {
+  const { team } = character;
+  const isSecondary = team === 1;
   return (
-    <Kropek active={isCharacterActive} onClick={() => toggleCharacterActive(!isCharacterActive)} />
+    <Kropek isSecondary={isSecondary} active={isCharacterActive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)} />
   )
 }
 
