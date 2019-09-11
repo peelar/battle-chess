@@ -19,11 +19,13 @@ const Kropek = styled.div`
   &:hover {
     ${props => !props.active && css`
       border: 2px solid gold;
+      box-sizing: border-box;
     `};
   }
 
   ${props => props.active && css`
     border: 2px solid goldenrod;
+    box-sizing: border-box;
   `};
 `;
 

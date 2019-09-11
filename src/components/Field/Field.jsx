@@ -18,10 +18,11 @@ const GridField = styled.div`
   border-radius: 15%;
   padding: 25px;
   background: gainsboro;
+  box-sizing: border-box;
 
   &:hover {
-    border: 1px solid black;
     cursor: pointer;
+    background: whitesmoke;
 
     ${Text} {
       color: black;

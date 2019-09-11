@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import Field from '../Field/Field';
 import uuid4 from 'uuid';
@@ -92,9 +92,17 @@ const Grid = () => {
   }, []);
 
   const toggleTeamMemberActiveness = (teamIndex, uuid) => {
+    console.log(uuid);
+    console.log('toggle');
+    const allMembers = [...teams[0]].concat([...teams[1]]);
+    const isAnyMemberActive = allMembers.find(member => member.active);
+
     const newTeam = [...teams[teamIndex]];
     const teamMemberIndex = newTeam.findIndex(member => member.id === uuid);
-    newTeam[teamMemberIndex].active = !newTeam[teamMemberIndex].active;
+    const nextActiveValue = !newTeam[teamMemberIndex].active;
+    newTeam[teamMemberIndex].active = nextActiveValue;
+
+    if (isAnyMemberActive && nextActiveValue) return;
 
     const newTeams = replaceAt([...teams], teamIndex, newTeam);
     changeTeamMembers(newTeams);
@@ -114,7 +122,7 @@ const Grid = () => {
     return {activePlayer: firstTeamPlayer, team};
   }
 
-  const getArenaGrid = useMemo(() => (arenaState) => {
+  const getArenaGrid = (arenaState) => {
     return arenaState.map((field) => {
       const { present, uuid, team } = field.character;
       const foundTeamMember = teams[team] !== undefined ? teams[team].find(member => member.id === uuid) : undefined;
@@ -136,23 +144,27 @@ const Grid = () => {
         </Field>
       )
     })
-  });
+  };
 
   const moveCharacterHandler = (fieldId) => {
     const { activePlayer, team } = getActivePlayer(teams);
+    const targetField = arenaData.find(foundField => foundField.fieldId === fieldId);
+    const isFieldEmpty = !targetField.character.present;
+
     if (!activePlayer) return;
+
     // update players
     const activePlayerIndex = teams[team].findIndex(player => player.id === activePlayer.id);
     const activePlayerField = teams[team].find(player => player.id === activePlayer.id).fieldId;
-    const newActivePlayer = {...activePlayer, fieldId: fieldId, active: false};
+    const newActivePlayer = {...activePlayer, fieldId: isFieldEmpty ? fieldId : activePlayer.fieldId, active: false};
 
     const oldTeam = [...teams][team];
     const newTeam = replaceAt(oldTeam, activePlayerIndex, newActivePlayer);
     const newTeams = replaceAt([...teams], team, newTeam);
     changeTeamMembers(newTeams);
+    if (!isFieldEmpty) return;
 
     // update arena
-    const targetField = arenaData.find(foundField => foundField.fieldId === fieldId);
     const newField = {...targetField, character: { present: true, team: team, uuid: activePlayer.id }};
     const oldFieldIndex = arenaData.findIndex(foundField => foundField.fieldId === fieldId);
 
