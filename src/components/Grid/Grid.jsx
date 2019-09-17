@@ -118,12 +118,8 @@ const Grid = () => {
     if (!activePlayer) return;
 
     // update players
-    const activePlayerIndex = teams.findIndex((player) => player.id === activePlayer.id);
     const activePlayerField = teams.find((player) => player.id === activePlayer.id).fieldId;
-    const newActivePlayer = { ...activePlayer, fieldId: isFieldEmpty ? fieldId : activePlayer.fieldId, active: false };
-
-    const newTeamsState = [...teams];
-    newTeamsState[activePlayerIndex] = newActivePlayer;
+    const newTeamsState = [...teams.filter((player) => player.id !== activePlayer.id), { ...activePlayerField }];
     changeTeamMembers(newTeamsState);
 
     if (!isFieldEmpty) return;
