@@ -20,6 +20,7 @@ const Fields = styled.div`
   grid-template-columns: ${(props) => props.xdim && `repeat(${props.xdim}, min-content)`};
   grid-template-rows: ${(props) => props.ydim && `repeat(${props.ydim}, min-content)`};
   grid-gap: 0.5rem;
+  padding: 0 1rem;
 `;
 
 const CharacterContainer = styled.div`

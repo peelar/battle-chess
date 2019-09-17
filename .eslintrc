@@ -1,7 +1,8 @@
 {
   "rules": {
     "reservedeslint": 0,
-    "camelcase": 0
+    "camelcase": 0,
+    "react/prop-types": 0
   },
   "extends": "airbnb"
 }

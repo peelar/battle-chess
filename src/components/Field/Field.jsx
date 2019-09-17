@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const Text = styled.p`
   color: gray;
@@ -16,7 +16,7 @@ const GridField = styled.div`
   justify-content: space-around;
   align-items: center;
   border-radius: 15%;
-  padding: 25px;
+  padding: 1.5625rem;
   background: gainsboro;
   box-sizing: border-box;
 
