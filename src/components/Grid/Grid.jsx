@@ -41,8 +41,9 @@ const CharacterContainer = styled.div`
 
 const createGameState = (dim) => {
   const xy_teams = [];
-  const populatedFields = [];
+  const arena = [];
   const lastXCoordinate = dim - 1;
+  const fields = [];
 
   for (let j = 0; j < dim; j += 1) {
     for (let i = 0; i < dim; i += 1) {
@@ -53,7 +54,8 @@ const createGameState = (dim) => {
         xy_teams.push({
           id: userId, coordinates: [0, i], active: false, fieldId, team: 0,
         });
-        populatedFields.push({ fieldId, point: [i, j], character: { present: true, uuid: userId, team: 0 } });
+        arena.push({ fieldId, point: [i, j], character: { present: true, uuid: userId, team: 0 } });
+        fields.push({ id: fieldId, point: [i, j] });
       } else if (j === lastXCoordinate) {
         const userId = uuid4();
         const fieldId = uuid4();
@@ -61,39 +63,37 @@ const createGameState = (dim) => {
         xy_teams.push({
           id: userId, coordinates: [lastXCoordinate, i], active: false, fieldId, team: 1,
         });
-        populatedFields.push({ fieldId, point: [i, j], character: { present: true, uuid: userId, team: 1 } });
+        arena.push({ fieldId, point: [i, j], character: { present: true, uuid: userId, team: 1 } });
+        fields.push({ id: fieldId, point: [i, j] });
       } else {
         const fieldId = uuid4();
 
-        populatedFields.push({ fieldId, point: [i, j], character: { present: false, uuid: null, team: null } });
+        arena.push({ fieldId, point: [i, j], character: { present: false, uuid: null, team: null } });
+        fields.push({ id: fieldId, point: [i, j] });
       }
     }
   }
 
-  return { initialTeams: [...xy_teams], initialArena: [...populatedFields] };
+  return { initialTeams: [...xy_teams], initialArena: [...arena], initialFields: [...fields] };
 };
 
-function replaceAt(array, index, value) {
-  const ret = array.slice(0);
-  ret[index] = value;
-  return ret;
-}
-
 const Grid = () => {
+  const [fields, changeFields] = useState(null);
   const [arenaData, changeArenaData] = useState(null);
   const [teams, changeTeamMembers] = useState(null);
 
   useEffect(() => {
-    const { initialTeams, initialArena } = createGameState(DIM);
+    const { initialTeams, initialArena, initialFields } = createGameState(DIM);
     changeTeamMembers(initialTeams);
     changeArenaData(initialArena);
+    changeFields(initialFields);
   }, []);
 
-  useEffect(() => {
-    if (teams) {
-      console.log(teams);
-    }
-  }, [teams]);
+  // useEffect(() => {
+  //   if (teams) {
+  //     console.log(teams);
+  //   }
+  // }, [teams]);
 
   const toggleTeamMemberActiveness = (uuid) => {
     const teamsState = [...teams];
@@ -118,27 +118,31 @@ const Grid = () => {
     if (!activePlayer) return;
 
     // update players
-    const activePlayerField = teams.find((player) => player.id === activePlayer.id).fieldId;
-    const newTeamsState = [...teams.filter((player) => player.id !== activePlayer.id), { ...activePlayerField }];
+    const activePlayerField = teams.find((player) => player.id === activePlayer.id);
+    const newTeamsState = [...teams.filter((player) => player.id !== activePlayer.id), { ...activePlayerField, active: false }];
     changeTeamMembers(newTeamsState);
 
     if (!isFieldEmpty) return;
 
     // update arena
     const newField = { ...targetField, character: { present: true, team: activePlayer.team, uuid: activePlayer.id } };
-    const oldFieldIndex = arenaData.findIndex((foundField) => foundField.fieldId === fieldId);
-
-    const prevField = arenaData.find((foundField) => foundField.fieldId === activePlayerField);
-    const prevFieldIndex = arenaData.findIndex((foundField) => foundField.fieldId === activePlayerField);
+    const prevField = arenaData.find((foundField) => foundField.fieldId === activePlayerField.fieldId);
 
     const updatedPrevField = { ...prevField, character: { present: false, team: null, uuid: null } };
 
-    const newFieldArena = replaceAt([...arenaData], oldFieldIndex, newField);
-    const updatedOldFieldArena = replaceAt([...newFieldArena], prevFieldIndex, updatedPrevField);
+    const newFieldState = [...arenaData.filter((foundField) => foundField.fieldId !== fieldId), { ...newField }];
+    const updatedOldFieldArena = [...newFieldState.filter((foundField) => foundField.fieldId !== activePlayerField.fieldId), { ...updatedPrevField }];
     changeArenaData(updatedOldFieldArena);
   };
 
-  const getArenaGrid = (arenaState) => arenaState.map((field) => {
+  const getMatchingArenaField = (point, arena) => {
+    const matchingField = arena.find((field) => field.fieldId === point.id);
+
+    return matchingField;
+  };
+
+  const getArenaGrid = (state) => state.map((point) => {
+    const field = getMatchingArenaField(point, arenaData);
     const { present, uuid, team } = field.character;
     const foundTeamMember = teams !== undefined ? teams.find((member) => member.id === uuid) : undefined;
     const isCharacterActive = present && foundTeamMember !== undefined ? foundTeamMember.active : false;
@@ -164,8 +168,8 @@ const Grid = () => {
   return (
     <Container>
       <Fields xdim={DIM} ydim={DIM}>
-        {arenaData !== null && (
-          getArenaGrid(arenaData)
+        {fields !== null && (
+          getArenaGrid(fields)
         )}
       </Fields>
     </Container>
