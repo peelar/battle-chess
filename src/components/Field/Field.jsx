@@ -6,7 +6,7 @@ const Text = styled.p`
 `;
 
 const Container = styled.div`
-  min-width: 10vmin;
+  min-width: 7vw;
   height: 100%;
   position: relative;
 `;
