@@ -8,6 +8,7 @@ import {
   toggleTeamMemberActiveness, changeTeamsState, changeFieldsState, changeArenaState, incrementRound, changeActiveTeam,
 } from '../../redux/rootActions';
 import { createGameState, replaceArrayItem } from '../../redux/helpers';
+import { PAD_S } from '../../breakpoints';
 
 const DIM = 6;
 
@@ -22,10 +23,16 @@ const Container = styled.div`
 
 const Fields = styled.div`
   display: grid;
-  grid-template-columns: ${(props) => props.xdim && `repeat(${props.xdim}, min-content)`};
-  grid-template-rows: ${(props) => props.ydim && `repeat(${props.ydim}, min-content)`};
+  grid-template-columns: ${(props) => props.xdim && `repeat(${props.xdim}, 1fr)`};
+  grid-template-rows: ${(props) => props.ydim && `repeat(${props.ydim}, 1fr)`};
   grid-gap: 0.5rem;
-  padding: 0 1rem;
+  max-width: 650px;
+  height: 60vh;
+  width: 95%;
+
+  @media (min-width: ${PAD_S}) {
+    width: 100%;
+  }
 `;
 
 const CharacterContainer = styled.div`

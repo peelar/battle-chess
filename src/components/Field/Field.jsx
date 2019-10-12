@@ -6,7 +6,6 @@ const Text = styled.p`
 `;
 
 const Container = styled.div`
-  min-width: 7vw;
   height: 100%;
   position: relative;
 `;
@@ -16,7 +15,7 @@ const GridField = styled.div`
   justify-content: space-around;
   align-items: center;
   border-radius: 15%;
-  padding: 1.5625rem;
+  height: 100%;
   background: gainsboro;
   box-sizing: border-box;
 
