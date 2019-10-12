@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-const Kropek = styled.div`
+const Dot = styled.div`
   height: 4.5rem;
   width: 4.5rem;
   background-color: black;
@@ -35,7 +35,7 @@ const Character = ({
   const { team } = character;
   const isSecondary = team === 1;
   return (
-    <Kropek isSecondary={isSecondary} active={isCharacterActive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)} />
+    <Dot isSecondary={isSecondary} active={isCharacterActive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)} />
   );
 };
 
