@@ -17,7 +17,7 @@ const Dot = styled.div`
   `};
 
   &:hover {
-    ${(props) => !props.active && css`
+    ${(props) => !props.active && !props.fade && css`
       border: 2px solid gold;
       box-sizing: border-box;
     `};
@@ -27,15 +27,21 @@ const Dot = styled.div`
     border: 2px solid goldenrod;
     box-sizing: border-box;
   `};
+
+
+  ${(props) => props.fade && css`
+    filter: opacity(.25);
+    cursor: not-allowed;
+  `};
 `;
 
 const Character = ({
-  character, isCharacterActive, toggleCharacterActive, isCharacterOn,
+  character, isCharacterActive, toggleCharacterActive, isCharacterOn, isTeamUnactive,
 }) => {
   const { team } = character;
   const isSecondary = team === 1;
   return (
-    <Dot isSecondary={isSecondary} active={isCharacterActive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)} />
+    <Dot isSecondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)} />
   );
 };
 

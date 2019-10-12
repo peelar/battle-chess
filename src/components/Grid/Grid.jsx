@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Field from '../Field/Field';
 import Character from '../Character/Character';
 import {
-  toggleTeamMemberActiveness, changeTeamsState, changeFieldsState, changeArenaState,
+  toggleTeamMemberActiveness, changeTeamsState, changeFieldsState, changeArenaState, incrementRound, changeActiveTeam,
 } from '../../redux/rootActions';
 import { createGameState, replaceArrayItem } from '../../redux/helpers';
 
@@ -46,11 +46,13 @@ const CharacterContainer = styled.div`
 `;
 
 const Grid = ({
-  toggleTeamMember, teamsState, dispatchChangeTeams, fieldsState, dispatchChangeFields, arenaState, dispatchChangeArena,
+  toggleTeamMember, teamsState, dispatchChangeTeams, fieldsState, dispatchChangeFields, arenaState, dispatchChangeArena, dispatchIncrementRound, activeTeam, dispatchChangeActiveTeam,
 }) => {
   const [fields, changeFields] = useState(null);
   const [arenaData, changeArenaData] = useState(null);
   const [teams, changeTeamMembers] = useState(null);
+  const [roundMoveCount, changeRoundMoveCount] = useState(0);
+  const [roundActiveTeam, changeRoundActiveTeam] = useState(null);
 
   useEffect(() => {
     const { initialTeams, initialArena, initialFields } = createGameState(DIM);
@@ -58,6 +60,7 @@ const Grid = ({
     dispatchChangeTeams(initialTeams);
     dispatchChangeArena(initialArena);
     dispatchChangeFields(initialFields);
+    changeRoundActiveTeam(activeTeam);
   }, []);
 
   useEffect(() => {
@@ -71,6 +74,17 @@ const Grid = ({
   useEffect(() => {
     changeArenaData(arenaState);
   }, [arenaState]);
+
+  useEffect(() => {
+    changeRoundActiveTeam(activeTeam);
+  }, [activeTeam]);
+
+  useEffect(() => {
+    if (roundMoveCount === 2) {
+      changeRoundMoveCount(0);
+      dispatchIncrementRound();
+    }
+  }, [roundMoveCount]);
 
   const getActivePlayer = (players) => {
     const activePlayer = players.find((player) => player.active === true);
@@ -125,6 +139,9 @@ const Grid = ({
 
     if (!isFieldEmpty) return;
 
+    changeRoundMoveCount(roundMoveCount + 1);
+    dispatchChangeActiveTeam();
+
     changeArenaFieldLocation({
       targetArena, targetTeamMember, fieldId,
     });
@@ -136,10 +153,11 @@ const Grid = ({
     return matchingField;
   };
 
-  const togglePlayer = (uuid) => {
+  const togglePlayer = (field) => {
+    const { uuid, team } = field.character;
     const activePlayer = getActivePlayer(teams);
 
-    if (!activePlayer) {
+    if (!activePlayer && team === activeTeam) {
       toggleTeamMember(uuid);
     }
   };
@@ -149,6 +167,7 @@ const Grid = ({
     const { present, uuid } = field.character;
     const foundTeamMember = teams !== undefined ? teams.find((member) => member.id === uuid) : undefined;
     const isCharacterActive = present && foundTeamMember !== undefined ? foundTeamMember.active : false;
+    const isTeamActive = roundActiveTeam === field.character.team;
 
     return (
       <Field
@@ -160,8 +179,9 @@ const Grid = ({
           <Character
             character={field.character}
             isCharacterActive={isCharacterActive}
+            isTeamUnactive={!isTeamActive}
             isCharacterOn={present}
-            toggleCharacterActive={() => togglePlayer(uuid)}
+            toggleCharacterActive={() => togglePlayer(field)}
           />
         </CharacterContainer>
       </Field>
@@ -183,6 +203,7 @@ const mapStateToProps = (state) => ({
   teamsState: state.charactersState.teams,
   fieldsState: state.fieldsState.fields,
   arenaState: state.arenaState.arena,
+  activeTeam: state.gameState.activeTeam,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -190,6 +211,8 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchChangeTeams: (teams) => dispatch(changeTeamsState(teams)),
   dispatchChangeFields: (fields) => dispatch(changeFieldsState(fields)),
   dispatchChangeArena: (arena) => dispatch(changeArenaState(arena)),
+  dispatchIncrementRound: () => dispatch(incrementRound()),
+  dispatchChangeActiveTeam: () => dispatch(changeActiveTeam()),
 });
 
 export default connect(
