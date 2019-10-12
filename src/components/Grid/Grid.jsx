@@ -79,7 +79,6 @@ const Grid = ({
   };
 
   const changeTeamMemberLocation = ({ activePlayer, targetTeamMember, field }) => {
-    // update players
     const index = teams.findIndex((player) => player.id === activePlayer.id);
     const newTeamMember = {
       ...targetTeamMember, active: false, fieldId: field.fieldId, coordinates: [...field.point],
@@ -137,6 +136,14 @@ const Grid = ({
     return matchingField;
   };
 
+  const togglePlayer = (uuid) => {
+    const activePlayer = getActivePlayer(teams);
+
+    if (!activePlayer) {
+      toggleTeamMember(uuid);
+    }
+  };
+
   const getArenaGrid = (state) => state.map((point) => {
     const field = getMatchingArenaField(point, arenaData);
     const { present, uuid } = field.character;
@@ -154,7 +161,7 @@ const Grid = ({
             character={field.character}
             isCharacterActive={isCharacterActive}
             isCharacterOn={present}
-            toggleCharacterActive={() => toggleTeamMember(uuid)}
+            toggleCharacterActive={() => togglePlayer(uuid)}
           />
         </CharacterContainer>
       </Field>
