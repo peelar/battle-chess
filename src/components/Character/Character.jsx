@@ -1,17 +1,21 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { DEFAULT } from '../../breakpoints';
 
 const Dot = styled.div`
-  height: 12vw;
-  width: 12vw;
-  max-height: 80px;
-  max-width: 8vh;
+  height: 4.5rem;
+  width: 4.5rem;
+  max-height: 7.5vh;
   background-color: black;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
+
+  @media (min-width: ${DEFAULT}) {
+    max-height: unset;
+  }
 
   ${(props) => props.isSecondary && css`
     background-color: white;
