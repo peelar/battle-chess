@@ -102,17 +102,20 @@ const FieldsGrid = ({
       <Field
         point={field.point}
         moveCharacterHandler={() => moveCharacterHandler(field)}
+        isFieldEmpty={!foundPlayer}
         key={uuid4()}
       >
-        <CharacterContainer active={present}>
-          <Character
-            character={field.character}
-            isCharacterActive={isCharacterActive}
-            isTeamUnactive={!isTeamActive}
-            isCharacterOn={present}
-            toggleCharacterActive={() => togglePlayer(field)}
-          />
-        </CharacterContainer>
+        {foundPlayer && (
+          <CharacterContainer active={present}>
+            <Character
+              character={foundPlayer}
+              isCharacterActive={isCharacterActive}
+              isTeamUnactive={!isTeamActive}
+              isCharacterOn={present}
+              toggleCharacterActive={() => togglePlayer(field)}
+            />
+          </CharacterContainer>
+        )}
       </Field>
     );
   });

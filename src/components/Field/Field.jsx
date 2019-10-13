@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Text = styled.p`
-  color: gray;
+  color: darkgray;
 `;
 
 const Container = styled.div`
@@ -29,11 +29,19 @@ const GridField = styled.div`
   }
 `;
 
-const Field = ({ point, moveCharacterHandler, children }) => (
+const Field = ({
+  point, moveCharacterHandler, children, isFieldEmpty,
+}) => (
   <Container>
     <GridField onClick={moveCharacterHandler}>
-      <Text>{point[0]}</Text>
-      <Text>{point[1]}</Text>
+      {
+        isFieldEmpty && (
+          <>
+            <Text>{point[0]}</Text>
+            <Text>{point[1]}</Text>
+          </>
+        )
+      }
     </GridField>
     {children}
   </Container>

@@ -1,10 +1,34 @@
 import uuid4 from 'uuid';
 
+const names = [
+  'Adam', 'Albert', 'David', 'Eugene', 'Hubert', 'George', 'Xavier', 'Martin', 'Paul', 'Raymond', 'Roman', 'Simon', 'Zeno', 'Amanda', 'Blanca', 'Cynthia', 'Edith', 'Felicia', 'Helen', 'Yvonne', 'Camille', 'Lily', 'Marina', 'Monica', 'Ursula', 'Rebecca', 'Sandra', 'Sylvia', 'Sophia', 'Bruce', 'Joshua', 'Rose', 'Max', 'Alfred', 'Marika', 'Steven',
+];
+
+let uniqueNames = [...names];
+
+const getRandomInt = (min, max) => {
+  const minNum = Math.ceil(min);
+  const maxNum = Math.floor(max);
+  return Math.floor(Math.random() * (maxNum - minNum)) + minNum;
+};
+
+const getRandomPlayerName = () => {
+  const randomIndex = getRandomInt(0, uniqueNames.length);
+  const name = uniqueNames[randomIndex];
+
+  uniqueNames = uniqueNames.filter((el) => el !== name);
+  return name;
+};
+
 const generatePlayer = ({
   userId, team, fieldId, coordinates,
-}) => ({
-  id: userId, coordinates: [...coordinates], fieldId, team, active: false,
-});
+}) => {
+  const randomName = getRandomPlayerName();
+
+  return ({
+    id: userId, coordinates: [...coordinates], fieldId, team, active: false, name: randomName,
+  });
+};
 
 const generateField = ({
   fieldId, coordinates, userId, team,

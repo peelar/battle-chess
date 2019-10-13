@@ -3,8 +3,14 @@ import styled, { css } from 'styled-components';
 import {
   DEFAULT, MOBILE_S, PAD_L, DESKTOP,
 } from '../../breakpoints';
+import Bar from './Bar/Bar';
 
 const Dot = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  color: white;
   height: 5.5rem;
   width: 5.5rem;
   max-height: 45px;
@@ -15,6 +21,8 @@ const Dot = styled.div`
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
+  position: relative;
+  border: 2px solid black;
 
   @media (min-width: ${MOBILE_S}) {
     max-height: 50px;
@@ -36,15 +44,14 @@ const Dot = styled.div`
     max-width: 70px;
   }
 
-  ${(props) => props.isSecondary && css`
+  ${(props) => props.secondary && css`
     background-color: white;
-    border: 1px solid black;
+    color: black;
   `};
 
   &:hover {
     ${(props) => !props.active && !props.fade && css`
-      border: 2px solid gold;
-      box-sizing: border-box;
+      border-color: gold;
     `};
 
     ${(props) => props.fade && css`
@@ -53,8 +60,7 @@ const Dot = styled.div`
   }
 
   ${(props) => props.active && css`
-    border: 2px solid goldenrod;
-    box-sizing: border-box;
+    border-color: goldenrod;
   `};
 
 
@@ -63,13 +69,26 @@ const Dot = styled.div`
   `};
 `;
 
+const Caption = styled.p`
+  display: flex;
+  position: absolute;
+  bottom: -3vh;
+  margin: 0;
+  padding: 0.25rem;
+  font-weight: bold;
+  color: black;
+`;
+
 const Character = ({
   character, isCharacterActive, toggleCharacterActive, isCharacterOn, isTeamUnactive,
 }) => {
-  const { team } = character;
+  const { team, name } = character;
   const isSecondary = team === 1;
   return (
-    <Dot isSecondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)} />
+    <Dot secondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)}>
+      <Bar hp={3} />
+      <Caption>{name}</Caption>
+    </Dot>
   );
 };
 
