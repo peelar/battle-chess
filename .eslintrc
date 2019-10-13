@@ -2,7 +2,10 @@
   "rules": {
     "reservedeslint": 0,
     "camelcase": 0,
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "import/named": 0,
+    "import/no-extraneous-dependencies": 0,
+    "max-len": 0
   },
   "extends": "airbnb"
 }
