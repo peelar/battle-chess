@@ -8,7 +8,9 @@ import {
   toggleTeamMemberActiveness, changeTeamsState, changeFieldsState, changeArenaState, incrementRound, changeActiveTeam,
 } from '../../redux/rootActions';
 import { createGameState, replaceArrayItem } from '../../redux/helpers';
-import { PAD_S, PAD_L, DESKTOP } from '../../breakpoints';
+import {
+  PAD_S, PAD_L, DESKTOP, DEFAULT,
+} from '../../breakpoints';
 
 const DIM = 6;
 
@@ -29,6 +31,11 @@ const Fields = styled.div`
   max-width: 650px;
   height: 60vh;
   width: 95%;
+  max-height: 370px;
+
+  @media (min-width: ${DEFAULT}) {
+    max-height: unset;
+  }
 
   @media (min-width: ${PAD_S}) {
     width: 100%;
