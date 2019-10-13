@@ -3,10 +3,6 @@ export const charactersActions = {
   changeTeams: '__CHANGE_TEAM',
 };
 
-export const fieldsActions = {
-  changeFields: '__CHANGE_FIELDS',
-};
-
 export const arenaActions = {
   changeArena: '__CHANGE_ARENA',
 };

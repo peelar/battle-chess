@@ -3,6 +3,7 @@ import { gameActions } from '../rootTypes';
 export const DEFAULT_STATE = {
   round: 0,
   activeTeam: 0,
+  session: [],
 };
 
 const gameState = (state = DEFAULT_STATE, action) => {

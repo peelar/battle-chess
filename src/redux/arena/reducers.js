@@ -1,5 +1,4 @@
 import { arenaActions } from '../rootTypes';
-import { replaceArrayItem } from '../helpers';
 
 export const DEFAULT_STATE = {
   arena: [],
