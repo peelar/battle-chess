@@ -65,7 +65,7 @@ const Grid = ({
 
     dispatchChangeTeams(initialTeams);
     dispatchChangeFields(initialFields);
-  }, []);
+  }, [dispatchChangeFields, dispatchChangeTeams]);
 
   return (
     <Container>
