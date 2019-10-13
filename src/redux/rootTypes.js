@@ -6,6 +6,7 @@ export const teamsActions = {
 
 export const fieldsActions = {
   changeFields: '__CHANGE_FIELDS',
+  handleMove: '__HANDLE_MOVE_FIELDS',
 };
 
 export const gameActions = {
