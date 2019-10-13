@@ -72,11 +72,20 @@ const Dot = styled.div`
 const Caption = styled.p`
   display: flex;
   position: absolute;
-  bottom: -3vh;
+  bottom: -3.5vh;
   margin: 0;
   padding: 0.25rem;
   font-weight: bold;
   color: black;
+  font-size: 0.65rem;
+
+  @media (min-width: ${MOBILE_S}) {
+    font-size: 1rem;
+  }
+
+  @media (min-width: ${DEFAULT}) {
+    font-size: initial;
+  }
 `;
 
 const Character = ({
