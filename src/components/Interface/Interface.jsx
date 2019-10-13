@@ -10,7 +10,7 @@ const Counter = styled.div`
   right: 0;
   top: 0;
   color: black;
-  padding: 5vw;
+  padding: 3vw;
 
   h1 {
     margin: 0;
