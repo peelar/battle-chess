@@ -11,7 +11,7 @@ import {
 } from '../../breakpoints';
 
 const DIM = 6;
-const generator = new GameGenerator(DIM, 5);
+const generator = new GameGenerator(DIM, 5, 4);
 generator.createGameState();
 
 const Container = styled.div`

@@ -19,8 +19,7 @@ const Point = styled.li`
   `}
 `;
 
-
-const Bar = ({ currentHp = 3, maxHp = 4 }) => {
+const Bar = ({ currentHp, maxHp }) => {
   const points = Array(maxHp).fill(0);
   return (
     <HealthBar>

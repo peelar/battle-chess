@@ -27,25 +27,41 @@ const generateField = ({
 const generateGridPoint = ({ fieldId, coordinates }) => (
   { id: fieldId, point: [...coordinates] }
 );
-
-const generatePlayer = ({
-  userId, team, fieldId, coordinates,
-}) => {
-  const randomName = getRandomPlayerName();
-
-  return ({
-    id: userId, coordinates: [...coordinates], fieldId, team, active: false, name: randomName,
-  });
-};
-
-
 class gameGenerator {
-  constructor(dim, maxPointPerPlayer) {
+  constructor(dim, maxHpPerPlayer, maxAttackPerPlayer) {
     this.dim = dim;
-    this.maxPointPerPlayer = maxPointPerPlayer;
+    this.maxHpPerPlayer = maxHpPerPlayer;
+    this.teamsHpLeft = [dim * maxHpPerPlayer, dim * maxHpPerPlayer];
+    this.maxAttackPerPlayer = maxAttackPerPlayer;
+    this.teamsAttackLeft = [dim * maxAttackPerPlayer, dim * maxAttackPerPlayer];
     this.xy_teams = [];
     this.fields = [];
     this.grid = [];
+  }
+
+  updateTeamPoints(max, total, team) {
+    const pointsAvailable = this[total][team];
+    const maxPoints = this[max] > pointsAvailable ? pointsAvailable : this[max];
+    const characterPoints = getRandomInt(1, maxPoints);
+
+    const newState = [...this[total]];
+    const subtractPoints = newState[team] - characterPoints;
+    newState[team] = subtractPoints;
+    this[total] = newState;
+
+    return characterPoints;
+  }
+
+  generatePlayer({
+    userId, team, fieldId, coordinates,
+  }) {
+    const randomName = getRandomPlayerName();
+    const characterHpPoints = this.updateTeamPoints('maxHpPerPlayer', 'teamsHpLeft', team);
+    const characterAttackPoints = this.updateTeamPoints('maxAttackPerPlayer', 'teamsAttackLeft', team);
+
+    return ({
+      id: userId, coordinates: [...coordinates], fieldId, team, active: false, name: randomName, maxHp: characterHpPoints, currentHp: characterHpPoints, attack: characterAttackPoints,
+    });
   }
 
   createGameState() {
@@ -57,7 +73,7 @@ class gameGenerator {
           const fieldId = uuid4();
           const userId = uuid4();
 
-          const player = generatePlayer({
+          const player = this.generatePlayer({
             userId, team: 0, fieldId, coordinates: [0, i],
           });
           const field = generateField({
@@ -72,7 +88,7 @@ class gameGenerator {
           const userId = uuid4();
           const fieldId = uuid4();
 
-          const player = generatePlayer({
+          const player = this.generatePlayer({
             userId, team: 1, fieldId, coordinates: [lastXCoordinate, i],
           });
           const field = generateField({
