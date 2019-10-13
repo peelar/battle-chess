@@ -224,7 +224,7 @@ const Board = ({
 };
 
 const mapStateToProps = (state) => ({
-  teamsState: state.charactersState.teams,
+  teamsState: state.teamsState.teams,
   arenaState: state.arenaState.arena,
   activeTeam: state.gameState.activeTeam,
 });

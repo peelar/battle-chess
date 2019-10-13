@@ -1,14 +1,14 @@
 /* eslint-disable import/prefer-default-export */
-import { charactersActions } from '../rootTypes';
+import { teamsActions } from '../rootTypes';
 
 export const toggleTeamMemberActiveness = (uuid) => ({
-  type: charactersActions.toggleMemberActiveness,
+  type: teamsActions.toggleMemberActiveness,
   payload: {
     uuid,
   },
 });
 
 export const changeTeamsState = (teams) => ({
-  type: charactersActions.changeTeams,
+  type: teamsActions.changeTeams,
   payload: [...teams],
 });

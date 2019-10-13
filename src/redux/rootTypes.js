@@ -1,6 +1,6 @@
-export const charactersActions = {
-  toggleMemberActiveness: '__TOGGLE_TEAM_MEMBER',
-  changeTeams: '__CHANGE_TEAM',
+export const teamsActions = {
+  toggleMemberActiveness: '__TOGGLE_TEAMS_MEMBER',
+  changeTeams: '__CHANGE_TEAMS',
 };
 
 export const arenaActions = {

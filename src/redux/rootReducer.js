@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import charactersState from './characters/reducers';
+import teamsState from './teams/reducers';
 import arenaState from './arena/reducers';
 import gameState from './game/reducers';
 
 const appReducer = combineReducers({
-  charactersState,
+  teamsState,
   arenaState,
   gameState,
 });
