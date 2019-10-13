@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Field from '../Field/Field';
 import Character from '../Character/Character';
 import {
-  togglePlayerActiveness, changeTeamsState, changeArenaState, incrementRound, changeActiveTeam, changePlayerPosition,
+  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition,
 } from '../../redux/rootActions';
 import { createGameState, replaceArrayItem } from '../../redux/helpers';
 import {
@@ -70,21 +70,21 @@ const CharacterContainer = styled.div`
 `;
 
 const Board = ({
-  dispatchTogglePlayerActiveness, teamsState, dispatchChangeTeams, arenaState, dispatchChangeArena, dispatchIncrementRound, activeTeam, dispatchChangeActiveTeam, dispatchChangePlayerPosition,
+  dispatchTogglePlayerActiveness, teamsState, dispatchChangeTeams, fieldsState, dispatchChangeFields, dispatchIncrementRound, activeTeam, dispatchChangeActiveTeam, dispatchChangePlayerPosition,
 }) => {
+  const [grid, changeGrid] = useState(null);
   const [fields, changeFields] = useState(null);
-  const [arenaData, changeArenaData] = useState(null);
   const [teams, changePlayers] = useState(null);
   const [roundMoveCount, changeRoundMoveCount] = useState(0);
   const [roundActiveTeam, changeRoundActiveTeam] = useState(null);
 
   useEffect(() => {
-    const { initialTeams, initialArena, initialFields } = createGameState(DIM);
+    const { initialTeams, initialFields, initialGrid } = createGameState(DIM);
 
-    changeFields(initialFields);
+    changeGrid(initialGrid);
 
     dispatchChangeTeams(initialTeams);
-    dispatchChangeArena(initialArena);
+    dispatchChangeFields(initialFields);
     changeRoundActiveTeam(activeTeam);
   }, []);
 
@@ -93,8 +93,8 @@ const Board = ({
   }, [teamsState]);
 
   useEffect(() => {
-    changeArenaData(arenaState);
-  }, [arenaState]);
+    changeFields(fieldsState);
+  }, [fieldsState]);
 
   useEffect(() => {
     changeRoundActiveTeam(activeTeam);
@@ -116,27 +116,26 @@ const Board = ({
   const getMoveCharacterData = (fieldId) => {
     const activePlayer = getActivePlayer(teams);
     const targetPlayer = teams.find((player) => player.id === activePlayer.id);
-    const targetArena = arenaData.find((foundArena) => foundArena.fieldId === fieldId);
+    const targetFields = fields.find((foundFields) => foundFields.fieldId === fieldId);
 
-    return { targetPlayer, targetArena };
+    return { targetPlayer, targetFields };
   };
 
-  const changeArenaFieldLocation = ({
-    targetArena, targetPlayer, fieldId,
+  const changeFieldsFieldLocation = ({
+    targetFields, targetPlayer, fieldId,
   }) => {
-    // update arena
     const activePlayer = getActivePlayer(teams);
-    const newArena = { ...targetArena, character: { present: true, team: activePlayer.team, uuid: activePlayer.id } };
-    const prevArena = arenaData.find((foundArena) => foundArena.fieldId === targetPlayer.fieldId);
-    const prevArenaIndex = arenaData.findIndex((foundArena) => foundArena.fieldId === targetPlayer.fieldId);
+    const newFields = { ...targetFields, character: { present: true, team: activePlayer.team, uuid: activePlayer.id } };
+    const prevFields = fields.find((foundFields) => foundFields.fieldId === targetPlayer.fieldId);
+    const prevFieldsIndex = fields.findIndex((foundFields) => foundFields.fieldId === targetPlayer.fieldId);
 
-    const nextFieldIndex = arenaData.findIndex((foundArena) => foundArena.fieldId === fieldId);
-    const newArenaState = replaceArrayItem([...arenaData], nextFieldIndex, newArena);
+    const nextFieldIndex = fields.findIndex((foundFields) => foundFields.fieldId === fieldId);
+    const newFieldsState = replaceArrayItem([...fields], nextFieldIndex, newFields);
 
-    const updatedPrevArena = { ...prevArena, character: { present: false, team: null, uuid: null } };
-    const updatedOldFieldArena = replaceArrayItem(newArenaState, prevArenaIndex, updatedPrevArena);
+    const updatedPrevFields = { ...prevFields, character: { present: false, team: null, uuid: null } };
+    const updatedOldFieldFields = replaceArrayItem(newFieldsState, prevFieldsIndex, updatedPrevFields);
 
-    dispatchChangeArena(updatedOldFieldArena);
+    dispatchChangeFields(updatedOldFieldFields);
   };
 
   const moveCharacterHandler = (field) => {
@@ -144,8 +143,8 @@ const Board = ({
     const activePlayer = getActivePlayer(teams);
     if (!activePlayer) return;
 
-    const { targetArena, targetPlayer } = getMoveCharacterData(fieldId);
-    const isFieldEmpty = !targetArena.character.present;
+    const { targetFields, targetPlayer } = getMoveCharacterData(fieldId);
+    const isFieldEmpty = !targetFields.character.present;
 
     dispatchChangePlayerPosition({ activePlayerId: activePlayer.id, targetPlayer, field });
 
@@ -154,13 +153,13 @@ const Board = ({
     changeRoundMoveCount(roundMoveCount + 1);
     dispatchChangeActiveTeam();
 
-    changeArenaFieldLocation({
-      targetArena, targetPlayer, fieldId,
+    changeFieldsFieldLocation({
+      targetFields, targetPlayer, fieldId,
     });
   };
 
-  const getMatchingArenaField = (point, arena) => {
-    const matchingField = arena.find((field) => field.fieldId === point.id);
+  const getMatchingFieldsField = (point, field) => {
+    const matchingField = field.find((foundField) => foundField.fieldId === point.id);
 
     return matchingField;
   };
@@ -175,8 +174,8 @@ const Board = ({
     }
   };
 
-  const getArenaGrid = (state) => state.map((point) => {
-    const field = getMatchingArenaField(point, arenaData);
+  const getFieldsGrid = (state) => state.map((point) => {
+    const field = getMatchingFieldsField(point, fields);
     const { present, uuid } = field.character;
     const foundPlayer = teams !== undefined ? teams.find((member) => member.id === uuid) : undefined;
     const isCharacterActive = present && foundPlayer !== undefined ? foundPlayer.active : false;
@@ -201,13 +200,13 @@ const Board = ({
     );
   });
 
-  const isBoardReady = fields && fields !== null && arenaData && arenaData !== null && arenaData.length > 0;
+  const isBoardReady = grid && grid !== null && fields && fields !== null && fields.length > 0;
 
   return (
     <Container>
       <Fields xdim={DIM} ydim={DIM}>
         {isBoardReady && (
-          getArenaGrid(fields)
+          getFieldsGrid(grid)
         )}
       </Fields>
     </Container>
@@ -216,14 +215,14 @@ const Board = ({
 
 const mapStateToProps = (state) => ({
   teamsState: state.teamsState.teams,
-  arenaState: state.arenaState.arena,
+  fieldsState: state.fieldsState.fields,
   activeTeam: state.gameState.activeTeam,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchTogglePlayerActiveness: (uuid) => dispatch(togglePlayerActiveness(uuid)),
   dispatchChangeTeams: (teams) => dispatch(changeTeamsState(teams)),
-  dispatchChangeArena: (arena) => dispatch(changeArenaState(arena)),
+  dispatchChangeFields: (field) => dispatch(changeFieldsState(field)),
   dispatchIncrementRound: () => dispatch(incrementRound()),
   dispatchChangeActiveTeam: () => dispatch(changeActiveTeam()),
   dispatchChangePlayerPosition: (params) => dispatch(changePlayerPosition(params)),

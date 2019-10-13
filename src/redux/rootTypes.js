@@ -4,8 +4,8 @@ export const teamsActions = {
   changePlayerPosition: '__CHANGE_LOCATION_TEAMS',
 };
 
-export const arenaActions = {
-  changeArena: '__CHANGE_ARENA',
+export const fieldsActions = {
+  changeFields: '__CHANGE_FIELDS',
 };
 
 export const gameActions = {
