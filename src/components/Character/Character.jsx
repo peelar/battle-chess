@@ -27,6 +27,10 @@ const Dot = styled.div`
       border: 2px solid gold;
       box-sizing: border-box;
     `};
+
+    ${(props) => props.fade && css`
+      filter: opacity(1);
+    `};
   }
 
   ${(props) => props.active && css`
@@ -37,7 +41,6 @@ const Dot = styled.div`
 
   ${(props) => props.fade && css`
     filter: opacity(.25);
-    cursor: not-allowed;
   `};
 `;
 

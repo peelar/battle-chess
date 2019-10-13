@@ -163,8 +163,9 @@ const Grid = ({
   const togglePlayer = (field) => {
     const { uuid, team } = field.character;
     const activePlayer = getActivePlayer(teams);
+    const isActivePlayerField = activePlayer ? activePlayer.fieldId === field.fieldId : false;
 
-    if (!activePlayer && team === activeTeam) {
+    if ((!activePlayer || isActivePlayerField) && team === activeTeam) {
       toggleTeamMember(uuid);
     }
   };
