@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Field from '../Field/Field';
 import Character from '../Character/Character';
 import {
-  toggleTeamMemberActiveness, changeTeamsState, changeArenaState, incrementRound, changeActiveTeam,
+  togglePlayerActiveness, changeTeamsState, changeArenaState, incrementRound, changeActiveTeam, changePlayerPosition,
 } from '../../redux/rootActions';
 import { createGameState, replaceArrayItem } from '../../redux/helpers';
 import {
@@ -70,11 +70,11 @@ const CharacterContainer = styled.div`
 `;
 
 const Board = ({
-  toggleTeamMember, teamsState, dispatchChangeTeams, arenaState, dispatchChangeArena, dispatchIncrementRound, activeTeam, dispatchChangeActiveTeam,
+  dispatchTogglePlayerActiveness, teamsState, dispatchChangeTeams, arenaState, dispatchChangeArena, dispatchIncrementRound, activeTeam, dispatchChangeActiveTeam, dispatchChangePlayerPosition,
 }) => {
   const [fields, changeFields] = useState(null);
   const [arenaData, changeArenaData] = useState(null);
-  const [teams, changeTeamMembers] = useState(null);
+  const [teams, changePlayers] = useState(null);
   const [roundMoveCount, changeRoundMoveCount] = useState(0);
   const [roundActiveTeam, changeRoundActiveTeam] = useState(null);
 
@@ -89,7 +89,7 @@ const Board = ({
   }, []);
 
   useEffect(() => {
-    changeTeamMembers(teamsState);
+    changePlayers(teamsState);
   }, [teamsState]);
 
   useEffect(() => {
@@ -113,31 +113,22 @@ const Board = ({
     return activePlayer;
   };
 
-  const changeTeamMemberLocation = ({ activePlayer, targetTeamMember, field }) => {
-    const index = teams.findIndex((player) => player.id === activePlayer.id);
-    const newTeamMember = {
-      ...targetTeamMember, active: false, fieldId: field.fieldId, coordinates: [...field.point],
-    };
-    const newTeamsState = replaceArrayItem([...teams], index, newTeamMember);
-    dispatchChangeTeams(newTeamsState);
-  };
-
   const getMoveCharacterData = (fieldId) => {
     const activePlayer = getActivePlayer(teams);
-    const targetTeamMember = teams.find((player) => player.id === activePlayer.id);
+    const targetPlayer = teams.find((player) => player.id === activePlayer.id);
     const targetArena = arenaData.find((foundArena) => foundArena.fieldId === fieldId);
 
-    return { targetTeamMember, targetArena };
+    return { targetPlayer, targetArena };
   };
 
   const changeArenaFieldLocation = ({
-    targetArena, targetTeamMember, fieldId,
+    targetArena, targetPlayer, fieldId,
   }) => {
     // update arena
     const activePlayer = getActivePlayer(teams);
     const newArena = { ...targetArena, character: { present: true, team: activePlayer.team, uuid: activePlayer.id } };
-    const prevArena = arenaData.find((foundArena) => foundArena.fieldId === targetTeamMember.fieldId);
-    const prevArenaIndex = arenaData.findIndex((foundArena) => foundArena.fieldId === targetTeamMember.fieldId);
+    const prevArena = arenaData.find((foundArena) => foundArena.fieldId === targetPlayer.fieldId);
+    const prevArenaIndex = arenaData.findIndex((foundArena) => foundArena.fieldId === targetPlayer.fieldId);
 
     const nextFieldIndex = arenaData.findIndex((foundArena) => foundArena.fieldId === fieldId);
     const newArenaState = replaceArrayItem([...arenaData], nextFieldIndex, newArena);
@@ -153,10 +144,10 @@ const Board = ({
     const activePlayer = getActivePlayer(teams);
     if (!activePlayer) return;
 
-    const { targetArena, targetTeamMember } = getMoveCharacterData(fieldId);
+    const { targetArena, targetPlayer } = getMoveCharacterData(fieldId);
     const isFieldEmpty = !targetArena.character.present;
 
-    changeTeamMemberLocation({ activePlayer, targetTeamMember, field });
+    dispatchChangePlayerPosition({ activePlayerId: activePlayer.id, targetPlayer, field });
 
     if (!isFieldEmpty) return;
 
@@ -164,7 +155,7 @@ const Board = ({
     dispatchChangeActiveTeam();
 
     changeArenaFieldLocation({
-      targetArena, targetTeamMember, fieldId,
+      targetArena, targetPlayer, fieldId,
     });
   };
 
@@ -180,15 +171,15 @@ const Board = ({
     const isActivePlayerField = activePlayer ? activePlayer.fieldId === field.fieldId : false;
 
     if ((!activePlayer || isActivePlayerField) && team === activeTeam) {
-      toggleTeamMember(uuid);
+      dispatchTogglePlayerActiveness(uuid);
     }
   };
 
   const getArenaGrid = (state) => state.map((point) => {
     const field = getMatchingArenaField(point, arenaData);
     const { present, uuid } = field.character;
-    const foundTeamMember = teams !== undefined ? teams.find((member) => member.id === uuid) : undefined;
-    const isCharacterActive = present && foundTeamMember !== undefined ? foundTeamMember.active : false;
+    const foundPlayer = teams !== undefined ? teams.find((member) => member.id === uuid) : undefined;
+    const isCharacterActive = present && foundPlayer !== undefined ? foundPlayer.active : false;
     const isTeamActive = roundActiveTeam === field.character.team;
 
     return (
@@ -230,11 +221,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleTeamMember: (uuid) => dispatch(toggleTeamMemberActiveness(uuid)),
+  dispatchTogglePlayerActiveness: (uuid) => dispatch(togglePlayerActiveness(uuid)),
   dispatchChangeTeams: (teams) => dispatch(changeTeamsState(teams)),
   dispatchChangeArena: (arena) => dispatch(changeArenaState(arena)),
   dispatchIncrementRound: () => dispatch(incrementRound()),
   dispatchChangeActiveTeam: () => dispatch(changeActiveTeam()),
+  dispatchChangePlayerPosition: (params) => dispatch(changePlayerPosition(params)),
 });
 
 export default connect(

@@ -1,6 +1,7 @@
 export const teamsActions = {
-  toggleMemberActiveness: '__TOGGLE_TEAMS_MEMBER',
+  togglePlayerActiveness: '__TOGGLE_MEMBER_TEAMS',
   changeTeams: '__CHANGE_TEAMS',
+  changePlayerPosition: '__CHANGE_LOCATION_TEAMS',
 };
 
 export const arenaActions = {
