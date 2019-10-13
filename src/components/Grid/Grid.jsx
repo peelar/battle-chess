@@ -5,12 +5,14 @@ import Board from '../Board/Board';
 import {
   changeTeamsState, changeFieldsState,
 } from '../../redux/rootActions';
-import { createGameState } from '../../redux/helpers';
+import GameGenerator from '../../redux/gameGenerator';
 import {
   PAD_S, PAD_L, DESKTOP, DEFAULT,
 } from '../../breakpoints';
 
 const DIM = 6;
+const generator = new GameGenerator(DIM, 5);
+generator.createGameState();
 
 const Container = styled.div`
   display: grid;
@@ -56,7 +58,8 @@ const Grid = ({
   const [grid, changeGrid] = useState(null);
 
   useEffect(() => {
-    const { initialTeams, initialFields, initialGrid } = createGameState(DIM);
+    const gamestate = generator.getGameState();
+    const { initialTeams, initialFields, initialGrid } = gamestate;
 
     changeGrid(initialGrid);
 
