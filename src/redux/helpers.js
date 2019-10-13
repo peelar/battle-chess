@@ -1,5 +1,19 @@
 import uuid4 from 'uuid';
 
+const generatePlayer = ({
+  userId, team, fieldId, coordinates,
+}) => ({
+  id: userId, coordinates: [...coordinates], fieldId, team, active: false,
+});
+
+const generateField = ({
+  fieldId, coordinates, userId, team,
+}) => ({ fieldId, point: [...coordinates], character: { present: userId !== null, uuid: userId, team } });
+
+const generateGridPoint = ({ fieldId, coordinates }) => (
+  { id: fieldId, point: [...coordinates] }
+);
+
 export const createGameState = (dim) => {
   const xy_teams = [];
   const fields = [];
@@ -9,28 +23,45 @@ export const createGameState = (dim) => {
   for (let j = 0; j < dim; j += 1) {
     for (let i = 0; i < dim; i += 1) {
       if (j === 0) {
-        const userId = uuid4();
         const fieldId = uuid4();
+        const userId = uuid4();
 
-        xy_teams.push({
-          id: userId, coordinates: [0, i], active: false, fieldId, team: 0,
+        const player = generatePlayer({
+          userId, team: 0, fieldId, coordinates: [0, i],
         });
-        fields.push({ fieldId, point: [i, j], character: { present: true, uuid: userId, team: 0 } });
-        grid.push({ id: fieldId, point: [i, j] });
+        const field = generateField({
+          fieldId, coordinates: [i, j], userId, team: 0,
+        });
+        const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
+
+        xy_teams.push(player);
+        fields.push(field);
+        grid.push(gridPoint);
       } else if (j === lastXCoordinate) {
         const userId = uuid4();
         const fieldId = uuid4();
 
-        xy_teams.push({
-          id: userId, coordinates: [lastXCoordinate, i], active: false, fieldId, team: 1,
+        const player = generatePlayer({
+          userId, team: 1, fieldId, coordinates: [lastXCoordinate, i],
         });
-        fields.push({ fieldId, point: [i, j], character: { present: true, uuid: userId, team: 1 } });
-        grid.push({ id: fieldId, point: [i, j] });
+        const field = generateField({
+          fieldId, coordinates: [i, j], userId, team: 1,
+        });
+        const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
+
+        xy_teams.push(player);
+        fields.push(field);
+        grid.push(gridPoint);
       } else {
         const fieldId = uuid4();
 
-        fields.push({ fieldId, point: [i, j], character: { present: false, uuid: null, team: null } });
-        grid.push({ id: fieldId, point: [i, j] });
+        const field = generateField({
+          fieldId, coordinates: [i, j], userId: null, team: null,
+        });
+        const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
+
+        fields.push(field);
+        grid.push(gridPoint);
       }
     }
   }
