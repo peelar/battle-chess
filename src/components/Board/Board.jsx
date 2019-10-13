@@ -69,7 +69,7 @@ const CharacterContainer = styled.div`
   bottom: 95px;
 `;
 
-const Grid = ({
+const Board = ({
   toggleTeamMember, teamsState, dispatchChangeTeams, fieldsState, dispatchChangeFields, arenaState, dispatchChangeArena, dispatchIncrementRound, activeTeam, dispatchChangeActiveTeam,
 }) => {
   const [fields, changeFields] = useState(null);
@@ -243,4 +243,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Grid);
+)(Board);

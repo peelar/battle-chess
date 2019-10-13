@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { createGlobalStyle } from 'styled-components';
-import Grid from './components/Grid/Grid';
+import Board from './components/Board/Board';
 import Interface from './components/Interface/Interface';
 import { MOBILE_S, DEFAULT, XL } from './breakpoints';
 
@@ -24,7 +24,7 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <Interface show />
-      <Grid />
+      <Board />
     </div>
   );
 }

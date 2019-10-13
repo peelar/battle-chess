@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import {
-  DEFAULT, MOBILE_S, PAD_S, PAD_L, DESKTOP,
+  DEFAULT, MOBILE_S, PAD_L, DESKTOP,
 } from '../../breakpoints';
 
 const Dot = styled.div`
