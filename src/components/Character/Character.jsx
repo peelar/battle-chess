@@ -1,5 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { FontAwesomeIcon as FAIcon } from '@fortawesome/react-fontawesome';
+import { faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import {
   DEFAULT, MOBILE_S, PAD_L, DESKTOP,
 } from '../../breakpoints';
@@ -88,18 +90,32 @@ const Caption = styled.p`
   }
 `;
 
+const AttackInfo = styled.div`
+  display: flex;
+  justify-content: space-around;
+  color: goldenrod;
+  font-size: 1rem;
+  align-items: center;
+`;
+
 const Character = ({
   character, isCharacterActive, interactWithCharacter, isCharacterOn, isTeamUnactive,
 }) => {
   const {
     team,
   } = character;
-  const { name, maxHp, currentHp } = character.attributes;
+  const {
+    name, maxHp, currentHp, attack,
+  } = character.attributes;
 
   const isSecondary = team === 1;
   return (
     <Dot secondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => interactWithCharacter(!isCharacterActive)}>
       <Bar currentHp={currentHp} maxHp={maxHp} />
+      <AttackInfo>
+        <FAIcon icon={faCrosshairs} />
+        <span>{attack}</span>
+      </AttackInfo>
       <Caption>{name}</Caption>
     </Dot>
   );
