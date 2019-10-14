@@ -6,7 +6,7 @@ import { getMatchingFieldsField, getActivePlayer, getMoveCharacterData } from '.
 import Character from '../Character/Character';
 import Field from '../Field/Field';
 import {
-  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, changeFieldsPlayer, addGameEvent, attackPlayer,
+  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, changeFieldsPlayer, addGameEvent, attackPlayer, killPlayer,
 } from '../../redux/rootActions';
 
 const CharacterContainer = styled.div`
@@ -27,7 +27,7 @@ const CharacterContainer = styled.div`
 `;
 
 const FieldsGrid = ({
-  dispatchTogglePlayerActiveness, activeTeam, dispatchChangePlayerPosition, dispatchChangeActiveTeam, dispatchFieldsMove, teamsState, fieldsState, grid, dispatchIncrementRound, dispatchEvent, dispatchPlayerAttack,
+  dispatchTogglePlayerActiveness, activeTeam, dispatchChangePlayerPosition, dispatchChangeActiveTeam, dispatchFieldsMove, teamsState, fieldsState, grid, dispatchIncrementRound, dispatchEvent, dispatchPlayerAttack, dispatchPlayerKill,
 }) => {
   const [fields, changeFields] = useState(null);
   const [teams, changePlayers] = useState(null);
@@ -80,15 +80,24 @@ const FieldsGrid = ({
     const { name, attack } = activePlayer.attributes;
     dispatchEvent({ text: `${name} attacks ${foundPlayer.attributes.name}!` });
     dispatchTogglePlayerActiveness(activePlayer.id);
-    dispatchPlayerAttack({ id: foundPlayer.id, damage: attack });
+    const isPlayerDead = foundPlayer.attributes.currentHp - attack;
+
+    if (isPlayerDead) {
+      dispatchPlayerKill({ id: foundPlayer.id });
+      dispatchEvent({ text: `${name} killed ${foundPlayer.attributes.name} :(` });
+    } else {
+      dispatchPlayerAttack({ id: foundPlayer.id, damage: attack });
+    }
+
     changeRound();
   };
 
   const handleCharacterInteraction = ({ field, active, foundPlayer }) => {
+    const isActivePlayer = getActivePlayer(teams) !== undefined;
     const { team } = field.character;
     const isHostile = team !== active;
 
-    if (isHostile) {
+    if (isHostile && isActivePlayer) {
       handlePlayerAttack(foundPlayer);
     } else {
       togglePlayer(field);
@@ -161,6 +170,7 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchFieldsMove: (params) => dispatch(changeFieldsPlayer(params)),
   dispatchEvent: (params) => dispatch(addGameEvent(params)),
   dispatchPlayerAttack: (params) => dispatch(attackPlayer(params)),
+  dispatchPlayerKill: (params) => dispatch(killPlayer(params)),
 });
 
 export default connect(

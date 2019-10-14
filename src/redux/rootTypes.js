@@ -3,6 +3,7 @@ export const teamsActions = {
   changeTeams: '__CHANGE_TEAMS',
   changePlayerPosition: '__CHANGE_LOCATION_TEAMS',
   attackPlayer: '__ATTACK_PLAYER',
+  killPlayer: '__KILL_PLAYER',
 };
 
 export const fieldsActions = {

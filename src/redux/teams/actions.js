@@ -26,3 +26,10 @@ export const attackPlayer = (params) => ({
     ...params,
   },
 });
+
+export const killPlayer = (params) => ({
+  type: teamsActions.killPlayer,
+  payload: {
+    ...params,
+  },
+});

@@ -41,18 +41,19 @@ const teamsState = (state = DEFAULT_STATE, action) => {
 
       const newHp = foundPlayer.attributes.currentHp - damage;
 
-      if (newHp < 0) {
-        const newTeams = [...state.teams.filter((player) => player.id !== id)];
-        return {
-          teams: newTeams,
-        };
-      }
-
       const newPlayer = {
-        ...foundPlayer, attributes: { ...foundPlayer.attributes, currentHp: foundPlayer.attributes.currentHp - damage },
+        ...foundPlayer, attributes: { ...foundPlayer.attributes, currentHp: newHp },
       };
 
       const newTeams = replaceArrayItem([...state.teams], index, newPlayer);
+      return {
+        teams: newTeams,
+      };
+    }
+    case teamsActions.killPlayer: {
+      const { id } = action.payload;
+
+      const newTeams = [...state.teams.filter((player) => player.id !== id)];
       return {
         teams: newTeams,
       };
