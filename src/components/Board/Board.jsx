@@ -80,7 +80,7 @@ const FieldsGrid = ({
     const { name, attack } = activePlayer.attributes;
     dispatchEvent({ text: `${name} attacks ${foundPlayer.attributes.name}!` });
     dispatchTogglePlayerActiveness(activePlayer.id);
-    const isPlayerDead = foundPlayer.attributes.currentHp - attack;
+    const isPlayerDead = foundPlayer.attributes.currentHp - attack < 0;
 
     if (isPlayerDead) {
       dispatchPlayerKill({ id: foundPlayer.id });

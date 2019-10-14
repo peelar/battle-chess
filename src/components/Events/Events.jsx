@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import uuid4 from 'uuid';
 import { connect } from 'react-redux';
+import { XL } from '../../breakpoints';
 
 const Container = styled.ul`
-  display: flex;
+  display: none;
   border: 1px solid black;
   flex-direction: column;
   background-color: white;
@@ -12,6 +13,10 @@ const Container = styled.ul`
   z-index: 2;
   padding: 1rem;
   margin-right: 3vh;
+
+  @media (min-width: ${XL}) {
+    display: flex;
+  }
 
   h2 {
     margin: 0;
