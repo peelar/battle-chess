@@ -19,3 +19,10 @@ export const changePlayerPosition = (params) => ({
     ...params,
   },
 });
+
+export const attackPlayer = (params) => ({
+  type: teamsActions.attackPlayer,
+  payload: {
+    ...params,
+  },
+});

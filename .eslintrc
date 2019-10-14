@@ -5,7 +5,8 @@
     "react/prop-types": 0,
     "import/named": 0,
     "import/no-extraneous-dependencies": 0,
-    "max-len": 0
+    "max-len": 0,
+    "react/jsx-props-no-spreading": 0
   },
   "extends": "airbnb"
 }

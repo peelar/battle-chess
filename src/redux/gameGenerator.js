@@ -61,7 +61,14 @@ class gameGenerator {
     const characterAttackPoints = this.updateTeamPoints('maxAttackPerPlayer', 'teamsAttackLeft', team);
 
     return ({
-      id: userId, coordinates: [...coordinates], fieldId, team, active: false, name: randomName, maxHp: characterHpPoints, currentHp: characterHpPoints, attack: characterAttackPoints,
+      id: userId,
+      coordinates: [...coordinates],
+      fieldId,
+      team,
+      active: false,
+      attributes: {
+        name: randomName, maxHp: characterHpPoints, currentHp: characterHpPoints, attack: characterAttackPoints,
+      },
     });
   }
 

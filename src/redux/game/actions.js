@@ -8,3 +8,10 @@ export const incrementRound = () => ({
 export const changeActiveTeam = () => ({
   type: gameActions.changeActiveTeam,
 });
+
+export const addGameEvent = (params) => ({
+  type: gameActions.createEvent,
+  payload: {
+    ...params,
+  },
+});

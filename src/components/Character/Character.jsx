@@ -89,14 +89,16 @@ const Caption = styled.p`
 `;
 
 const Character = ({
-  character, isCharacterActive, toggleCharacterActive, isCharacterOn, isTeamUnactive,
+  character, isCharacterActive, interactWithCharacter, isCharacterOn, isTeamUnactive,
 }) => {
   const {
-    team, name, maxHp, currentHp,
+    team,
   } = character;
+  const { name, maxHp, currentHp } = character.attributes;
+
   const isSecondary = team === 1;
   return (
-    <Dot secondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => toggleCharacterActive(!isCharacterActive)}>
+    <Dot secondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => interactWithCharacter(!isCharacterActive)}>
       <Bar currentHp={currentHp} maxHp={maxHp} />
       <Caption>{name}</Caption>
     </Dot>
