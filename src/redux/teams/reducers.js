@@ -27,7 +27,11 @@ const teamsState = (state = DEFAULT_STATE, action) => {
       const { activePlayerId, targetPlayer, field } = action.payload;
       const index = state.teams.findIndex((player) => player.id === activePlayerId);
       const newPlayer = {
-        ...targetPlayer, active: false, fieldId: field.fieldId, coordinates: [...field.point],
+        ...targetPlayer,
+        active: false,
+        fieldId: field.fieldId,
+        coordinates: [...field.point],
+        attributes: { ...targetPlayer.attributes, moves: targetPlayer.attributes.moves - 1 },
       };
       const newTeams = replaceArrayItem([...state.teams], index, newPlayer);
       return {
