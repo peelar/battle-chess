@@ -70,6 +70,8 @@ class gameGenerator {
     const properties = Array.from(Array(this.dim)).fill(1);
 
     let teamSum = this[teamMax] ? this[teamMax] : getRandomInt(minTeamProp, maxTeamProp);
+    this[teamMax] = teamSum;
+
     let counter = 0;
 
     while (teamSum > 0) {
