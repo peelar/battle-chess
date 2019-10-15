@@ -86,18 +86,21 @@ const FieldsGrid = ({
       dispatchPlayerKill({ id: foundPlayer.id });
       dispatchEvent({ text: `${name} killed ${foundPlayer.attributes.name} :(` });
     } else {
-      dispatchPlayerAttack({ id: foundPlayer.id, damage: attack });
+      dispatchPlayerAttack({ victimId: foundPlayer.id, attackerId: activePlayer.id, damage: attack });
     }
 
     changeRound();
   };
 
   const handleCharacterInteraction = ({ field, active, foundPlayer }) => {
-    const isActivePlayer = getActivePlayer(teams) !== undefined;
+    const activePlayer = getActivePlayer(teams);
+    const isActivePlayer = activePlayer !== undefined;
+    const gotMoves = isActivePlayer ? activePlayer.attributes.moves > 0 : false;
+
     const { team } = field.character;
     const isHostile = team !== active;
 
-    if (isHostile && isActivePlayer) {
+    if (isHostile && isActivePlayer && gotMoves) {
       handlePlayerAttack(foundPlayer);
     } else {
       togglePlayer(field);
@@ -108,6 +111,9 @@ const FieldsGrid = ({
     const { fieldId } = field;
     const activePlayer = getActivePlayer(teams);
     if (!activePlayer) return;
+
+    const gotMoves = activePlayer.attributes.moves > 0;
+    if (!gotMoves) return;
 
     const { targetField, targetPlayer, prevField } = getMoveCharacterData(teams, fields, fieldId);
     const isFieldEmpty = !targetField.character.present;

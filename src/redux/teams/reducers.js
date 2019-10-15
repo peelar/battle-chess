@@ -39,17 +39,27 @@ const teamsState = (state = DEFAULT_STATE, action) => {
       };
     }
     case teamsActions.attackPlayer: {
-      const { id, damage } = action.payload;
-      const index = state.teams.findIndex((player) => player.id === id);
-      const foundPlayer = { ...state.teams[index] };
+      const { victimId, attackerId, damage } = action.payload;
 
-      const newHp = foundPlayer.attributes.currentHp - damage;
+      const victimIndex = state.teams.findIndex((player) => player.id === victimId);
+      const attackerIndex = state.teams.findIndex((player) => player.id === attackerId);
 
-      const newPlayer = {
-        ...foundPlayer, attributes: { ...foundPlayer.attributes, currentHp: newHp },
+      const victim = { ...state.teams[victimIndex] };
+      const attacker = { ...state.teams[attackerIndex] };
+
+      const newHp = victim.attributes.currentHp - damage;
+      const newMoves = attacker.attributes.moves - 1;
+
+      const newVictim = {
+        ...victim, attributes: { ...victim.attributes, currentHp: newHp },
       };
 
-      const newTeams = replaceArrayItem([...state.teams], index, newPlayer);
+      const newAttacker = {
+        ...attacker, attributes: { ...attacker.attributes, moves: newMoves },
+      };
+
+      const newVictimTeams = replaceArrayItem([...state.teams], victimIndex, newVictim);
+      const newTeams = replaceArrayItem(newVictimTeams, attackerIndex, newAttacker);
       return {
         teams: newTeams,
       };
