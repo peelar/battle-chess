@@ -144,7 +144,7 @@ const FieldsGrid = ({
       <Field
         point={field.point}
         moveCharacterHandler={() => moveCharacterHandler(field)}
-        isFieldTaken={!foundPlayer}
+        isFieldEmpty={!foundPlayer}
         key={uuid4()}
       >
         {foundPlayer && (
