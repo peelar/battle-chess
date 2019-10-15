@@ -125,8 +125,6 @@ const FieldsGrid = ({
 
     const coordinatesText = `[${targetField.point[0]}, ${targetField.point[1]}]`;
     dispatchEvent({ text: `${activePlayer.attributes.name} moves to ${coordinatesText}` });
-
-    dispatchTogglePlayerActiveness(activePlayer.id);
   };
 
   return grid.map((point) => {
