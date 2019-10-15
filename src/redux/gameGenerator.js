@@ -147,7 +147,7 @@ class gameGenerator {
           const field = generateField({
             fieldId, coordinates: [i, j], userId: null, team: null,
           });
-          const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
+          const gridPoint = generateGridPoint({ fieldId, coordinates: [j, i] });
 
           this.fields.push(field);
           this.grid.push(gridPoint);
