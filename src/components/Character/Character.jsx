@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { FontAwesomeIcon as FAIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs } from '@fortawesome/free-solid-svg-icons';
+import { faCrosshairs, faStreetView } from '@fortawesome/free-solid-svg-icons';
 import {
   DEFAULT, MOBILE_S, PAD_L, DESKTOP,
 } from '../../breakpoints';
@@ -90,12 +90,28 @@ const Caption = styled.p`
   }
 `;
 
-const AttackInfo = styled.div`
-  display: flex;
-  justify-content: space-around;
-  color: goldenrod;
-  font-size: 1rem;
+const Info = styled.div`
+  display: grid;
+  grid-template-columns: min-content min-content;
+  grid-gap: 0.25rem;
+  font-size: .95rem;
   align-items: center;
+`;
+
+const Attack = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: goldenrod;
+`;
+
+const Moves = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: ${(props) => (props.secondary ? 'black' : 'aliceblue')};
 `;
 
 const Character = ({
@@ -105,17 +121,23 @@ const Character = ({
     team,
   } = character;
   const {
-    name, maxHp, currentHp, attack,
+    name, maxHp, currentHp, attack, moves,
   } = character.attributes;
 
   const isSecondary = team === 1;
   return (
     <Dot secondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => interactWithCharacter(!isCharacterActive)}>
       <Bar currentHp={currentHp} maxHp={maxHp} />
-      <AttackInfo>
-        <FAIcon icon={faCrosshairs} />
-        <span>{attack}</span>
-      </AttackInfo>
+      <Info>
+        <Attack>
+          <FAIcon icon={faCrosshairs} />
+          <span>{attack}</span>
+        </Attack>
+        <Moves secondary={isSecondary}>
+          <FAIcon icon={faStreetView} />
+          <span>{moves}</span>
+        </Moves>
+      </Info>
       <Caption>{name}</Caption>
     </Dot>
   );

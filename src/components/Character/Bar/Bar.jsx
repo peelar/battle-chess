@@ -8,6 +8,7 @@ const HealthBar = styled.ul`
   display: flex;
   justify-content: center;
   padding: 0;
+  margin: 0;
 `;
 
 const Point = styled.li`
