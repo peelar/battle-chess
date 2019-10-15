@@ -21,4 +21,22 @@ export const getMoveCharacterData = (teamsArray, fieldsArray, fieldId) => {
 
   return { targetPlayer, targetField, prevField };
 };
+
+const checkBothCoordinates = (point, checked) => point[0] === checked[0] && point[1] === checked[1];
+
+const sumBothCoordinates = (point, multiplier) => [point[0] + multiplier[0], point[1] + multiplier[1]];
+
+export const isMoveInRange = (currentField, targetField) => {
+  const conditions = [[-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1], [-1, -1], [0, -1], [1, -1]];
+  const combinations = conditions.map((multiplier) => sumBothCoordinates(currentField, multiplier));
+
+  let check = false;
+  combinations.forEach((coordinate) => {
+    const test = checkBothCoordinates(coordinate, targetField);
+    if (test) check = true;
+  });
+
+  return check;
+};
+
 export default { };

@@ -116,7 +116,7 @@ class gameGenerator {
           const userId = uuid4();
 
           const player = this.generatePlayer({
-            userId, team: 0, fieldId, coordinates: [0, i], index: i,
+            userId, team: 0, fieldId, coordinates: [i, j], index: i,
           });
           const field = generateField({
             fieldId, coordinates: [i, j], userId, team: 0,
@@ -131,7 +131,7 @@ class gameGenerator {
           const fieldId = uuid4();
 
           const player = this.generatePlayer({
-            userId, team: 1, fieldId, coordinates: [lastXCoordinate, i], index: i,
+            userId, team: 1, fieldId, coordinates: [i, j], index: i,
           });
           const field = generateField({
             fieldId, coordinates: [i, j], userId, team: 1,
@@ -147,7 +147,7 @@ class gameGenerator {
           const field = generateField({
             fieldId, coordinates: [i, j], userId: null, team: null,
           });
-          const gridPoint = generateGridPoint({ fieldId, coordinates: [j, i] });
+          const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
 
           this.fields.push(field);
           this.grid.push(gridPoint);

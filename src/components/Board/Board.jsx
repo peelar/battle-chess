@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import uuid4 from 'uuid';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
-import { getMatchingFieldsField, getActivePlayer, getMoveCharacterData } from '../../redux/helpers';
+import {
+  getMatchingFieldsField, getActivePlayer, getMoveCharacterData, isMoveInRange,
+} from '../../redux/helpers';
 import Character from '../Character/Character';
 import Field from '../Field/Field';
 import {
@@ -119,6 +121,7 @@ const FieldsGrid = ({
     const isFieldTaken = targetField.character.present;
 
     if (isFieldTaken) return;
+    if (!isMoveInRange(activePlayer.coordinates, field.point)) return;
     dispatchChangePlayerPosition({ activePlayerId: activePlayer.id, targetPlayer, field });
     changeRound();
 
