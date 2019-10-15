@@ -122,6 +122,11 @@ const FieldsGrid = ({
     dispatchFieldsMove({ targetId: targetPlayer.fieldId, targetField: { ...prevField }, updatedFieldState: { present: false, team: null, uuid: null } });
     // next move
     dispatchFieldsMove({ targetId: fieldId, targetField, updatedFieldState: { present: true, team: activePlayer.team, uuid: activePlayer.id } });
+
+    const coordinatesText = `[${targetField.point[0]}, ${targetField.point[1]}]`;
+    dispatchEvent({ text: `${activePlayer.attributes.name} moves to ${coordinatesText}` });
+
+    dispatchTogglePlayerActiveness(activePlayer.id);
   };
 
   return grid.map((point) => {
