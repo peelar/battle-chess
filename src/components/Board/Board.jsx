@@ -116,12 +116,10 @@ const FieldsGrid = ({
     if (!gotMoves) return;
 
     const { targetField, targetPlayer, prevField } = getMoveCharacterData(teams, fields, fieldId);
-    const isFieldEmpty = !targetField.character.present;
+    const isFieldTaken = targetField.character.present;
 
+    if (isFieldTaken) return;
     dispatchChangePlayerPosition({ activePlayerId: activePlayer.id, targetPlayer, field });
-
-    if (!isFieldEmpty) return;
-
     changeRound();
 
     // prev move
@@ -146,7 +144,7 @@ const FieldsGrid = ({
       <Field
         point={field.point}
         moveCharacterHandler={() => moveCharacterHandler(field)}
-        isFieldEmpty={!foundPlayer}
+        isFieldTaken={!foundPlayer}
         key={uuid4()}
       >
         {foundPlayer && (
