@@ -6,7 +6,7 @@ export const changeFieldsState = (fields) => ({
   payload: [...fields],
 });
 
-export const changeFieldsPlayer = (params) => ({
+export const handleMove = (params) => ({
   type: fieldsActions.handleMove,
   payload: {
     ...params,

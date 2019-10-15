@@ -6,7 +6,7 @@ import { getMatchingFieldsField, getActivePlayer, getMoveCharacterData } from '.
 import Character from '../Character/Character';
 import Field from '../Field/Field';
 import {
-  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, changeFieldsPlayer, addGameEvent, attackPlayer, killPlayer,
+  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, handleMove, addGameEvent, attackPlayer, killPlayer,
 } from '../../redux/rootActions';
 
 const CharacterContainer = styled.div`
@@ -129,6 +129,8 @@ const FieldsGrid = ({
     // next move
     dispatchFieldsMove({ targetId: fieldId, targetField, updatedFieldState: { present: true, team: activePlayer.team, uuid: activePlayer.id } });
 
+    dispatchTogglePlayerActiveness(activePlayer.id);
+
     const coordinatesText = `[${targetField.point[0]}, ${targetField.point[1]}]`;
     dispatchEvent({ text: `${activePlayer.attributes.name} moves to ${coordinatesText}` });
   };
@@ -176,7 +178,7 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchIncrementRound: () => dispatch(incrementRound()),
   dispatchChangeActiveTeam: () => dispatch(changeActiveTeam()),
   dispatchChangePlayerPosition: (params) => dispatch(changePlayerPosition(params)),
-  dispatchFieldsMove: (params) => dispatch(changeFieldsPlayer(params)),
+  dispatchFieldsMove: (params) => dispatch(handleMove(params)),
   dispatchEvent: (params) => dispatch(addGameEvent(params)),
   dispatchPlayerAttack: (params) => dispatch(attackPlayer(params)),
   dispatchPlayerKill: (params) => dispatch(killPlayer(params)),
