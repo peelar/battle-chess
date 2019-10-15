@@ -32,33 +32,23 @@ class gameGenerator {
     this.dim = dim;
     this.maxHpPerPlayer = maxHpPerPlayer;
     this.maxHpPerTeam = null;
-    this.teamsHpLeft = [];
+    this.teamsHp = [];
+    this.teamsAttack = [];
     this.maxAttackPerPlayer = maxAttackPerPlayer;
+    this.maxAttackPerTeam = null;
     this.teamsAttackLeft = [dim * maxAttackPerPlayer, dim * maxAttackPerPlayer];
     this.xy_teams = [];
     this.fields = [];
     this.grid = [];
   }
 
-  updateTeamPoints(max, total, team) {
-    const pointsAvailable = this[total][team];
-    const maxPoints = this[max] > pointsAvailable ? pointsAvailable : this[max];
-    const characterPoints = getRandomInt(1, maxPoints);
-
-    const newState = [...this[total]];
-    const subtractPoints = newState[team] - characterPoints;
-    newState[team] = subtractPoints;
-    this[total] = newState;
-
-    return characterPoints;
-  }
-
   generatePlayer({
     userId, team, fieldId, coordinates, index,
   }) {
     const randomName = getRandomPlayerName();
-    const characterHpPoints = this.teamsHpLeft[team][index];
-    const characterAttackPoints = this.updateTeamPoints('maxAttackPerPlayer', 'teamsAttackLeft', team);
+    const characterHpPoints = this.teamsHp[team][index];
+    const characterAttackPoints = this.teamsAttack[team][index];
+    const moves = getRandomInt(3, 15);
 
     return ({
       id: userId,
@@ -67,52 +57,55 @@ class gameGenerator {
       team,
       active: false,
       attributes: {
-        name: randomName, maxHp: characterHpPoints, currentHp: characterHpPoints, attack: characterAttackPoints,
+        name: randomName, maxHp: characterHpPoints, currentHp: characterHpPoints, attack: characterAttackPoints, moves,
       },
     });
   }
 
-  generatePlayersHp(team) {
-    const minHp = 1;
-    const minTeamHp = this.dim * minHp;
-    const maxTeamHp = this.maxHpPerPlayer * this.dim;
-    const playersHp = [];
+  generateProperty({
+    min = 1, teamMax, perPlayerMax, target, team,
+  }) {
+    const minTeamProp = this.dim * min;
+    const maxTeamProp = (this[perPlayerMax] - 1) * this.dim;
+    const properties = Array.from(Array(this.dim)).fill(1);
 
-    let teamHpSum = this.maxHpPerTeam ? this.maxHpPerTeam : getRandomInt(minTeamHp, maxTeamHp);
-
-    while (playersHp.length !== this.dim) {
-      const sumRelation = teamHpSum / (this.dim - playersHp.length);
-      const randomHp = getRandomInt(minHp, this.maxHpPerPlayer);
-
-      if (randomHp <= sumRelation) {
-        const newSum = teamHpSum - randomHp;
-        teamHpSum = newSum;
-        playersHp.push(randomHp);
-      }
-    }
-
+    let teamSum = this[teamMax] ? this[teamMax] : getRandomInt(minTeamProp, maxTeamProp);
     let counter = 0;
-    while (teamHpSum !== 0) {
-      if (counter === playersHp.length) {
-        counter = 0;
+
+    while (teamSum > 0) {
+      if (counter === properties.length) counter = 0;
+      const plus = getRandomInt(0, 2);
+      const newPropertyValue = properties[counter] + plus;
+
+      if (newPropertyValue <= this[perPlayerMax]) {
+        properties[counter] = newPropertyValue;
+        teamSum -= plus;
       }
 
-      playersHp[counter] += 1;
-      teamHpSum -= 1;
       counter += 1;
     }
 
-    const newTeamHp = [...this.teamsHpLeft];
-    newTeamHp[team] = playersHp;
+    const newProperties = [...this[target]];
+    newProperties[team] = properties;
 
-    this.teamsHpLeft = newTeamHp;
-    this.maxHpPerTeam = (playersHp).reduce((a, b) => a + b);
+    this[target] = newProperties;
   }
 
   createGameState() {
     const lastXCoordinate = this.dim - 1;
-    this.generatePlayersHp(0);
-    this.generatePlayersHp(1);
+    this.generateProperty({
+      teamMax: 'maxHpPerTeam', perPlayerMax: 'maxHpPerPlayer', target: 'teamsHp', team: 0,
+    });
+    this.generateProperty({
+      teamMax: 'maxHpPerTeam', perPlayerMax: 'maxHpPerPlayer', target: 'teamsHp', team: 1,
+    });
+
+    this.generateProperty({
+      teamMax: 'maxAttackPerTeam', perPlayerMax: 'maxAttackPerPlayer', target: 'teamsAttack', team: 0,
+    });
+    this.generateProperty({
+      teamMax: 'maxAttackPerTeam', perPlayerMax: 'maxAttackPerPlayer', target: 'teamsAttack', team: 1,
+    });
 
     for (let j = 0; j < this.dim; j += 1) {
       for (let i = 0; i < this.dim; i += 1) {
