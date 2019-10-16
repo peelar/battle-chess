@@ -4,15 +4,14 @@ import uuid4 from 'uuid';
 import { connect } from 'react-redux';
 import { XL } from '../../breakpoints';
 
-const Container = styled.ul`
+const Container = styled.div`
   display: none;
-  border: 1px solid black;
   flex-direction: column;
+  border: 1px solid black;
   background-color: white;
-  list-style: none;
   z-index: 2;
-  padding: 1rem;
   margin-right: 3vh;
+  padding: 1rem;
 
   @media (min-width: ${XL}) {
     display: flex;
@@ -25,6 +24,15 @@ const Container = styled.ul`
   }
 `;
 
+const List = styled.ol`
+  display: flex;
+  flex-direction: column-reverse;
+  list-style: none;
+  overflow: scroll;
+  padding-left: 0;
+  max-height: 30vh;
+`;
+
 const Event = styled.li`
   padding: 0.25rem 0;
 `;
@@ -34,7 +42,9 @@ const Events = ({ events }) => {
   return (
     <Container>
       <h2>Events</h2>
-      {events.map((event) => <Event key={uuid4()}>{event.text}</Event>)}
+      <List>
+        {events.map((event) => <Event key={uuid4()}>{event.text}</Event>)}
+      </List>
     </Container>
   );
 };
