@@ -71,12 +71,14 @@ const FieldsGrid = ({
     const { uuid, team } = field.character;
     const activePlayer = getActivePlayer(teams);
     const isActivePlayerField = activePlayer ? activePlayer.fieldId === field.fieldId : false;
-
     const fieldsInRange = getFieldsInRange(field.point);
-    dispatchShowRangeFields({ player: teams.find((el) => el.id === uuid), fields: fieldsInRange });
 
     if ((!activePlayer || isActivePlayerField) && team === activeTeam) {
       dispatchTogglePlayerActiveness(uuid);
+      dispatchShowRangeFields({
+        player: teams.find((el) => el.id === uuid),
+        fields: fieldsInRange,
+      });
     }
   };
 
