@@ -28,31 +28,44 @@ const GridField = styled.div`
     }
   }
 
-  ${(props) => props.inRange && css`
-    background-color: ivory;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  ${(props) => props.inRange
+    && css`
+      background-color: ivory;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-    &:hover {
-      background-color: khaki;
-    }
-  `}
+      &:hover {
+        background-color: khaki;
+      }
+    `}
+
+  ${(props) => props.inDanger
+    && css`
+      background-color: red;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+      &:hover {
+        background-color: red;
+      }
+    `}
 `;
 
 const Field = ({
   field, moveCharacterHandler, children, isFieldEmpty,
 }) => {
-  const { point, inRange } = field;
+  const { point, inRange, inDanger } = field;
   return (
     <Container>
-      <GridField onClick={moveCharacterHandler} inRange={inRange}>
-        {
-        isFieldEmpty && (
+      <GridField
+        onClick={moveCharacterHandler}
+        inRange={inRange}
+        inDanger={inDanger}
+      >
+        {isFieldEmpty && (
           <>
             <Text>{point[0]}</Text>
             <Text>{point[1]}</Text>
           </>
-        )
-      }
+        )}
       </GridField>
       {children}
     </Container>

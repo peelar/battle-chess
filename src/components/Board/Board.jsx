@@ -73,7 +73,7 @@ const FieldsGrid = ({
     const isActivePlayerField = activePlayer ? activePlayer.fieldId === field.fieldId : false;
 
     const fieldsInRange = getFieldsInRange(field.point);
-    dispatchShowRangeFields({ fields: fieldsInRange });
+    dispatchShowRangeFields({ player: teams.find((el) => el.id === uuid), fields: fieldsInRange });
 
     if ((!activePlayer || isActivePlayerField) && team === activeTeam) {
       dispatchTogglePlayerActiveness(uuid);
@@ -83,6 +83,8 @@ const FieldsGrid = ({
   const handlePlayerAttack = (foundPlayer) => {
     const activePlayer = getActivePlayer(teams);
     const { name, attack } = activePlayer.attributes;
+    if (!isMoveInRange(activePlayer.coordinates, foundPlayer.coordinates)) return;
+
     dispatchEvent({ text: `${name} attacks ${foundPlayer.attributes.name}!` });
     dispatchTogglePlayerActiveness(activePlayer.id);
     const isPlayerDead = foundPlayer.attributes.currentHp - attack <= 0;
@@ -158,11 +160,16 @@ const FieldsGrid = ({
         {foundPlayer && (
           <CharacterContainer active={present}>
             <Character
+              inDanger={field.inDanger}
               character={foundPlayer}
               isCharacterActive={isCharacterActive}
               isTeamUnactive={!isTeamActive}
               isCharacterOn={present}
-              interactWithCharacter={() => handleCharacterInteraction({ field, active: activeTeam, foundPlayer })}
+              interactWithCharacter={() => handleCharacterInteraction({
+                field,
+                active: activeTeam,
+                foundPlayer,
+              })}
             />
           </CharacterContainer>
         )}

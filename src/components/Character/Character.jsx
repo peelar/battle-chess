@@ -66,8 +66,16 @@ const Dot = styled.div`
   `};
 
 
-  ${(props) => props.fade && css`
+  ${(props) => (props.fade) && css`
     filter: opacity(.25);
+  `};
+
+  ${(props) => props.inDanger && css`
+    filter: opacity(.75);
+
+    &:hover {
+      border-color: red;
+    }
   `};
 `;
 
@@ -115,7 +123,7 @@ const Moves = styled.div`
 `;
 
 const Character = ({
-  character, isCharacterActive, interactWithCharacter, isCharacterOn, isTeamUnactive,
+  character, isCharacterActive, interactWithCharacter, isCharacterOn, isTeamUnactive, inDanger,
 }) => {
   const {
     team,
@@ -126,7 +134,14 @@ const Character = ({
 
   const isSecondary = team === 1;
   return (
-    <Dot secondary={isSecondary} active={isCharacterActive} fade={isTeamUnactive} shadow={isCharacterOn} onClick={() => interactWithCharacter(!isCharacterActive)}>
+    <Dot
+      secondary={isSecondary}
+      active={isCharacterActive}
+      fade={isTeamUnactive}
+      shadow={isCharacterOn}
+      inDanger={inDanger}
+      onClick={() => interactWithCharacter(!isCharacterActive)}
+    >
       <Bar currentHp={currentHp} maxHp={maxHp} />
       <Info>
         <Attack>
