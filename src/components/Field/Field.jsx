@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Text = styled.p`
   color: darkgray;
@@ -27,14 +27,25 @@ const GridField = styled.div`
       color: black;
     }
   }
+
+  ${(props) => props.inRange && css`
+    background-color: ivory;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+    &:hover {
+      background-color: khaki;
+    }
+  `}
 `;
 
 const Field = ({
-  point, moveCharacterHandler, children, isFieldEmpty,
-}) => (
-  <Container>
-    <GridField onClick={moveCharacterHandler}>
-      {
+  field, moveCharacterHandler, children, isFieldEmpty,
+}) => {
+  const { point, inRange } = field;
+  return (
+    <Container>
+      <GridField onClick={moveCharacterHandler} inRange={inRange}>
+        {
         isFieldEmpty && (
           <>
             <Text>{point[0]}</Text>
@@ -42,9 +53,10 @@ const Field = ({
           </>
         )
       }
-    </GridField>
-    {children}
-  </Container>
-);
+      </GridField>
+      {children}
+    </Container>
+  );
+};
 
 export default Field;

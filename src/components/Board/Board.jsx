@@ -3,12 +3,12 @@ import uuid4 from 'uuid';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 import {
-  getMatchingFieldsField, getActivePlayer, getMoveCharacterData, isMoveInRange,
+  getMatchingFieldsField, getActivePlayer, getMoveCharacterData, isMoveInRange, getFieldsInRange,
 } from '../../redux/helpers';
 import Character from '../Character/Character';
 import Field from '../Field/Field';
 import {
-  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, handleMove, addGameEvent, attackPlayer, killPlayer,
+  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, handleMove, addGameEvent, attackPlayer, killPlayer, setFieldsInRange, clearFieldsInRange,
 } from '../../redux/rootActions';
 
 const CharacterContainer = styled.div`
@@ -29,7 +29,7 @@ const CharacterContainer = styled.div`
 `;
 
 const FieldsGrid = ({
-  dispatchTogglePlayerActiveness, activeTeam, dispatchChangePlayerPosition, dispatchChangeActiveTeam, dispatchFieldsMove, teamsState, fieldsState, grid, dispatchIncrementRound, dispatchEvent, dispatchPlayerAttack, dispatchPlayerKill,
+  dispatchTogglePlayerActiveness, activeTeam, dispatchChangePlayerPosition, dispatchChangeActiveTeam, dispatchFieldsMove, teamsState, fieldsState, grid, dispatchIncrementRound, dispatchEvent, dispatchPlayerAttack, dispatchPlayerKill, dispatchShowRangeFields, dispatchClearFieldsInRange,
 }) => {
   const [fields, changeFields] = useState(null);
   const [teams, changePlayers] = useState(null);
@@ -72,6 +72,9 @@ const FieldsGrid = ({
     const activePlayer = getActivePlayer(teams);
     const isActivePlayerField = activePlayer ? activePlayer.fieldId === field.fieldId : false;
 
+    const fieldsInRange = getFieldsInRange(field.point);
+    dispatchShowRangeFields({ fields: fieldsInRange });
+
     if ((!activePlayer || isActivePlayerField) && team === activeTeam) {
       dispatchTogglePlayerActiveness(uuid);
     }
@@ -91,6 +94,7 @@ const FieldsGrid = ({
       dispatchPlayerAttack({ victimId: foundPlayer.id, attackerId: activePlayer.id, damage: attack });
     }
 
+    dispatchClearFieldsInRange();
     changeRound();
   };
 
@@ -131,6 +135,7 @@ const FieldsGrid = ({
     dispatchFieldsMove({ targetId: fieldId, targetField, updatedFieldState: { present: true, team: activePlayer.team, uuid: activePlayer.id } });
 
     dispatchTogglePlayerActiveness(activePlayer.id);
+    dispatchClearFieldsInRange();
 
     const coordinatesText = `[${targetField.point[0]}, ${targetField.point[1]}]`;
     dispatchEvent({ text: `${activePlayer.attributes.name} moves to ${coordinatesText}` });
@@ -145,7 +150,7 @@ const FieldsGrid = ({
 
     return (
       <Field
-        point={field.point}
+        field={field}
         moveCharacterHandler={() => moveCharacterHandler(field)}
         isFieldEmpty={!foundPlayer}
         key={uuid4()}
@@ -183,6 +188,8 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchEvent: (params) => dispatch(addGameEvent(params)),
   dispatchPlayerAttack: (params) => dispatch(attackPlayer(params)),
   dispatchPlayerKill: (params) => dispatch(killPlayer(params)),
+  dispatchShowRangeFields: (params) => dispatch(setFieldsInRange(params)),
+  dispatchClearFieldsInRange: () => dispatch(clearFieldsInRange()),
 });
 
 export default connect(

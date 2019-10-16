@@ -1,5 +1,5 @@
 import { fieldsActions } from '../rootTypes';
-import { replaceArrayItem } from '../helpers';
+import { replaceArrayItem, checkBothCoordinates } from '../helpers';
 
 export const DEFAULT_STATE = {
   fields: [],
@@ -20,6 +20,29 @@ const fieldsState = (state = DEFAULT_STATE, action) => {
 
       return {
         fields: [...newFieldsState],
+      };
+    }
+    case fieldsActions.setFieldsInRange: {
+      const { fields } = action.payload;
+      const newFields = [...state.fields].map((field) => {
+        let inRange = false;
+        fields.forEach((coordinate) => {
+          const check = checkBothCoordinates(field.point, coordinate);
+
+          if (check && !field.character.present) inRange = true;
+        });
+        return { ...field, inRange };
+      });
+
+      return {
+        fields: [...newFields],
+      };
+    }
+    case fieldsActions.clearFieldsInRange: {
+      const newFields = [...state.fields].map((field) => ({ ...field, inRange: false }));
+
+      return {
+        fields: [...newFields],
       };
     }
     default:

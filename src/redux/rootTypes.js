@@ -9,6 +9,8 @@ export const teamsActions = {
 export const fieldsActions = {
   changeFields: '__CHANGE_FIELDS',
   handleMove: '__HANDLE_MOVE_FIELDS',
+  setFieldsInRange: '__SET_RANGE_FIELDS',
+  clearFieldsInRange: '__CLEAR_RANGE_FIELDS',
 };
 
 export const gameActions = {

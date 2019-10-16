@@ -22,7 +22,9 @@ const getRandomPlayerName = () => {
 
 const generateField = ({
   fieldId, coordinates, userId, team,
-}) => ({ fieldId, point: [...coordinates], character: { present: userId !== null, uuid: userId, team } });
+}) => ({
+  fieldId, point: [...coordinates], inRange: false, character: { present: userId !== null, uuid: userId, team },
+});
 
 const generateGridPoint = ({ fieldId, coordinates }) => (
   { id: fieldId, point: [...coordinates] }

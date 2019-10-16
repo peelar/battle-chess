@@ -12,3 +12,14 @@ export const handleMove = (params) => ({
     ...params,
   },
 });
+
+export const setFieldsInRange = (params) => ({
+  type: fieldsActions.setFieldsInRange,
+  payload: {
+    ...params,
+  },
+});
+
+export const clearFieldsInRange = () => ({
+  type: fieldsActions.clearFieldsInRange,
+});
