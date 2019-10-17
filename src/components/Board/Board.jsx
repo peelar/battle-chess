@@ -92,7 +92,7 @@ const FieldsGrid = ({
     const isPlayerDead = foundPlayer.attributes.currentHp - attack <= 0;
 
     if (isPlayerDead) {
-      dispatchPlayerKill({ id: foundPlayer.id });
+      dispatchPlayerKill({ player: foundPlayer });
       dispatchEvent({ text: `${name} killed ${foundPlayer.attributes.name} :(` });
     } else {
       dispatchPlayerAttack({ victimId: foundPlayer.id, attackerId: activePlayer.id, damage: attack });

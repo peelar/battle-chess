@@ -1,4 +1,4 @@
-import { fieldsActions } from '../rootTypes';
+import { fieldsActions, teamsActions } from '../rootTypes';
 import { replaceArrayItem, checkBothCoordinates } from '../helpers';
 
 export const DEFAULT_STATE = {
@@ -14,9 +14,15 @@ const fieldsState = (state = DEFAULT_STATE, action) => {
     case fieldsActions.handleMove: {
       const { targetId, targetField, updatedFieldState } = action.payload;
 
-      const newFieldIndex = state.fields.findIndex((foundField) => foundField.fieldId === targetId);
+      const newFieldIndex = state.fields.findIndex(
+        (foundField) => foundField.fieldId === targetId,
+      );
       const newField = { ...targetField, character: { ...updatedFieldState } };
-      const newFieldsState = replaceArrayItem([...state.fields], newFieldIndex, newField);
+      const newFieldsState = replaceArrayItem(
+        [...state.fields],
+        newFieldIndex,
+        newField,
+      );
 
       return {
         fields: [...newFieldsState],
@@ -42,10 +48,35 @@ const fieldsState = (state = DEFAULT_STATE, action) => {
       };
     }
     case fieldsActions.clearFieldsInRange: {
-      const newFields = [...state.fields].map((field) => ({ ...field, inRange: false, inDanger: false }));
+      const newFields = [...state.fields].map((field) => ({
+        ...field,
+        inRange: false,
+        inDanger: false,
+      }));
 
       return {
         fields: [...newFields],
+      };
+    }
+    case teamsActions.killPlayer: {
+      const { player } = action.payload;
+      const { fieldId } = player;
+
+      const fieldIndex = state.fields.findIndex(
+        (field) => field.fieldId === fieldId,
+      );
+      const updatedField = {
+        ...state.fields[fieldIndex],
+        character: { present: false, uuid: null, team: null },
+      };
+      const newFields = replaceArrayItem(
+        [...state.fields],
+        fieldIndex,
+        updatedField,
+      );
+
+      return {
+        fields: newFields,
       };
     }
     default:

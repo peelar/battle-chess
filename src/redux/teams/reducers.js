@@ -64,9 +64,12 @@ const teamsState = (state = DEFAULT_STATE, action) => {
       };
     }
     case teamsActions.killPlayer: {
-      const { id } = action.payload;
+      const { player } = action.payload;
+      const { id } = player;
 
-      const newTeams = [...state.teams.filter((player) => player.id !== id)];
+      const newTeams = [
+        ...state.teams.filter((foundPlayer) => foundPlayer.id !== id),
+      ];
       return {
         teams: newTeams,
       };
