@@ -129,7 +129,12 @@ const FieldsGrid = ({
     const isFieldTaken = targetField.character.present;
 
     if (isFieldTaken) return;
-    if (!isMoveInRange(activePlayer.coordinates, field.point)) return;
+    if (!isMoveInRange(activePlayer.coordinates, field.point)) {
+      dispatchTogglePlayerActiveness(activePlayer.id);
+      dispatchClearFieldsInRange();
+      return;
+    }
+
     dispatchChangePlayerPosition({ activePlayerId: activePlayer.id, targetPlayer, field });
     changeRound();
 
