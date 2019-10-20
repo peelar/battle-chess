@@ -52,13 +52,15 @@ const FieldsGrid = ({
     const { uuid, team } = field.character;
     const activePlayer = getActivePlayer(teams);
     const isActivePlayerField = activePlayer ? activePlayer.fieldId === field.fieldId : false;
-    const fieldsInRange = getFieldsInRange(field.point);
 
     if ((!activePlayer || isActivePlayerField) && team === activeTeam) {
+      const player = teams.find((el) => el.id === uuid);
+      const fieldsInRange = getFieldsInRange(field.point, player.attributes.range);
+
       dispatchTogglePlayerActiveness(uuid);
       dispatchShowRangeFields({
-        player: teams.find((el) => el.id === uuid),
-        fields: fieldsInRange,
+        player,
+        radiusFields: fieldsInRange,
       });
     }
   };
@@ -66,7 +68,7 @@ const FieldsGrid = ({
   const handlePlayerAttack = (foundPlayer) => {
     const activePlayer = getActivePlayer(teams);
     const { name, attack } = activePlayer.attributes;
-    if (!isMoveInRange(activePlayer.coordinates, foundPlayer.coordinates)) return;
+    if (!isMoveInRange(activePlayer.coordinates, foundPlayer.coordinates, activePlayer.attributes.range)) return;
 
     dispatchEvent({ text: `${name} attacks ${foundPlayer.attributes.name}!` });
     dispatchTogglePlayerActiveness(activePlayer.id);

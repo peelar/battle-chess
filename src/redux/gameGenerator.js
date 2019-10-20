@@ -34,17 +34,25 @@ const generateGridPoint = ({ fieldId, coordinates }) => (
   { id: fieldId, point: [...coordinates] }
 );
 class gameGenerator {
-  constructor(dim, maxHpPerPlayer, maxAttackPerPlayer, maxMovesPerPlayer = 20) {
+  constructor(dim, maxHpPerPlayer, maxAttackPerPlayer, maxMovesPerPlayer = 20, maxDistancePerPlayer = 2) {
     this.dim = dim;
+
     this.maxHpPerPlayer = maxHpPerPlayer;
     this.maxHpPerTeam = null;
+    this.teamsHp = [];
+
     this.maxMovesPerPlayer = maxMovesPerPlayer;
     this.maxMovesPerTeam = null;
-    this.teamsHp = [];
-    this.teamsAttack = [];
     this.teamsMoves = [];
+
     this.maxAttackPerPlayer = maxAttackPerPlayer;
     this.maxAttackPerTeam = null;
+    this.teamsAttack = [];
+
+    this.maxDistancePerPlayer = maxDistancePerPlayer;
+    this.maxDistancePerTeam = null;
+    this.teamsDistance = [];
+
     this.xy_teams = [];
     this.fields = [];
     this.grid = [];
@@ -56,7 +64,8 @@ class gameGenerator {
     const randomName = getRandomPlayerName();
     const characterHpPoints = this.teamsHp[team][index];
     const characterAttackPoints = this.teamsAttack[team][index];
-    const moves = this.teamsMoves[team][index];
+    const characterMoves = this.teamsMoves[team][index];
+    const range = this.teamsDistance[team][index];
 
     return {
       id: userId,
@@ -69,7 +78,8 @@ class gameGenerator {
         maxHp: characterHpPoints,
         currentHp: characterHpPoints,
         attack: characterAttackPoints,
-        moves,
+        moves: characterMoves,
+        range,
       },
     };
   }
@@ -147,6 +157,21 @@ class gameGenerator {
       teamMax: 'maxMovesPerTeam',
       perPlayerMax: 'maxMovesPerPlayer',
       target: 'teamsMoves',
+      team: 1,
+    });
+
+    this.generateProperty({
+      min: 0,
+      teamMax: 'maxDistancePerTeam',
+      perPlayerMax: 'maxDistancePerPlayer',
+      target: 'teamsDistance',
+      team: 0,
+    });
+    this.generateProperty({
+      min: 0,
+      teamMax: 'maxDistancePerTeam',
+      perPlayerMax: 'maxDistancePerPlayer',
+      target: 'teamsDistance',
       team: 1,
     });
 

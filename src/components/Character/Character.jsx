@@ -51,6 +51,10 @@ const Dot = styled.div`
     color: black;
   `};
 
+  ${(props) => props.tertiary && css`
+    border-color: orange;
+  `};
+
   &:hover {
     ${(props) => !props.active && !props.fade && css`
       border-color: gold;
@@ -64,7 +68,6 @@ const Dot = styled.div`
   ${(props) => props.active && css`
     border-color: goldenrod;
   `};
-
 
   ${(props) => (props.fade) && css`
     filter: opacity(.25);
@@ -129,13 +132,14 @@ const Character = ({
     team,
   } = character;
   const {
-    name, maxHp, currentHp, attack, moves,
+    name, maxHp, currentHp, attack, moves, range,
   } = character.attributes;
 
   const isSecondary = team === 1;
   return (
     <Dot
       secondary={isSecondary}
+      tertiary={range !== 1}
       active={isCharacterActive}
       fade={isTeamUnactive}
       shadow={isCharacterOn}

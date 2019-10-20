@@ -29,17 +29,23 @@ const fieldsState = (state = DEFAULT_STATE, action) => {
       };
     }
     case fieldsActions.setFieldsInRange: {
-      const { player, fields } = action.payload;
+      const { player, radiusFields } = action.payload;
       const newFields = [...state.fields].map((field) => {
         let inRange = false;
         let inDanger = false;
-        fields.forEach((coordinate) => {
-          const check = checkBothCoordinates(field.point, coordinate);
-          const isHostile = player !== undefined ? player.team !== field.character.team : false;
 
-          if (check && !field.character.present) inRange = true;
-          if (check && isHostile && field.character.present) inDanger = true;
+        radiusFields.forEach((fields, index) => {
+          const isAttackIndex = index > 0;
+
+          fields.forEach((coordinate) => {
+            const check = checkBothCoordinates(field.point, coordinate);
+            const isHostile = player !== undefined ? player.team !== field.character.team : false;
+
+            if (check && !field.character.present && !isAttackIndex) inRange = true;
+            if (check && isHostile && field.character.present) inDanger = true;
+          });
         });
+
         return { ...field, inRange, inDanger };
       });
 
