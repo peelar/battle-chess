@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import uuid4 from 'uuid';
 import {
   getMatchingFieldsField, getActivePlayer, getMoveCharacterData, isMoveInRange, getFieldsInRange,
 } from '../../redux/helpers';
@@ -137,7 +138,7 @@ const FieldsGrid = ({
     const isTeamActive = roundActiveTeam === field.character.team;
 
     return (
-      <Unit field={field} moveCharacterHandler={moveCharacterHandler} present={present} foundPlayer={foundPlayer} isTeamActive={isTeamActive} activeTeam={activeTeam} handleCharacterInteraction={handleCharacterInteraction} />
+      <Unit key={uuid4()} field={field} moveCharacterHandler={moveCharacterHandler} present={present} foundPlayer={foundPlayer} isTeamActive={isTeamActive} activeTeam={activeTeam} handleCharacterInteraction={handleCharacterInteraction} />
     );
   });
 };

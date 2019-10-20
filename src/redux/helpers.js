@@ -1,5 +1,12 @@
-const RANGE = {
-  basic: [[-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1], [-1, -1], [0, -1], [1, -1]],
+const RANGE = [[-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1], [-1, -1], [0, -1], [1, -1]];
+
+const generateRange = (radius) => {
+  const range = [];
+  for (let i = 0; i < radius; i += 1) {
+    range.push([...RANGE].map((num) => num * i));
+  }
+
+  return range;
 };
 
 export const replaceArrayItem = (array, index, item) => Object.assign([], array, { [index]: item });
@@ -30,14 +37,15 @@ export const checkBothCoordinates = (point, checked) => point[0] === checked[0] 
 
 const sumBothCoordinates = (point, multiplier) => [point[0] + multiplier[0], point[1] + multiplier[1]];
 
-export const getFieldsInRange = (currentField, moveRange = 'basic') => {
-  const combinations = RANGE[moveRange].map((multiplier) => sumBothCoordinates(currentField, multiplier));
+export const getFieldsInRange = (currentField, moveRadius = 1) => {
+  const range = generateRange(moveRadius);
+  const combinations = range.map((multiplier) => sumBothCoordinates(currentField, multiplier));
 
   return combinations;
 };
 
-export const isMoveInRange = (currentField, targetField, moveRange = 'basic') => {
-  const fields = getFieldsInRange(currentField, moveRange);
+export const isMoveInRange = (currentField, targetField, moveRadius = 1) => {
+  const fields = getFieldsInRange(currentField, moveRadius);
 
   let check = false;
   fields.forEach((coordinate) => {
