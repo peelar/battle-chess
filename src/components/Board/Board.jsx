@@ -1,32 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import uuid4 from 'uuid';
-import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 import {
   getMatchingFieldsField, getActivePlayer, getMoveCharacterData, isMoveInRange, getFieldsInRange,
 } from '../../redux/helpers';
-import Character from '../Character/Character';
-import Field from '../Field/Field';
+import Unit from '../Unit/Unit';
 import {
   togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, handleMove, addGameEvent, attackPlayer, killPlayer, setFieldsInRange, clearFieldsInRange,
 } from '../../redux/rootActions';
-
-const CharacterContainer = styled.div`
-  ${(props) => (!props.active ? css`
-    display: none;
-  ` : css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `)};
-
-  position: absolute;
-  z-index: 5;
-  margin: 0 auto;
-  top: 0;
-  width: 100%;
-  bottom: 95px;
-`;
 
 const FieldsGrid = ({
   dispatchTogglePlayerActiveness, activeTeam, dispatchChangePlayerPosition, dispatchChangeActiveTeam, dispatchFieldsMove, teamsState, fieldsState, grid, dispatchIncrementRound, dispatchEvent, dispatchPlayerAttack, dispatchPlayerKill, dispatchShowRangeFields, dispatchClearFieldsInRange,
@@ -154,33 +134,10 @@ const FieldsGrid = ({
     const field = getMatchingFieldsField(point, fields);
     const { present, uuid } = field.character;
     const foundPlayer = teams !== undefined ? teams.find((member) => member.id === uuid) : undefined;
-    const isCharacterActive = present && foundPlayer !== undefined ? foundPlayer.active : false;
     const isTeamActive = roundActiveTeam === field.character.team;
 
     return (
-      <Field
-        field={field}
-        moveCharacterHandler={() => moveCharacterHandler(field)}
-        isFieldEmpty={!foundPlayer}
-        key={uuid4()}
-      >
-        {foundPlayer && (
-          <CharacterContainer active={present}>
-            <Character
-              inDanger={field.inDanger}
-              character={foundPlayer}
-              isCharacterActive={isCharacterActive}
-              isTeamUnactive={!isTeamActive}
-              isCharacterOn={present}
-              interactWithCharacter={() => handleCharacterInteraction({
-                field,
-                active: activeTeam,
-                foundPlayer,
-              })}
-            />
-          </CharacterContainer>
-        )}
-      </Field>
+      <Unit field={field} moveCharacterHandler={moveCharacterHandler} present={present} foundPlayer={foundPlayer} isTeamActive={isTeamActive} activeTeam={activeTeam} handleCharacterInteraction={handleCharacterInteraction} />
     );
   });
 };
