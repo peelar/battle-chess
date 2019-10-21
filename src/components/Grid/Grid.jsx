@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import Board from '../Board/Board';
-import {
-  changeTeamsState, changeFieldsState,
-} from '../../redux/rootActions';
-import GameGenerator from '../../redux/gameGenerator';
-import {
-  PAD_S, PAD_L, DESKTOP, DEFAULT,
-} from '../../breakpoints';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import Board from "../Board/Board";
+import { changeTeamsState, changeFieldsState } from "../../redux/rootActions";
+import GameGenerator from "../../redux/gameGenerator";
+import { PAD_S, PAD_L, DESKTOP, DEFAULT } from "../../breakpoints";
 
 const DIM = 6;
 const generator = new GameGenerator(DIM, 5, 4);
@@ -25,8 +21,8 @@ const Container = styled.div`
 
 const Fields = styled.div`
   display: grid;
-  grid-template-columns: ${(props) => props.xdim && `repeat(${props.xdim}, 1fr)`};
-  grid-template-rows: ${(props) => props.ydim && `repeat(${props.ydim}, 1fr)`};
+  grid-template-columns: ${props => props.xdim && `repeat(${props.xdim}, 1fr)`};
+  grid-template-rows: ${props => props.ydim && `repeat(${props.ydim}, 1fr)`};
   grid-gap: 0.5rem;
   max-width: 650px;
   height: 60vh;
@@ -52,9 +48,7 @@ const Fields = styled.div`
   }
 `;
 
-const Grid = ({
-  dispatchChangeTeams, dispatchChangeFields,
-}) => {
+const Grid = ({ dispatchChangeTeams, dispatchChangeFields }) => {
   const [grid, changeGrid] = useState(null);
 
   useEffect(() => {
@@ -76,12 +70,12 @@ const Grid = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchChangeTeams: (teams) => dispatch(changeTeamsState(teams)),
-  dispatchChangeFields: (field) => dispatch(changeFieldsState(field)),
+const mapDispatchToProps = dispatch => ({
+  dispatchChangeTeams: teams => dispatch(changeTeamsState(teams)),
+  dispatchChangeFields: field => dispatch(changeFieldsState(field))
 });
 
 export default connect(
   null,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Grid);

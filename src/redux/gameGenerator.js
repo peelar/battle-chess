@@ -1,7 +1,42 @@
-import uuid4 from 'uuid';
+import uuid4 from "uuid";
 
 const names = [
-  'Adam', 'Albert', 'David', 'Eugene', 'Hubert', 'George', 'Xavier', 'Martin', 'Paul', 'Raymond', 'Roman', 'Simon', 'Zeno', 'Amanda', 'Blanca', 'Cynthia', 'Edith', 'Felicia', 'Helen', 'Yvonne', 'Camille', 'Lily', 'Marina', 'Monica', 'Ursula', 'Rebecca', 'Sandra', 'Sylvia', 'Sophia', 'Bruce', 'Joshua', 'Rose', 'Max', 'Alfred', 'Marika', 'Steven',
+  "Adam",
+  "Albert",
+  "David",
+  "Eugene",
+  "Hubert",
+  "George",
+  "Xavier",
+  "Martin",
+  "Paul",
+  "Raymond",
+  "Roman",
+  "Simon",
+  "Zeno",
+  "Amanda",
+  "Blanca",
+  "Cynthia",
+  "Edith",
+  "Felicia",
+  "Helen",
+  "Yvonne",
+  "Camille",
+  "Lily",
+  "Marina",
+  "Monica",
+  "Ursula",
+  "Rebecca",
+  "Sandra",
+  "Sylvia",
+  "Sophia",
+  "Bruce",
+  "Joshua",
+  "Rose",
+  "Max",
+  "Alfred",
+  "Marika",
+  "Steven"
 ];
 
 let uniqueNames = [...names];
@@ -16,25 +51,30 @@ const getRandomPlayerName = () => {
   const randomIndex = getRandomInt(0, uniqueNames.length);
   const name = uniqueNames[randomIndex];
 
-  uniqueNames = uniqueNames.filter((el) => el !== name);
+  uniqueNames = uniqueNames.filter(el => el !== name);
   return name;
 };
 
-const generateField = ({
-  fieldId, coordinates, userId, team,
-}) => ({
+const generateField = ({ fieldId, coordinates, userId, team }) => ({
   fieldId,
   point: [...coordinates],
   inRange: false,
   inDanger: false,
-  character: { present: userId !== null, uuid: userId, team },
+  character: { present: userId !== null, uuid: userId, team }
 });
 
-const generateGridPoint = ({ fieldId, coordinates }) => (
-  { id: fieldId, point: [...coordinates] }
-);
-class gameGenerator {
-  constructor(dim, maxHpPerPlayer, maxAttackPerPlayer, maxMovesPerPlayer = 20, maxDistancePerPlayer = 2) {
+const generateGridPoint = ({ fieldId, coordinates }) => ({
+  id: fieldId,
+  point: [...coordinates]
+});
+class GameGenerator {
+  constructor(
+    dim,
+    maxHpPerPlayer,
+    maxAttackPerPlayer,
+    maxMovesPerPlayer = 20,
+    maxDistancePerPlayer = 2
+  ) {
     this.dim = dim;
 
     this.maxHpPerPlayer = maxHpPerPlayer;
@@ -53,14 +93,12 @@ class gameGenerator {
     this.maxDistancePerTeam = null;
     this.teamsDistance = [];
 
-    this.xy_teams = [];
+    this.xyTeams = [];
     this.fields = [];
     this.grid = [];
   }
 
-  generatePlayer({
-    userId, team, fieldId, coordinates, index,
-  }) {
+  generatePlayer({ userId, team, fieldId, coordinates, index }) {
     const randomName = getRandomPlayerName();
     const characterHpPoints = this.teamsHp[team][index];
     const characterAttackPoints = this.teamsAttack[team][index];
@@ -79,14 +117,12 @@ class gameGenerator {
         currentHp: characterHpPoints,
         attack: characterAttackPoints,
         moves: characterMoves,
-        range,
-      },
+        range
+      }
     };
   }
 
-  generateProperty({
-    min = 1, teamMax, perPlayerMax, target, team,
-  }) {
+  generateProperty({ min = 1, teamMax, perPlayerMax, target, team }) {
     const minTeamProp = this.dim * min;
     const maxTeamProp = (this[perPlayerMax] - 1) * this.dim;
     const properties = Array.from(Array(this.dim)).fill(1);
@@ -120,59 +156,59 @@ class gameGenerator {
   createGameState() {
     const lastXCoordinate = this.dim - 1;
     this.generateProperty({
-      teamMax: 'maxHpPerTeam',
-      perPlayerMax: 'maxHpPerPlayer',
-      target: 'teamsHp',
-      team: 0,
+      teamMax: "maxHpPerTeam",
+      perPlayerMax: "maxHpPerPlayer",
+      target: "teamsHp",
+      team: 0
     });
     this.generateProperty({
-      teamMax: 'maxHpPerTeam',
-      perPlayerMax: 'maxHpPerPlayer',
-      target: 'teamsHp',
-      team: 1,
+      teamMax: "maxHpPerTeam",
+      perPlayerMax: "maxHpPerPlayer",
+      target: "teamsHp",
+      team: 1
     });
 
     this.generateProperty({
-      teamMax: 'maxAttackPerTeam',
-      perPlayerMax: 'maxAttackPerPlayer',
-      target: 'teamsAttack',
-      team: 0,
+      teamMax: "maxAttackPerTeam",
+      perPlayerMax: "maxAttackPerPlayer",
+      target: "teamsAttack",
+      team: 0
     });
     this.generateProperty({
-      teamMax: 'maxAttackPerTeam',
-      perPlayerMax: 'maxAttackPerPlayer',
-      target: 'teamsAttack',
-      team: 1,
+      teamMax: "maxAttackPerTeam",
+      perPlayerMax: "maxAttackPerPlayer",
+      target: "teamsAttack",
+      team: 1
     });
 
     this.generateProperty({
       min: 8,
-      teamMax: 'maxMovesPerTeam',
-      perPlayerMax: 'maxMovesPerPlayer',
-      target: 'teamsMoves',
-      team: 0,
+      teamMax: "maxMovesPerTeam",
+      perPlayerMax: "maxMovesPerPlayer",
+      target: "teamsMoves",
+      team: 0
     });
     this.generateProperty({
       min: 8,
-      teamMax: 'maxMovesPerTeam',
-      perPlayerMax: 'maxMovesPerPlayer',
-      target: 'teamsMoves',
-      team: 1,
+      teamMax: "maxMovesPerTeam",
+      perPlayerMax: "maxMovesPerPlayer",
+      target: "teamsMoves",
+      team: 1
     });
 
     this.generateProperty({
       min: 0,
-      teamMax: 'maxDistancePerTeam',
-      perPlayerMax: 'maxDistancePerPlayer',
-      target: 'teamsDistance',
-      team: 0,
+      teamMax: "maxDistancePerTeam",
+      perPlayerMax: "maxDistancePerPlayer",
+      target: "teamsDistance",
+      team: 0
     });
     this.generateProperty({
       min: 0,
-      teamMax: 'maxDistancePerTeam',
-      perPlayerMax: 'maxDistancePerPlayer',
-      target: 'teamsDistance',
-      team: 1,
+      teamMax: "maxDistancePerTeam",
+      perPlayerMax: "maxDistancePerPlayer",
+      target: "teamsDistance",
+      team: 1
     });
 
     for (let j = 0; j < this.dim; j += 1) {
@@ -186,17 +222,17 @@ class gameGenerator {
             team: 0,
             fieldId,
             coordinates: [i, j],
-            index: i,
+            index: i
           });
           const field = generateField({
             fieldId,
             coordinates: [i, j],
             userId,
-            team: 0,
+            team: 0
           });
           const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
 
-          this.xy_teams.push(player);
+          this.xyTeams.push(player);
           this.fields.push(field);
           this.grid.push(gridPoint);
         } else if (j === lastXCoordinate) {
@@ -208,17 +244,17 @@ class gameGenerator {
             team: 1,
             fieldId,
             coordinates: [i, j],
-            index: i,
+            index: i
           });
           const field = generateField({
             fieldId,
             coordinates: [i, j],
             userId,
-            team: 1,
+            team: 1
           });
           const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
 
-          this.xy_teams.push(player);
+          this.xyTeams.push(player);
           this.fields.push(field);
           this.grid.push(gridPoint);
         } else {
@@ -228,7 +264,7 @@ class gameGenerator {
             fieldId,
             coordinates: [i, j],
             userId: null,
-            team: null,
+            team: null
           });
           const gridPoint = generateGridPoint({ fieldId, coordinates: [i, j] });
 
@@ -241,11 +277,11 @@ class gameGenerator {
 
   getGameState() {
     return {
-      initialTeams: [...this.xy_teams],
+      initialTeams: [...this.xyTeams],
       initialFields: [...this.fields],
-      initialGrid: [...this.grid],
+      initialGrid: [...this.grid]
     };
   }
 }
 
-export default gameGenerator;
+export default GameGenerator;
