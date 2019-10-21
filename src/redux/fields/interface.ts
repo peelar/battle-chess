@@ -6,6 +6,9 @@ export interface Field {
   point: number[];
   inRange: boolean;
   inDanger: boolean;
+  coordinates?: number[];
+  userId?: number;
+  team?: number;
   character: {
     present: boolean;
     uuid: number;
@@ -36,7 +39,10 @@ export interface Action {
   type: fieldsActions | teamsActions;
   fields: Field[];
   move: Move;
-  range: any;
-  player: any;
+  range: Range;
+  player: Player;
+  kill: {
+    player: Player;
+  };
   // import Player && player: Player;
 }

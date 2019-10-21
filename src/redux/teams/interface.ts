@@ -2,11 +2,14 @@ import { teamsActions } from "../rootTypes";
 import { Field } from "../fields/interface";
 
 export interface Player {
-  uuid: number;
+  uuid?: number;
   active: boolean;
   id: number;
+  coordinates: number[];
+  fieldId: number;
+  team: number;
   attributes: {
-    name: number;
+    name: string;
     maxHp: number;
     currentHp: number;
     attack: number;

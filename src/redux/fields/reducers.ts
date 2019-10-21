@@ -70,7 +70,7 @@ const fieldsState = (state = DEFAULT_STATE, action: Action): State => {
       };
     }
     case teamsActions.killPlayer: {
-      const { player } = action.player;
+      const { player } = action.kill;
       const { fieldId } = player;
 
       const fieldIndex = state.fields.findIndex(

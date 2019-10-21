@@ -1,4 +1,6 @@
 import uuid4 from "uuid";
+import { Field } from "./fields/interface";
+import { Player } from "./teams/interface";
 
 const names = [
   "Adam",
@@ -41,13 +43,17 @@ const names = [
 
 let uniqueNames = [...names];
 
-const getRandomInt = (min, max) => {
+type nestedArray = {
+  [index: number]: number;
+};
+
+const getRandomInt = (min: number, max: number): number => {
   const minNum = Math.ceil(min);
   const maxNum = Math.floor(max);
   return Math.floor(Math.random() * (maxNum - minNum)) + minNum;
 };
 
-const getRandomPlayerName = () => {
+const getRandomPlayerName = (): string => {
   const randomIndex = getRandomInt(0, uniqueNames.length);
   const name = uniqueNames[randomIndex];
 
@@ -55,7 +61,17 @@ const getRandomPlayerName = () => {
   return name;
 };
 
-const generateField = ({ fieldId, coordinates, userId, team }) => ({
+const generateField = ({
+  fieldId,
+  coordinates,
+  userId,
+  team
+}: {
+  fieldId: number;
+  coordinates: number[];
+  userId: any;
+  team: any;
+}): Field => ({
   fieldId,
   point: [...coordinates],
   inRange: false,
@@ -63,15 +79,54 @@ const generateField = ({ fieldId, coordinates, userId, team }) => ({
   character: { present: userId !== null, uuid: userId, team }
 });
 
-const generateGridPoint = ({ fieldId, coordinates }) => ({
+const generateGridPoint = ({
+  fieldId,
+  coordinates
+}: {
+  fieldId: number;
+  coordinates: number[];
+}): { id: number; point: number[] } => ({
   id: fieldId,
   point: [...coordinates]
 });
+
 class GameGenerator {
+  private dim: number;
+
+  private maxHpPerPlayer: number;
+
+  private maxHpPerTeam: null | number;
+
+  private teamsHp: nestedArray[];
+
+  private maxMovesPerPlayer: number;
+
+  private maxMovesPerTeam: null | number;
+
+  private teamsMoves: nestedArray[];
+
+  private maxAttackPerPlayer: number;
+
+  private maxAttackPerTeam: null | number;
+
+  private teamsAttack: nestedArray[];
+
+  private maxDistancePerPlayer: number;
+
+  private maxDistancePerTeam: null | number;
+
+  private teamsDistance: nestedArray[];
+
+  private xyTeams: Player[];
+
+  private fields: Field[];
+
+  private grid: nestedArray[];
+
   constructor(
-    dim,
-    maxHpPerPlayer,
-    maxAttackPerPlayer,
+    dim: number,
+    maxHpPerPlayer: number,
+    maxAttackPerPlayer: number,
     maxMovesPerPlayer = 20,
     maxDistancePerPlayer = 2
   ) {
@@ -98,7 +153,19 @@ class GameGenerator {
     this.grid = [];
   }
 
-  generatePlayer({ userId, team, fieldId, coordinates, index }) {
+  generatePlayer({
+    userId,
+    team,
+    fieldId,
+    coordinates,
+    index
+  }: {
+    userId: number;
+    team: number;
+    fieldId: number;
+    coordinates: number[];
+    index: number;
+  }): Player {
     const randomName = getRandomPlayerName();
     const characterHpPoints = this.teamsHp[team][index];
     const characterAttackPoints = this.teamsAttack[team][index];
@@ -122,7 +189,19 @@ class GameGenerator {
     };
   }
 
-  generateProperty({ min = 1, teamMax, perPlayerMax, target, team }) {
+  generateProperty({
+    min,
+    teamMax,
+    perPlayerMax,
+    target,
+    team
+  }: {
+    min: number;
+    teamMax: string;
+    perPlayerMax: string;
+    team: number;
+    target: string;
+  }): void {
     const minTeamProp = this.dim * min;
     const maxTeamProp = (this[perPlayerMax] - 1) * this.dim;
     const properties = Array.from(Array(this.dim)).fill(1);
@@ -153,15 +232,17 @@ class GameGenerator {
     this[target] = newProperties;
   }
 
-  createGameState() {
+  createGameState(): void {
     const lastXCoordinate = this.dim - 1;
     this.generateProperty({
+      min: 1,
       teamMax: "maxHpPerTeam",
       perPlayerMax: "maxHpPerPlayer",
       target: "teamsHp",
       team: 0
     });
     this.generateProperty({
+      min: 1,
       teamMax: "maxHpPerTeam",
       perPlayerMax: "maxHpPerPlayer",
       target: "teamsHp",
@@ -169,12 +250,14 @@ class GameGenerator {
     });
 
     this.generateProperty({
+      min: 1,
       teamMax: "maxAttackPerTeam",
       perPlayerMax: "maxAttackPerPlayer",
       target: "teamsAttack",
       team: 0
     });
     this.generateProperty({
+      min: 1,
       teamMax: "maxAttackPerTeam",
       perPlayerMax: "maxAttackPerPlayer",
       target: "teamsAttack",
@@ -275,7 +358,7 @@ class GameGenerator {
     }
   }
 
-  getGameState() {
+  getGameState(): {} {
     return {
       initialTeams: [...this.xyTeams],
       initialFields: [...this.fields],
