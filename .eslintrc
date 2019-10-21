@@ -6,7 +6,21 @@
     "import/named": 0,
     "import/no-extraneous-dependencies": 0,
     "max-len": 0,
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "import/no-unresolved": 0,
   },
-  "extends": "airbnb"
+  "extends": ["airbnb", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType":  "module"
+  },
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "settings": {
+    "react": {
+      "version":  "detect"
+    }
+  }
 }
