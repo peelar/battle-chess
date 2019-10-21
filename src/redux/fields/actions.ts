@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { fieldsActions } from "../rootTypes";
-import { Field, Move } from "./interface";
+import { Field, Move, Range } from "./interface";
 
 export const changeFieldsState = (
   fields: Field[]
@@ -18,12 +18,9 @@ export const handleMove = (
   }
 });
 
-// interface FieldsRange {
-//   player: Player;
-//   radiusFields: [];
-// }
-
-export const setFieldsInRange = params => ({
+export const setFieldsInRange = (
+  params: Range
+): { type: fieldsActions; range: Range } => ({
   type: fieldsActions.setFieldsInRange,
   range: {
     ...params
