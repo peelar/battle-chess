@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import Board from "../Board/Board";
-import { changeTeamsState, changeFieldsState } from "../../redux/rootActions";
+import { changePlayersState, changeFieldsState } from "../../redux/rootActions";
 import GameGenerator from "../../redux/gameGenerator";
 import { PAD_S, PAD_L, DESKTOP, DEFAULT } from "../../breakpoints";
 
@@ -71,7 +71,7 @@ const Grid = ({ dispatchChangeTeams, dispatchChangeFields }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatchChangeTeams: teams => dispatch(changeTeamsState(teams)),
+  dispatchChangeTeams: teams => dispatch(changePlayersState(teams)),
   dispatchChangeFields: field => dispatch(changeFieldsState(field))
 });
 

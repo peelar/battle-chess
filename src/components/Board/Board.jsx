@@ -6,7 +6,7 @@ import {
 } from '../../redux/helpers';
 import Unit from '../Unit/Unit';
 import {
-  togglePlayerActiveness, changeTeamsState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, handleMove, addGameEvent, attackPlayer, killPlayer, setFieldsInRange, clearFieldsInRange,
+  togglePlayerActiveness, changePlayersState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, handleMove, addGameEvent, attackPlayer, killPlayer, setFieldsInRange, clearFieldsInRange,
 } from '../../redux/rootActions';
 
 const FieldsGrid = ({
@@ -153,7 +153,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchTogglePlayerActiveness: (uuid) => dispatch(togglePlayerActiveness(uuid)),
-  dispatchChangeTeams: (teams) => dispatch(changeTeamsState(teams)),
+  dispatchChangeTeams: (teams) => dispatch(changePlayersState(teams)),
   dispatchChangeFields: (field) => dispatch(changeFieldsState(field)),
   dispatchIncrementRound: () => dispatch(incrementRound()),
   dispatchChangeActiveTeam: () => dispatch(changeActiveTeam()),
