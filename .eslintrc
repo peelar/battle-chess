@@ -8,7 +8,18 @@
     "max-len": 0,
     "react/jsx-props-no-spreading": 0,
     "import/no-unresolved": 0,
-    "eslint(no-underscore-dangle)": 0
+    "eslint(no-underscore-dangle)": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ]
   },
   "extends": ["airbnb", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
   "parser": "@typescript-eslint/parser",
