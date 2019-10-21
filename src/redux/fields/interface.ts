@@ -1,4 +1,5 @@
 import { fieldsActions, teamsActions } from "../rootTypes";
+import { Player } from "../teams/interface";
 
 export interface Field {
   fieldId: number;
@@ -20,6 +21,11 @@ export interface Move {
     team: number;
     uuid: number;
   };
+}
+
+export interface Range {
+  player: Player;
+  radiusFields: [];
 }
 
 export interface State {

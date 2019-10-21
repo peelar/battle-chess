@@ -1,18 +1,19 @@
 import { teamsActions } from "../rootTypes";
 import { replaceArrayItem } from "../helpers";
+import { State, Action } from "./interface";
 
-export const DEFAULT_STATE = {
+export const DEFAULT_STATE: State = {
   teams: []
 };
 
-const teamsState = (state = DEFAULT_STATE, action) => {
+const teamsState = (state = DEFAULT_STATE, action: Action): State => {
   switch (action.type) {
     case teamsActions.changeTeams:
       return {
-        teams: [...action.payload]
+        teams: [...action.teams]
       };
     case teamsActions.togglePlayerActiveness: {
-      const { uuid } = action.payload;
+      const { uuid } = action.activeness;
       const teams = [...state.teams];
 
       const teamMemberIndex = teams.findIndex(member => member.id === uuid);
@@ -27,7 +28,7 @@ const teamsState = (state = DEFAULT_STATE, action) => {
       };
     }
     case teamsActions.changePlayerPosition: {
-      const { activePlayerId, targetPlayer, field } = action.payload;
+      const { activePlayerId, targetPlayer, field } = action.position;
       const index = state.teams.findIndex(
         player => player.id === activePlayerId
       );
@@ -46,7 +47,7 @@ const teamsState = (state = DEFAULT_STATE, action) => {
       };
     }
     case teamsActions.attackPlayer: {
-      const { victimId, attackerId, damage } = action.payload;
+      const { victimId, attackerId, damage } = action.attack;
 
       const victimIndex = state.teams.findIndex(
         player => player.id === victimId
@@ -86,7 +87,7 @@ const teamsState = (state = DEFAULT_STATE, action) => {
       };
     }
     case teamsActions.killPlayer: {
-      const { player } = action.payload;
+      const { player } = action.player;
       const { id } = player;
 
       const newTeams = [
