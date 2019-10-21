@@ -3,6 +3,7 @@ import styled from "styled-components";
 import uuid4 from "uuid";
 import { connect } from "react-redux";
 import { XL } from "../../breakpoints";
+import { GameEvents } from "../../redux/game/interface";
 
 const Container = styled.div`
   display: none;
@@ -37,7 +38,9 @@ const Event = styled.li`
   padding: 0.25rem 0;
 `;
 
-const Events = ({ events }) => {
+const Events: React.FunctionComponent<GameEvents> = ({
+  events
+}: GameEvents) => {
   if (events.length === 0) return null;
   return (
     <Container>

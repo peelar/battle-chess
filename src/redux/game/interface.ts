@@ -10,6 +10,9 @@ export interface State {
   activeTeam: number;
   events: GameEvent[];
 }
+export interface GameEvents {
+  events: GameEvent[];
+}
 
 export interface Action {
   type: gameActions;
