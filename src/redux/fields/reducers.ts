@@ -35,7 +35,7 @@ const fieldsState = (state = DEFAULT_STATE, action: Action): State => {
         let inRange = false;
         let inDanger = false;
 
-        radiusFields.forEach((fields: Field[], index: number) => {
+        radiusFields.forEach((fields: [], index: number) => {
           const isAttackIndex = index > 0;
 
           fields.forEach(coordinate => {
