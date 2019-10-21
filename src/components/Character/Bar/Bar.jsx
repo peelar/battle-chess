@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import uuid4 from 'uuid';
-import { DEFAULT } from '../../../breakpoints';
+import React from "react";
+import styled, { css } from "styled-components";
+import uuid4 from "uuid";
+import { DEFAULT } from "../../../breakpoints";
 
 const HealthBar = styled.ul`
   list-style: none;
@@ -20,16 +20,20 @@ const Point = styled.li`
     padding: 0.4rem;
   }
 
-  ${(props) => props.full && css`
-    background-color: gold;
-  `}
+  ${props =>
+    props.full &&
+    css`
+      background-color: gold;
+    `}
 `;
 
 const Bar = ({ currentHp, maxHp }) => {
   const points = Array(maxHp).fill(0);
   return (
     <HealthBar>
-      {points.map((el, index) => <Point key={uuid4()} full={index < currentHp} />)}
+      {points.map((el, index) => (
+        <Point key={uuid4()} full={index < currentHp} />
+      ))}
     </HealthBar>
   );
 };

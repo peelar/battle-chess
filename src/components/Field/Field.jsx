@@ -1,5 +1,5 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import React from "react";
+import styled, { css } from "styled-components";
 
 const Text = styled.p`
   color: darkgray;
@@ -28,8 +28,9 @@ const GridField = styled.div`
     }
   }
 
-  ${(props) => props.inRange
-    && css`
+  ${props =>
+    props.inRange &&
+    css`
       background-color: ivory;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
@@ -38,8 +39,9 @@ const GridField = styled.div`
       }
     `}
 
-  ${(props) => props.inAttackRange
-    && css`
+  ${props =>
+    props.inAttackRange &&
+    css`
       background-color: ivory;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
@@ -48,8 +50,9 @@ const GridField = styled.div`
       }
     `}
 
-  ${(props) => props.inDanger
-    && css`
+  ${props =>
+    props.inDanger &&
+    css`
       background-color: red;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
@@ -59,12 +62,8 @@ const GridField = styled.div`
     `}
 `;
 
-const Field = ({
-  field, moveCharacterHandler, children, isFieldEmpty,
-}) => {
-  const {
-    point, inRange, inDanger, inAttackRange,
-  } = field;
+const Field = ({ field, moveCharacterHandler, children, isFieldEmpty }) => {
+  const { point, inRange, inDanger, inAttackRange } = field;
   return (
     <Container>
       <GridField

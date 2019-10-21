@@ -1,9 +1,9 @@
-import React from 'react';
-import './App.css';
-import { createGlobalStyle } from 'styled-components';
-import Grid from './components/Grid/Grid';
-import Interface from './components/Interface/Interface';
-import { MOBILE_S, DEFAULT, XL } from './breakpoints';
+import React from "react";
+import "./App.css";
+import { createGlobalStyle } from "styled-components";
+import Grid from "./components/Grid/Grid";
+import Interface from "./components/Interface/Interface";
+import { MOBILE_S, DEFAULT, XL } from "./breakpoints";
 
 const GlobalStyle = createGlobalStyle`
   html {

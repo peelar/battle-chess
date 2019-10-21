@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
-import teamsState from './teams/reducers';
-import fieldsState from './fields/reducers';
-import gameState from './game/reducers';
+import { combineReducers } from "redux";
+import teamsState from "./teams/reducers";
+import fieldsState from "./fields/reducers";
+import gameState from "./game/reducers";
 
 const appReducer = combineReducers({
   teamsState,
   fieldsState,
-  gameState,
+  gameState
 });
 
 const rootReducer = (state, action) => appReducer(state, action);

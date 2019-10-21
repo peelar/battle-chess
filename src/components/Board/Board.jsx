@@ -1,16 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import uuid4 from 'uuid';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import uuid4 from "uuid";
 import {
-  getMatchingFieldsField, getActivePlayer, getMoveCharacterData, isMoveInRange, getFieldsInRange,
-} from '../../redux/helpers';
-import Unit from '../Unit/Unit';
+  getMatchingFieldsField,
+  getActivePlayer,
+  getMoveCharacterData,
+  isMoveInRange,
+  getFieldsInRange
+} from "../../redux/helpers";
+import Unit from "../Unit/Unit";
 import {
-  togglePlayerActiveness, changePlayersState, changeFieldsState, incrementRound, changeActiveTeam, changePlayerPosition, handleMove, addGameEvent, attackPlayer, killPlayer, setFieldsInRange, clearFieldsInRange,
-} from '../../redux/rootActions';
+  togglePlayerActiveness,
+  changePlayersState,
+  changeFieldsState,
+  incrementRound,
+  changeActiveTeam,
+  changePlayerPosition,
+  handleMove,
+  addGameEvent,
+  attackPlayer,
+  killPlayer,
+  setFieldsInRange,
+  clearFieldsInRange
+} from "../../redux/rootActions";
 
 const FieldsGrid = ({
-  dispatchTogglePlayerActiveness, activeTeam, dispatchChangePlayerPosition, dispatchChangeActiveTeam, dispatchFieldsMove, teamsState, fieldsState, grid, dispatchIncrementRound, dispatchEvent, dispatchPlayerAttack, dispatchPlayerKill, dispatchShowRangeFields, dispatchClearFieldsInRange,
+  dispatchTogglePlayerActiveness,
+  activeTeam,
+  dispatchChangePlayerPosition,
+  dispatchChangeActiveTeam,
+  dispatchFieldsMove,
+  teamsState,
+  fieldsState,
+  grid,
+  dispatchIncrementRound,
+  dispatchEvent,
+  dispatchPlayerAttack,
+  dispatchPlayerKill,
+  dispatchShowRangeFields,
+  dispatchClearFieldsInRange
 }) => {
   const [fields, changeFields] = useState(null);
   const [teams, changePlayers] = useState(null);
@@ -36,8 +64,8 @@ const FieldsGrid = ({
     }
   }, [roundMoveCount, dispatchIncrementRound]);
 
-
-  const isBoardReady = grid && grid !== null && fields && fields !== null && fields.length > 0;
+  const isBoardReady =
+    grid && grid !== null && fields && fields !== null && fields.length > 0;
 
   if (!isBoardReady) {
     return null;
@@ -48,27 +76,39 @@ const FieldsGrid = ({
     dispatchChangeActiveTeam();
   };
 
-  const togglePlayer = (field) => {
+  const togglePlayer = field => {
     const { uuid, team } = field.character;
     const activePlayer = getActivePlayer(teams);
-    const isActivePlayerField = activePlayer ? activePlayer.fieldId === field.fieldId : false;
+    const isActivePlayerField = activePlayer
+      ? activePlayer.fieldId === field.fieldId
+      : false;
 
     if ((!activePlayer || isActivePlayerField) && team === activeTeam) {
-      const player = teams.find((el) => el.id === uuid);
-      const fieldsInRange = getFieldsInRange(field.point, player.attributes.range);
+      const player = teams.find(el => el.id === uuid);
+      const fieldsInRange = getFieldsInRange(
+        field.point,
+        player.attributes.range
+      );
 
       dispatchTogglePlayerActiveness(uuid);
       dispatchShowRangeFields({
         player,
-        radiusFields: fieldsInRange,
+        radiusFields: fieldsInRange
       });
     }
   };
 
-  const handlePlayerAttack = (foundPlayer) => {
+  const handlePlayerAttack = foundPlayer => {
     const activePlayer = getActivePlayer(teams);
     const { name, attack } = activePlayer.attributes;
-    if (!isMoveInRange(activePlayer.coordinates, foundPlayer.coordinates, activePlayer.attributes.range)) return;
+    if (
+      !isMoveInRange(
+        activePlayer.coordinates,
+        foundPlayer.coordinates,
+        activePlayer.attributes.range
+      )
+    )
+      return;
 
     dispatchEvent({ text: `${name} attacks ${foundPlayer.attributes.name}!` });
     dispatchTogglePlayerActiveness(activePlayer.id);
@@ -76,9 +116,15 @@ const FieldsGrid = ({
 
     if (isPlayerDead) {
       dispatchPlayerKill({ player: foundPlayer });
-      dispatchEvent({ text: `${name} killed ${foundPlayer.attributes.name} :(` });
+      dispatchEvent({
+        text: `${name} killed ${foundPlayer.attributes.name} :(`
+      });
     } else {
-      dispatchPlayerAttack({ victimId: foundPlayer.id, attackerId: activePlayer.id, damage: attack });
+      dispatchPlayerAttack({
+        victimId: foundPlayer.id,
+        attackerId: activePlayer.id,
+        damage: attack
+      });
     }
 
     dispatchClearFieldsInRange();
@@ -100,7 +146,7 @@ const FieldsGrid = ({
     }
   };
 
-  const moveCharacterHandler = (field) => {
+  const moveCharacterHandler = field => {
     const { fieldId } = field;
     const activePlayer = getActivePlayer(teams);
     if (!activePlayer) return;
@@ -108,7 +154,11 @@ const FieldsGrid = ({
     const gotMoves = activePlayer.attributes.moves > 0;
     if (!gotMoves) return;
 
-    const { targetField, targetPlayer, prevField } = getMoveCharacterData(teams, fields, fieldId);
+    const { targetField, targetPlayer, prevField } = getMoveCharacterData(
+      teams,
+      fields,
+      fieldId
+    );
     const isFieldTaken = targetField.character.present;
 
     if (isFieldTaken) return;
@@ -118,55 +168,89 @@ const FieldsGrid = ({
       return;
     }
 
-    dispatchChangePlayerPosition({ activePlayerId: activePlayer.id, targetPlayer, field });
+    dispatchChangePlayerPosition({
+      activePlayerId: activePlayer.id,
+      targetPlayer,
+      field
+    });
     changeRound();
 
     // prev move
-    dispatchFieldsMove({ targetId: targetPlayer.fieldId, targetField: { ...prevField }, updatedFieldState: { present: false, team: null, uuid: null } });
+    dispatchFieldsMove({
+      targetId: targetPlayer.fieldId,
+      targetField: { ...prevField },
+      updatedFieldState: { present: false, team: null, uuid: null }
+    });
     // next move
-    dispatchFieldsMove({ targetId: fieldId, targetField, updatedFieldState: { present: true, team: activePlayer.team, uuid: activePlayer.id } });
+    dispatchFieldsMove({
+      targetId: fieldId,
+      targetField,
+      updatedFieldState: {
+        present: true,
+        team: activePlayer.team,
+        uuid: activePlayer.id
+      }
+    });
 
     dispatchTogglePlayerActiveness(activePlayer.id);
     dispatchClearFieldsInRange();
 
-    const coordinatesText = `[${targetField.point[0]}, ${targetField.point[1]}]`;
-    dispatchEvent({ text: `${activePlayer.attributes.name} moves to ${coordinatesText}` });
+    const coordinatesText = `[${targetField.point[0]}, ${
+      targetField.point[1]
+    }]`;
+    dispatchEvent({
+      text: `${activePlayer.attributes.name} moves to ${coordinatesText}`
+    });
   };
 
-  return grid.map((point) => {
+  return grid.map(point => {
     const field = getMatchingFieldsField(point, fields);
     const { present, uuid } = field.character;
-    const foundPlayer = teams !== undefined ? teams.find((member) => member.id === uuid) : undefined;
+    const foundPlayer =
+      teams !== undefined
+        ? teams.find(member => member.id === uuid)
+        : undefined;
     const isTeamActive = roundActiveTeam === field.character.team;
 
     return (
-      <Unit key={uuid4()} field={field} moveCharacterHandler={moveCharacterHandler} present={present} foundPlayer={foundPlayer} isTeamActive={isTeamActive} activeTeam={activeTeam} handleCharacterInteraction={handleCharacterInteraction} />
+      <Unit
+        key={uuid4()}
+        field={field}
+        moveCharacterHandler={moveCharacterHandler}
+        present={present}
+        foundPlayer={foundPlayer}
+        isTeamActive={isTeamActive}
+        activeTeam={activeTeam}
+        handleCharacterInteraction={handleCharacterInteraction}
+      />
     );
   });
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   teamsState: state.teamsState.teams,
   fieldsState: state.fieldsState.fields,
-  activeTeam: state.gameState.activeTeam,
+  activeTeam: state.gameState.activeTeam
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchTogglePlayerActiveness: (uuid) => dispatch(togglePlayerActiveness(uuid)),
-  dispatchChangeTeams: (teams) => dispatch(changePlayersState(teams)),
-  dispatchChangeFields: (field) => dispatch(changeFieldsState(field)),
+const mapDispatchToProps = dispatch => ({
+  dispatchTogglePlayerActiveness: uuid =>
+    dispatch(togglePlayerActiveness(uuid)),
+  dispatchChangeTeams: teams => dispatch(changePlayersState(teams)),
+  dispatchChangeFields: field => dispatch(changeFieldsState(field)),
   dispatchIncrementRound: () => dispatch(incrementRound()),
   dispatchChangeActiveTeam: () => dispatch(changeActiveTeam()),
-  dispatchChangePlayerPosition: (params) => dispatch(changePlayerPosition(params)),
-  dispatchFieldsMove: (params) => dispatch(handleMove(params)),
-  dispatchEvent: (params) => dispatch(addGameEvent(params)),
-  dispatchPlayerAttack: (params) => dispatch(attackPlayer(params)),
-  dispatchPlayerKill: (params) => dispatch(killPlayer(params)),
-  dispatchShowRangeFields: (params) => dispatch(setFieldsInRange(params)),
-  dispatchClearFieldsInRange: () => dispatch(clearFieldsInRange()),
+  dispatchChangePlayerPosition: params =>
+    dispatch(changePlayerPosition(params)),
+  dispatchFieldsMove: params => dispatch(handleMove(params)),
+  dispatchEvent: params => dispatch(addGameEvent(params)),
+  dispatchPlayerAttack: params => dispatch(attackPlayer(params)),
+  dispatchPlayerKill: params => dispatch(killPlayer(params)),
+  dispatchShowRangeFields: params => dispatch(setFieldsInRange(params)),
+  dispatchClearFieldsInRange: () => dispatch(clearFieldsInRange())
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(FieldsGrid);

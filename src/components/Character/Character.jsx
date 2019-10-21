@@ -1,11 +1,9 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { FontAwesomeIcon as FAIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs, faStreetView } from '@fortawesome/free-solid-svg-icons';
-import {
-  DEFAULT, MOBILE_S, PAD_L, DESKTOP,
-} from '../../breakpoints';
-import Bar from './Bar/Bar';
+import React from "react";
+import styled, { css } from "styled-components";
+import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
+import { faCrosshairs, faStreetView } from "@fortawesome/free-solid-svg-icons";
+import { DEFAULT, MOBILE_S, PAD_L, DESKTOP } from "../../breakpoints";
+import Bar from "./Bar/Bar";
 
 const Dot = styled.div`
   display: flex;
@@ -18,8 +16,8 @@ const Dot = styled.div`
   max-height: 45px;
   max-width: 45px;
   background-color: black;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
@@ -46,40 +44,55 @@ const Dot = styled.div`
     max-width: 70px;
   }
 
-  ${(props) => props.secondary && css`
-    background-color: white;
-    color: black;
-  `};
+  ${props =>
+    props.secondary &&
+    css`
+      background-color: white;
+      color: black;
+    `};
 
-  ${(props) => props.tertiary && css`
-    border-color: orange;
-  `};
+  ${props =>
+    props.tertiary &&
+    css`
+      border-color: orange;
+    `};
 
   &:hover {
-    ${(props) => !props.active && !props.fade && css`
-      border-color: gold;
-    `};
+    ${props =>
+      !props.active &&
+      !props.fade &&
+      css`
+        border-color: gold;
+      `};
 
-    ${(props) => props.fade && css`
-      filter: opacity(1);
-    `};
+    ${props =>
+      props.fade &&
+      css`
+        filter: opacity(1);
+      `};
   }
 
-  ${(props) => props.active && css`
-    border-color: goldenrod;
-  `};
+  ${props =>
+    props.active &&
+    css`
+      border-color: goldenrod;
+    `};
 
-  ${(props) => (props.fade) && css`
-    filter: opacity(.25);
-  `};
+  ${props =>
+    props.fade &&
+    css`
+      filter: opacity(0.25);
+    `};
 
-  ${(props) => props.inDanger && css`
-    filter: opacity(.75);
+  ${props =>
+    props.inDanger &&
+    css`
+      filter: opacity(0.75);
 
-    &:hover {
-      border-color: red;
-    }
-  `};
+      &:hover {
+        border-color: red;
+      }
+    `};
 `;
 
 const Caption = styled.p`
@@ -105,7 +118,7 @@ const Info = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
   grid-gap: 0.25rem;
-  font-size: .95rem;
+  font-size: 0.95rem;
   align-items: center;
 `;
 
@@ -122,18 +135,19 @@ const Moves = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: ${(props) => (props.secondary ? 'black' : 'aliceblue')};
+  color: ${props => (props.secondary ? "black" : "aliceblue")};
 `;
 
 const Character = ({
-  character, isCharacterActive, interactWithCharacter, isCharacterOn, isTeamUnactive, inDanger,
+  character,
+  isCharacterActive,
+  interactWithCharacter,
+  isCharacterOn,
+  isTeamUnactive,
+  inDanger
 }) => {
-  const {
-    team,
-  } = character;
-  const {
-    name, maxHp, currentHp, attack, moves, range,
-  } = character.attributes;
+  const { team } = character;
+  const { name, maxHp, currentHp, attack, moves, range } = character.attributes;
 
   const isSecondary = team === 1;
   return (

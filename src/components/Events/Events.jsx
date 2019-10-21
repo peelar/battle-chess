@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import uuid4 from 'uuid';
-import { connect } from 'react-redux';
-import { XL } from '../../breakpoints';
+import React from "react";
+import styled from "styled-components";
+import uuid4 from "uuid";
+import { connect } from "react-redux";
+import { XL } from "../../breakpoints";
 
 const Container = styled.div`
   display: none;
@@ -43,16 +43,16 @@ const Events = ({ events }) => {
     <Container>
       <h2>Events</h2>
       <List>
-        {events.map((event) => <Event key={uuid4()}>{event.text}</Event>)}
+        {events.map(event => (
+          <Event key={uuid4()}>{event.text}</Event>
+        ))}
       </List>
     </Container>
   );
 };
 
-const mapStateToProps = (state) => ({
-  events: state.gameState.events,
+const mapStateToProps = state => ({
+  events: state.gameState.events
 });
 
-export default connect(
-  mapStateToProps,
-)(Events);
+export default connect(mapStateToProps)(Events);

@@ -8,6 +8,7 @@
     "max-len": 0,
     "react/jsx-props-no-spreading": 0,
     "import/no-unresolved": 0,
+    "eslint(no-underscore-dangle)": 0
   },
   "extends": ["airbnb", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
   "parser": "@typescript-eslint/parser",
