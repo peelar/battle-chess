@@ -4,16 +4,16 @@ import { Field, Move } from "./interface";
 
 export const changeFieldsState = (
   fields: Field[]
-): { type: fieldsActions; payload: Field[] } => ({
+): { type: fieldsActions; fields: Field[] } => ({
   type: fieldsActions.changeFields,
-  payload: [...fields]
+  fields: [...fields]
 });
 
 export const handleMove = (
   params: Move
-): { type: fieldsActions; payload: Move } => ({
+): { type: fieldsActions; move: Move } => ({
   type: fieldsActions.handleMove,
-  payload: {
+  move: {
     ...params
   }
 });
@@ -25,7 +25,7 @@ export const handleMove = (
 
 export const setFieldsInRange = params => ({
   type: fieldsActions.setFieldsInRange,
-  payload: {
+  range: {
     ...params
   }
 });

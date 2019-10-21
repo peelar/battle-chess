@@ -28,5 +28,9 @@ export interface State {
 
 export interface Action {
   type: fieldsActions | teamsActions;
-  payload?: Field[];
+  fields: Field[];
+  move: Move;
+  range: any;
+  player: any;
+  // import Player && player: Player;
 }
