@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Round from '../Round/Round';
-import Events from '../Events/Events';
+import React from "react";
+import styled from "styled-components";
+import Round from "../Round/Round";
+import Events from "../Events/Events";
 
 const Container = styled.div`
   display: grid;
