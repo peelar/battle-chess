@@ -1,5 +1,5 @@
-import { Activeness, Player, Action, Attack, Position } from "./interface";
 /* eslint-disable import/prefer-default-export */
+import { Activeness, Player, Attack, Position } from "./interface";
 import { teamsActions } from "../rootTypes";
 
 export const togglePlayerActiveness = (
