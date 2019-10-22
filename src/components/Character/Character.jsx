@@ -4,6 +4,7 @@ import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs, faStreetView } from "@fortawesome/free-solid-svg-icons";
 import SVG from "react-inlinesvg";
 import Knight from "../../assets/knight.svg";
+import Wizard from "../../assets/wizard.svg";
 import { DEFAULT, MOBILE_S, PAD_L, DESKTOP } from "../../breakpoints";
 import Bar from "./Bar/Bar";
 
@@ -47,16 +48,28 @@ const Dot = styled.div`
   }
 
   ${props =>
+    props.health === "success" &&
+    css`
+      border-color: green;
+    `};
+
+  ${props =>
+    props.health === "warning" &&
+    css`
+      border-color: orange;
+    `};
+
+  ${props =>
+    props.health === "danger" &&
+    css`
+      border-color: red;
+    `};
+
+  ${props =>
     props.secondary &&
     css`
       background-color: white;
       color: black;
-    `};
-
-  ${props =>
-    props.tertiary &&
-    css`
-      border-color: orange;
     `};
 
   &:hover {
@@ -156,11 +169,18 @@ const Hero = styled.div`
   justify-content: center;
 
   svg {
-    height: 40px;
-    width: 40px;
-    fill: ${props => (props.secondary ? "black" : "white")};
+    height: 70%;
+    width: 70%;
+    border-radius: 50%;
   }
 `;
+
+const getHealthLevel = ({ currentHp, maxHp }) => {
+  const hpPercentage = parseFloat(currentHp / maxHp).toFixed(2);
+  if (hpPercentage < 0.3) return "danger";
+  if (hpPercentage >= 0.3 && hpPercentage < 0.6) return "warning";
+  if (hpPercentage >= 0.6) return "success";
+};
 
 const Character = ({
   character,
@@ -173,15 +193,20 @@ const Character = ({
   const { team } = character;
   const { name, maxHp, currentHp, attack, moves, range } = character.attributes;
 
+  const isDistanceCharacter = range !== 1;
+  const heroPath = isDistanceCharacter ? Wizard : Knight;
   const isSecondary = team === 1;
+
+  const healthLevel = getHealthLevel({ currentHp, maxHp });
+
   return (
     <Dot
       secondary={isSecondary}
-      tertiary={range !== 1}
       active={isCharacterActive}
       fade={isTeamUnactive}
       shadow={isCharacterOn}
       inDanger={inDanger}
+      health={healthLevel}
       onClick={() => interactWithCharacter(!isCharacterActive)}
     >
       {isCharacterActive ? (
@@ -199,8 +224,8 @@ const Character = ({
           </Info>
         </Stats>
       ) : (
-        <Hero secondary={isSecondary}>
-          <SVG src={Knight} />
+        <Hero>
+          <SVG src={heroPath} />
         </Hero>
       )}
       <Caption>{name}</Caption>
