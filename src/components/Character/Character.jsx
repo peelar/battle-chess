@@ -2,6 +2,8 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs, faStreetView } from "@fortawesome/free-solid-svg-icons";
+import SVG from "react-inlinesvg";
+import Knight from "../../assets/knight.svg";
 import { DEFAULT, MOBILE_S, PAD_L, DESKTOP } from "../../breakpoints";
 import Bar from "./Bar/Bar";
 
@@ -147,6 +149,19 @@ const Stats = styled.div`
   background-color: transparent;
 `;
 
+const Hero = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    height: 40px;
+    width: 40px;
+    fill: ${props => (props.secondary ? "black" : "white")};
+  }
+`;
+
 const Character = ({
   character,
   isCharacterActive,
@@ -169,7 +184,7 @@ const Character = ({
       inDanger={inDanger}
       onClick={() => interactWithCharacter(!isCharacterActive)}
     >
-      {isCharacterActive && (
+      {isCharacterActive ? (
         <Stats active={isCharacterActive}>
           <Bar currentHp={currentHp} maxHp={maxHp} />
           <Info>
@@ -183,6 +198,10 @@ const Character = ({
             </Moves>
           </Info>
         </Stats>
+      ) : (
+        <Hero secondary={isSecondary}>
+          <SVG src={Knight} />
+        </Hero>
       )}
       <Caption>{name}</Caption>
     </Dot>
