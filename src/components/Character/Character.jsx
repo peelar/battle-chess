@@ -138,6 +138,15 @@ const Moves = styled.div`
   color: ${props => (props.secondary ? "black" : "aliceblue")};
 `;
 
+const Stats = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  background-color: transparent;
+`;
+
 const Character = ({
   character,
   isCharacterActive,
@@ -160,17 +169,21 @@ const Character = ({
       inDanger={inDanger}
       onClick={() => interactWithCharacter(!isCharacterActive)}
     >
-      <Bar currentHp={currentHp} maxHp={maxHp} />
-      <Info>
-        <Attack>
-          <FAIcon icon={faCrosshairs} />
-          <span>{attack}</span>
-        </Attack>
-        <Moves secondary={isSecondary}>
-          <FAIcon icon={faStreetView} />
-          <span>{moves}</span>
-        </Moves>
-      </Info>
+      {isCharacterActive && (
+        <Stats active={isCharacterActive}>
+          <Bar currentHp={currentHp} maxHp={maxHp} />
+          <Info>
+            <Attack>
+              <FAIcon icon={faCrosshairs} />
+              <span>{attack}</span>
+            </Attack>
+            <Moves secondary={isSecondary}>
+              <FAIcon icon={faStreetView} />
+              <span>{moves}</span>
+            </Moves>
+          </Info>
+        </Stats>
+      )}
       <Caption>{name}</Caption>
     </Dot>
   );
