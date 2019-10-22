@@ -39,7 +39,9 @@ export interface Action {
   activeness: Activeness;
   position: Position;
   attack: Attack;
-  kill: Player;
+  kill: {
+    player: Player;
+  };
   teams: Player[];
   player: {
     player: Player;

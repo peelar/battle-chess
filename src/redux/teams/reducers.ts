@@ -87,7 +87,7 @@ const teamsState = (state = DEFAULT_STATE, action: Action): State => {
       };
     }
     case teamsActions.killPlayer: {
-      const { player } = action.player;
+      const { player } = action.kill;
       const { id } = player;
 
       const newTeams = [
