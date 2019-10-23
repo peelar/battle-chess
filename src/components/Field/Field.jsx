@@ -21,7 +21,8 @@ const GridField = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: #c5beaa;
+    background-color: whitesmoke;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
     ${Text} {
       color: black;

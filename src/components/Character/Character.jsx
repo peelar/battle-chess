@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
 import { faWalking } from "@fortawesome/free-solid-svg-icons";
 import { GiBattleAxe } from "react-icons/gi";
-import { useSpring, animated } from "react-spring";
+// import { useSpring, animated } from "react-spring";
 
 import SVG from "react-inlinesvg";
 import Knight from "../../assets/knight.svg";
@@ -11,7 +11,7 @@ import Wizard from "../../assets/wizard.svg";
 import { DEFAULT, MOBILE_S, PAD_L, DESKTOP } from "../../breakpoints";
 import Bar from "./Bar/Bar";
 
-const Dot = styled(animated.div)`
+const Dot = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
