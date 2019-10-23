@@ -1,7 +1,9 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
-import { faCrosshairs, faStreetView } from "@fortawesome/free-solid-svg-icons";
+import { faWalking } from "@fortawesome/free-solid-svg-icons";
+import { GiBattleAxe, GiOrbWand } from "react-icons/gi";
+
 import SVG from "react-inlinesvg";
 import Knight from "../../assets/knight.svg";
 import Wizard from "../../assets/wizard.svg";
@@ -133,7 +135,7 @@ const Info = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
   grid-gap: 0.25rem;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   align-items: center;
 `;
 
@@ -200,6 +202,11 @@ const Character = ({
   const isSecondary = team === 1;
 
   const healthLevel = getHealthLevel({ currentHp, maxHp });
+  const colors = {
+    danger: "red",
+    warning: "orange",
+    success: "green"
+  };
 
   return (
     <Dot
@@ -215,18 +222,22 @@ const Character = ({
         <Stats active={isCharacterActive}>
           <Info>
             <Attack>
-              <FAIcon icon={faCrosshairs} />
+              {isDistanceCharacter ? <GiOrbWand /> : <GiBattleAxe />}
               <span>{attack}</span>
             </Attack>
             <Moves secondary={isSecondary}>
-              <FAIcon icon={faStreetView} />
+              <FAIcon icon={faWalking} />
               <span>{moves}</span>
             </Moves>
           </Info>
         </Stats>
       ) : (
         <Hero>
-          <Bar currentHp={currentHp} maxHp={maxHp} />
+          <Bar
+            color={colors[healthLevel]}
+            currentHp={currentHp}
+            maxHp={maxHp}
+          />
           <SVG src={heroPath} />
         </Hero>
       )}
