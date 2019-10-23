@@ -135,7 +135,7 @@ const Caption = styled.p`
 const Info = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
-  grid-gap: 0.4rem;
+  grid-gap: 0.3rem;
   font-size: 1.05rem;
   align-items: center;
 `;
