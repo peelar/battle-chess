@@ -165,8 +165,10 @@ const Stats = styled.div`
 const Hero = styled.div`
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   svg {
     height: 70%;
@@ -211,7 +213,6 @@ const Character = ({
     >
       {isCharacterActive ? (
         <Stats active={isCharacterActive}>
-          <Bar currentHp={currentHp} maxHp={maxHp} />
           <Info>
             <Attack>
               <FAIcon icon={faCrosshairs} />
@@ -225,6 +226,7 @@ const Character = ({
         </Stats>
       ) : (
         <Hero>
+          <Bar currentHp={currentHp} maxHp={maxHp} />
           <SVG src={heroPath} />
         </Hero>
       )}

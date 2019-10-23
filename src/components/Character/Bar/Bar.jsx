@@ -9,6 +9,8 @@ const HealthBar = styled.ul`
   justify-content: center;
   padding: 0;
   margin: 0;
+  position: absolute;
+  bottom: -0.25vh;
 `;
 
 const Point = styled.li`
