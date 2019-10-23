@@ -58,7 +58,7 @@ const Dot = styled.div`
   ${props =>
     props.health === "warning" &&
     css`
-      border-color: orange;
+      border-color: #e88565;
     `};
 
   ${props =>
@@ -204,7 +204,7 @@ const Character = ({
   const healthLevel = getHealthLevel({ currentHp, maxHp });
   const colors = {
     danger: "red",
-    warning: "orange",
+    warning: "#e88565",
     success: "#32B67A"
   };
 
