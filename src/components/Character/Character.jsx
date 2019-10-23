@@ -52,7 +52,7 @@ const Dot = styled.div`
   ${props =>
     props.health === "success" &&
     css`
-      border-color: green;
+      border-color: #32b67a;
     `};
 
   ${props =>
@@ -64,7 +64,7 @@ const Dot = styled.div`
   ${props =>
     props.health === "danger" &&
     css`
-      border-color: red;
+      border-color: #ef3e4a;
     `};
 
   ${props =>
@@ -92,7 +92,7 @@ const Dot = styled.div`
   ${props =>
     props.active &&
     css`
-      border-color: goldenrod;
+      border-color: #f0cf61;
     `};
 
   ${props =>
@@ -107,7 +107,7 @@ const Dot = styled.div`
       filter: opacity(0.75);
 
       &:hover {
-        border-color: red;
+        border-color: #ef3e4a;
       }
     `};
 `;
@@ -134,7 +134,7 @@ const Caption = styled.p`
 const Info = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
-  grid-gap: 0.25rem;
+  grid-gap: 0.4rem;
   font-size: 1.05rem;
   align-items: center;
 `;
@@ -144,7 +144,7 @@ const Attack = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: goldenrod;
+  color: #f0cf61;
 `;
 
 const Moves = styled.div`
@@ -205,7 +205,7 @@ const Character = ({
   const colors = {
     danger: "red",
     warning: "orange",
-    success: "green"
+    success: "#32B67A"
   };
 
   return (

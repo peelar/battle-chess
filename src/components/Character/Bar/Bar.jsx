@@ -15,7 +15,7 @@ const HealthBar = styled.ul`
 const Point = styled.li`
   border: 1px solid black;
   padding: 0.3rem;
-  background-color: gray;
+  background-color: #c5beaa;
   border-radius: 50%;
 
   ${props =>

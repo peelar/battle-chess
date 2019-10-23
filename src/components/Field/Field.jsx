@@ -16,12 +16,12 @@ const GridField = styled.div`
   align-items: center;
   border-radius: 15%;
   height: 100%;
-  background: gainsboro;
+  background-color: gainsboro;
   box-sizing: border-box;
 
   &:hover {
     cursor: pointer;
-    background: whitesmoke;
+    background-color: #c5beaa;
 
     ${Text} {
       color: black;
@@ -35,7 +35,7 @@ const GridField = styled.div`
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
       &:hover {
-        background-color: khaki;
+        background-color: #f0cf61;
       }
     `}
 
@@ -46,18 +46,18 @@ const GridField = styled.div`
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
       &:hover {
-        background-color: khaki;
+        background-color: #f0cf61;
       }
     `}
 
   ${props =>
     props.inDanger &&
     css`
-      background-color: red;
+      background-color: #ef3e4a;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
       &:hover {
-        background-color: red;
+        background-color: #ef3e4a;
       }
     `}
 `;

@@ -14,7 +14,7 @@ const Container = styled.div`
   display: grid;
   justify-items: center;
   align-items: center;
-  background: gray;
+  background: whitesmoke;
   filter: opacity(0.8);
   height: 100vh;
 `;
