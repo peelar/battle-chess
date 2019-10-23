@@ -8,6 +8,10 @@ const Text = styled.p`
 const Container = styled.div`
   height: 100%;
   position: relative;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 `;
 
 const GridField = styled.div`
