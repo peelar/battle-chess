@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
 import { faWalking } from "@fortawesome/free-solid-svg-icons";
-import { GiBattleAxe, GiOrbWand } from "react-icons/gi";
+import { GiBattleAxe } from "react-icons/gi";
 
 import SVG from "react-inlinesvg";
 import Knight from "../../assets/knight.svg";
@@ -222,7 +222,7 @@ const Character = ({
         <Stats active={isCharacterActive}>
           <Info>
             <Attack>
-              {isDistanceCharacter ? <GiOrbWand /> : <GiBattleAxe />}
+              <GiBattleAxe />
               <span>{attack}</span>
             </Attack>
             <Moves secondary={isSecondary}>
