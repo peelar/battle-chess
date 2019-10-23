@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
 import { faWalking } from "@fortawesome/free-solid-svg-icons";
 import { GiBattleAxe } from "react-icons/gi";
+import { useSpring, animated } from "react-spring";
 
 import SVG from "react-inlinesvg";
 import Knight from "../../assets/knight.svg";
@@ -10,7 +11,7 @@ import Wizard from "../../assets/wizard.svg";
 import { DEFAULT, MOBILE_S, PAD_L, DESKTOP } from "../../breakpoints";
 import Bar from "./Bar/Bar";
 
-const Dot = styled.div`
+const Dot = styled(animated.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -203,10 +204,12 @@ const Character = ({
 
   const healthLevel = getHealthLevel({ currentHp, maxHp });
   const colors = {
-    danger: "red",
+    danger: "#ef3e4a",
     warning: "#e88565",
     success: "#32B67A"
   };
+
+  // const animation = useSpring({ opacity: 1, from: { opacity: 0 } });
 
   return (
     <Dot
@@ -217,6 +220,7 @@ const Character = ({
       inDanger={inDanger}
       health={healthLevel}
       onClick={() => interactWithCharacter(!isCharacterActive)}
+      // style={animation}
     >
       {isCharacterActive ? (
         <Stats active={isCharacterActive}>

@@ -1,19 +1,20 @@
-import React from 'react';
-import uuid4 from 'uuid';
-import styled, { css } from 'styled-components';
-import Field from '../Field/Field';
-import Character from '../Character/Character';
+import React from "react";
+import uuid4 from "uuid";
+import styled, { css } from "styled-components";
+import Field from "../Field/Field";
+import Character from "../Character/Character";
 
 const CharacterContainer = styled.div`
-  ${(props) => (!props.active
-    ? css`
-    display: none;
+  ${props =>
+    !props.active
+      ? css`
+          display: none;
         `
-    : css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `)};
+      : css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        `};
 
   position: absolute;
   z-index: 5;
@@ -30,34 +31,37 @@ const Unit = ({
   foundPlayer,
   isTeamActive,
   activeTeam,
-  handleCharacterInteraction,
+  handleCharacterInteraction
 }) => {
-  const isCharacterActive = present && foundPlayer !== undefined ? foundPlayer.active : false;
+  const isCharacterActive =
+    present && foundPlayer !== undefined ? foundPlayer.active : false;
 
   return (
-  <Field
-    field={field}
-    moveCharacterHandler={() => moveCharacterHandler(field)}
-    isFieldEmpty={!foundPlayer}
-    key={uuid4()}
-  >
-    {foundPlayer && (
-      <CharacterContainer active={present}>
-        <Character
-          inDanger={field.inDanger}
-          character={foundPlayer}
-          isCharacterActive={isCharacterActive}
-          isTeamUnactive={!isTeamActive}
-          isCharacterOn={present}
-          interactWithCharacter={() => handleCharacterInteraction({
-            field,
-            active: activeTeam,
-            foundPlayer,
-          })}
-        />
-      </CharacterContainer>
-    )}
-  </Field>
-)};
+    <Field
+      field={field}
+      moveCharacterHandler={() => moveCharacterHandler(field)}
+      isFieldEmpty={!foundPlayer}
+      key={uuid4()}
+    >
+      {foundPlayer && (
+        <CharacterContainer active={present}>
+          <Character
+            inDanger={field.inDanger}
+            character={foundPlayer}
+            isCharacterActive={isCharacterActive}
+            isTeamUnactive={!isTeamActive}
+            isCharacterOn={present}
+            interactWithCharacter={() =>
+              handleCharacterInteraction({
+                field,
+                active: activeTeam,
+                foundPlayer
+              })}
+          />
+        </CharacterContainer>
+      )}
+    </Field>
+  );
+};
 
 export default Unit;
