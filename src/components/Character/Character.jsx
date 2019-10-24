@@ -182,9 +182,9 @@ const Hero = styled.div`
 
 const getHealthLevel = ({ currentHp, maxHp }) => {
   const hpPercentage = parseFloat(currentHp / maxHp).toFixed(2);
-  if (hpPercentage < 0.3) return "danger";
-  if (hpPercentage >= 0.3 && hpPercentage < 0.6) return "warning";
-  if (hpPercentage >= 0.6) return "success";
+  if (hpPercentage <= 0.34) return "danger";
+  if (hpPercentage > 0.34 && hpPercentage <= 0.67) return "warning";
+  if (hpPercentage > 0.67) return "success";
 };
 
 const Character = ({
