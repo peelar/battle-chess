@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import styled, { createGlobalStyle } from "styled-components";
 import Grid from "./components/Grid/Grid";
@@ -27,13 +27,26 @@ const MainGrid = styled.main`
 `;
 
 function App() {
+  const generateGameKey = number => `GAME-${number}`;
+
+  const [gameNumber, changeGame] = useState(0);
+  const [gameKey, changeGameKey] = useState(generateGameKey(gameNumber));
+
+  const playAgainHandler = () => {
+    changeGame(gameNumber + 1);
+  };
+
+  useEffect(() => {
+    changeGameKey(generateGameKey(gameNumber));
+  }, [gameNumber]);
+
   return (
     <>
-      <Overlay />
+      <Overlay playAgain={playAgainHandler} />
       <MainGrid>
         <GlobalStyle />
         <Hud show />
-        <Grid />
+        <Grid key={gameKey} />
       </MainGrid>
     </>
   );

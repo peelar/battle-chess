@@ -6,7 +6,7 @@ export const DEFAULT_STATE: State = {
   round: 0,
   activeTeam: 0,
   events: [],
-  active: true
+  finished: false
 };
 
 const gameState = (state = DEFAULT_STATE, action: Action): State => {
@@ -29,7 +29,7 @@ const gameState = (state = DEFAULT_STATE, action: Action): State => {
     case gameActions.finishGame:
       return {
         ...state,
-        active: false
+        finished: true
       };
 
     default:

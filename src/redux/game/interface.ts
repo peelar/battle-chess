@@ -9,7 +9,7 @@ export interface State {
   round: number;
   activeTeam: number;
   events: GameEvent[];
-  active: boolean;
+  finished: boolean;
 }
 export interface GameEvents {
   events: GameEvent[];

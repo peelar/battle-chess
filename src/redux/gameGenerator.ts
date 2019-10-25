@@ -41,8 +41,6 @@ const names = [
   "Steven"
 ];
 
-let uniqueNames = [...names];
-
 type nestedArray = {
   [index: number]: number;
 };
@@ -53,11 +51,10 @@ const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (maxNum - minNum)) + minNum;
 };
 
-const getRandomPlayerName = (): string => {
-  const randomIndex = getRandomInt(0, uniqueNames.length);
-  const name = uniqueNames[randomIndex];
+const getRandomPlayerName = (array): string => {
+  const randomIndex = getRandomInt(0, array.length);
+  const name = array[randomIndex];
 
-  uniqueNames = uniqueNames.filter(el => el !== name);
   return name;
 };
 
@@ -123,6 +120,8 @@ class GameGenerator {
 
   private grid: nestedArray[];
 
+  private uniqueNames: string[];
+
   constructor(
     dim: number,
     maxHpPerPlayer: number,
@@ -151,6 +150,8 @@ class GameGenerator {
     this.xyTeams = [];
     this.fields = [];
     this.grid = [];
+
+    this.uniqueNames = [...names];
   }
 
   generatePlayer({
@@ -166,7 +167,9 @@ class GameGenerator {
     coordinates: number[];
     index: number;
   }): Player {
-    const randomName = getRandomPlayerName();
+    const randomName = getRandomPlayerName(this.uniqueNames);
+    this.uniqueNames = this.uniqueNames.filter(el => el !== randomName);
+
     const characterHpPoints = this.teamsHp[team][index];
     const characterAttackPoints = this.teamsAttack[team][index];
     const characterMoves = this.teamsMoves[team][index];

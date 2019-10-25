@@ -1,5 +1,6 @@
 import { Field } from "./fields/interface";
 import { Player } from "./teams/interface";
+import GameGenerator from "./gameGenerator";
 
 const RANGE = [
   [-1, 0],
@@ -104,6 +105,13 @@ export const isMoveInRange = (
   });
 
   return check;
+};
+
+export const initializeGame = (DIM: number) => {
+  const generator = new GameGenerator(DIM, 5, 4);
+  generator.createGameState();
+
+  return generator;
 };
 
 export default {};

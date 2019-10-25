@@ -40,12 +40,22 @@ const Content = styled.div`
 
 const teams = ["black", "White"];
 
-const Overlay = ({ isGameOn, activeTeam, dispatchResetGame }) => {
+const Overlay = ({
+  isGameFinished,
+  activeTeam,
+  dispatchResetGame,
+  playAgain
+}) => {
+  const playAgainHandler = () => {
+    playAgain();
+    dispatchResetGame();
+  };
+
   return (
-    <Container show>
+    <Container show={isGameFinished}>
       <Content>
         <h1>{`Team ${teams[activeTeam]} won`}</h1>
-        <Button type="button" onClick={() => dispatchResetGame()}>
+        <Button type="button" onClick={() => playAgainHandler()}>
           <GiCrossedSwords />
           Play Again
         </Button>
@@ -55,7 +65,7 @@ const Overlay = ({ isGameOn, activeTeam, dispatchResetGame }) => {
 };
 
 const mapStateToProps = state => ({
-  isGameOn: state.gameState.active,
+  isGameFinished: state.gameState.finished,
   activeTeam: state.gameState.activeTeam
 });
 
