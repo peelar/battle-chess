@@ -3,12 +3,8 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import Board from "../Board/Board";
 import { changePlayersState, changeFieldsState } from "../../redux/rootActions";
-import GameGenerator from "../../redux/gameGenerator";
 import { PAD_S, PAD_L, DESKTOP, DEFAULT } from "../../breakpoints";
-
-const DIM = 6;
-const generator = new GameGenerator(DIM, 5, 4);
-generator.createGameState();
+import { initializeGame } from "../../redux/helpers";
 
 const Container = styled.div`
   display: grid;
@@ -54,9 +50,11 @@ const Fields = styled.div`
 
 const Grid = ({ dispatchChangeTeams, dispatchChangeFields }) => {
   const [grid, changeGrid] = useState(null);
+  const DIM = 6;
+  const game = initializeGame(DIM);
 
   useEffect(() => {
-    const gamestate = generator.getGameState();
+    const gamestate = game.getGameState();
     const { initialTeams, initialFields, initialGrid } = gamestate;
 
     changeGrid(initialGrid);
