@@ -97,10 +97,15 @@ const Board = ({
       );
 
       dispatchTogglePlayerActiveness(uuid);
-      dispatchShowRangeFields({
-        player,
-        radiusFields: fieldsInRange
-      });
+
+      if (activePlayer) {
+        dispatchClearFieldsInRange();
+      } else {
+        dispatchShowRangeFields({
+          player,
+          radiusFields: fieldsInRange
+        });
+      }
     }
   };
 
