@@ -175,21 +175,26 @@ const FieldsGrid = ({
     });
     changeRound();
 
+    const previousFieldCharacterState = {
+      present: false,
+      team: null,
+      uuid: null
+    };
+    const nextFieldCharacterState = {
+      present: true,
+      team: activePlayer.team,
+      uuid: activePlayer.id
+    };
+
     // prev move
     dispatchFieldsMove({
-      targetId: targetPlayer.fieldId,
       targetField: { ...prevField },
-      updatedFieldState: { present: false, team: null, uuid: null }
+      characterField: previousFieldCharacterState
     });
     // next move
     dispatchFieldsMove({
-      targetId: fieldId,
       targetField,
-      updatedFieldState: {
-        present: true,
-        team: activePlayer.team,
-        uuid: activePlayer.id
-      }
+      characterField: nextFieldCharacterState
     });
 
     dispatchTogglePlayerActiveness(activePlayer.id);

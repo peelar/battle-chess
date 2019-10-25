@@ -17,9 +17,8 @@ export interface Field {
 }
 
 export interface Move {
-  targetId: number;
-  targetField: {};
-  updatedFieldState: {
+  targetField: Field;
+  characterField: {
     present: boolean;
     team: number;
     uuid: number;

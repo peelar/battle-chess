@@ -13,12 +13,13 @@ const fieldsState = (state = DEFAULT_STATE, action: Action): State => {
         fields: [...action.fields]
       };
     case fieldsActions.handleMove: {
-      const { targetId, targetField, updatedFieldState } = action.move;
+      const { targetField, characterField } = action.move;
+      const targetId = targetField.fieldId;
 
       const newFieldIndex = state.fields.findIndex(
         foundField => foundField.fieldId === targetId
       );
-      const newField = { ...targetField, character: { ...updatedFieldState } };
+      const newField = { ...targetField, character: { ...characterField } };
       const newFieldsState = replaceArrayItem(
         [...state.fields],
         newFieldIndex,
