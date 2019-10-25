@@ -11,6 +11,7 @@ const Container = styled.div`
 
   h1 {
     margin: 0;
+    font-size: 3vh;
   }
 `;
 

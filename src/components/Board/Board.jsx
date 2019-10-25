@@ -98,26 +98,28 @@ const FieldsGrid = ({
     }
   };
 
-  const handlePlayerAttack = foundPlayer => {
+  const handlePlayerAttack = victim => {
     const activePlayer = getActivePlayer(teams);
     const { attack } = activePlayer.attributes;
     if (
       !isMoveInRange(
         activePlayer.coordinates,
-        foundPlayer.coordinates,
+        victim.coordinates,
         activePlayer.attributes.range
       )
-    )
+    ) {
+      dispatchEvent({ text: `${victim.attributes.name} is out of reach.` });
       return;
+    }
 
     dispatchTogglePlayerActiveness(activePlayer.id);
-    const isPlayerDead = foundPlayer.attributes.currentHp - attack <= 0;
+    const isPlayerDead = victim.attributes.currentHp - attack <= 0;
 
     if (isPlayerDead) {
-      dispatchPlayerKill({ player: foundPlayer });
+      dispatchPlayerKill({ player: victim });
     } else {
       dispatchPlayerAttack({
-        victimId: foundPlayer.id,
+        victimId: victim.id,
         attackerId: activePlayer.id,
         damage: attack
       });
