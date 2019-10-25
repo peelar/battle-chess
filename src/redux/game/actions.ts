@@ -22,3 +22,7 @@ export const addGameEvent = (
 export const finishGame = (): { type: gameActions } => ({
   type: gameActions.finishGame
 });
+
+export const resetGame = (): { type: gameActions } => ({
+  type: gameActions.reset
+});

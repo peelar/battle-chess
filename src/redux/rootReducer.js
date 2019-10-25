@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import { combineReducers } from "redux";
 import teamsState from "./teams/reducers";
 import fieldsState from "./fields/reducers";
@@ -9,6 +11,12 @@ const appReducer = combineReducers({
   gameState
 });
 
-const rootReducer = (state, action) => appReducer(state, action);
+const rootReducer = (state, action) => {
+  if (action.type === "__RESET") {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 export default rootReducer;

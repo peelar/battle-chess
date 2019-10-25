@@ -2,9 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import "./App.css";
 import styled, { createGlobalStyle, css } from "styled-components";
+import { GiCrossedSwords } from "react-icons/gi";
 import Grid from "./components/Grid/Grid";
 import Hud from "./components/Hud/Hud";
 import { MOBILE_S, DEFAULT, XL } from "./breakpoints";
+import Button from "./components/Button/Button";
+import { resetGame } from "./redux/rootActions";
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -47,6 +50,13 @@ const Overlay = styled.div`
   }
 `;
 
+const Content = styled.div`
+  padding: 1rem;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+`;
+
 const MainGrid = styled.main`
   display: grid;
   grid-template-rows: 1fr auto;
@@ -54,11 +64,17 @@ const MainGrid = styled.main`
 
 const teams = ["black", "White"];
 
-function App({ isGameOn, activeTeam }) {
+function App({ isGameOn, activeTeam, dispatchResetGame }) {
   return (
     <>
-      <Overlay show={!isGameOn}>
-        <h1>{`Team ${teams[activeTeam]} won`}</h1>
+      <Overlay show>
+        <Content>
+          <h1>{`Team ${teams[activeTeam]} won`}</h1>
+          <Button type="button" onClick={() => dispatchResetGame()}>
+            <GiCrossedSwords />
+            Wanna play again?
+          </Button>
+        </Content>
       </Overlay>
       <MainGrid>
         <GlobalStyle />
@@ -74,4 +90,11 @@ const mapStateToProps = state => ({
   activeTeam: state.gameState.activeTeam
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  dispatchResetGame: () => dispatch(resetGame())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
