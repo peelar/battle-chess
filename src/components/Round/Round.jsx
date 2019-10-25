@@ -11,6 +11,7 @@ const Counter = styled.div`
   h1 {
     margin: 0;
     font-weight: normal;
+    font-size: 3vh;
   }
 `;
 
