@@ -1,6 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import "./App.css";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle, css } from "styled-components";
 import Grid from "./components/Grid/Grid";
 import Hud from "./components/Hud/Hud";
 import { MOBILE_S, DEFAULT, XL } from "./breakpoints";
@@ -20,19 +21,57 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const Overlay = styled.div`
+  ${props =>
+    props.show
+      ? css`
+          display: flex;
+        `
+      : css`
+          display: none;
+        `};
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  filter: opacity(0.75);
+  z-index: 15;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    font-size: 3rem;
+  }
+`;
+
 const MainGrid = styled.main`
   display: grid;
   grid-template-rows: 1fr auto;
 `;
 
-function App() {
+const teams = ["black", "White"];
+
+function App({ isGameOn, activeTeam }) {
   return (
-    <MainGrid>
-      <GlobalStyle />
-      <Hud show />
-      <Grid />
-    </MainGrid>
+    <>
+      <Overlay show={!isGameOn}>
+        <h1>{`Team ${teams[activeTeam]} won`}</h1>
+      </Overlay>
+      <MainGrid>
+        <GlobalStyle />
+        <Hud show />
+        <Grid />
+      </MainGrid>
+    </>
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  isGameOn: state.gameState.active,
+  activeTeam: state.gameState.activeTeam
+});
+
+export default connect(mapStateToProps)(App);

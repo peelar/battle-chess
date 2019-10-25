@@ -5,7 +5,8 @@ import { State, Action } from "./interface";
 export const DEFAULT_STATE: State = {
   round: 0,
   activeTeam: 0,
-  events: []
+  events: [],
+  active: true
 };
 
 const gameState = (state = DEFAULT_STATE, action: Action): State => {
@@ -24,6 +25,11 @@ const gameState = (state = DEFAULT_STATE, action: Action): State => {
       return {
         ...state,
         events: [...state.events, { id: uuid4(), ...action.payload }]
+      };
+    case gameActions.finishGame:
+      return {
+        ...state,
+        active: false
       };
 
     default:

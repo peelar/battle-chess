@@ -22,6 +22,13 @@ const generateRangeMultiplier = (radius: number): any[] => {
   return rangeMultiplier;
 };
 
+export const checkBothTeamsAlive = (teams: Player[]) => {
+  return (
+    teams.filter(el => el.team === 0).length > 0 &&
+    teams.filter(el => el.team === 1).length > 0
+  );
+};
+
 export const replaceArrayItem = (array, index, item): [] =>
   Object.assign([], array, { [index]: item });
 

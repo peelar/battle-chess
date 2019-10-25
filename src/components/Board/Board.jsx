@@ -6,7 +6,8 @@ import {
   getActivePlayer,
   getMoveCharacterData,
   isMoveInRange,
-  getFieldsInRange
+  getFieldsInRange,
+  checkBothTeamsAlive
 } from "../../redux/helpers";
 import Unit from "../Unit/Unit";
 import {
@@ -21,10 +22,11 @@ import {
   attackPlayer,
   killPlayer,
   setFieldsInRange,
-  clearFieldsInRange
+  clearFieldsInRange,
+  finishGame
 } from "../../redux/rootActions";
 
-const FieldsGrid = ({
+const Board = ({
   dispatchTogglePlayerActiveness,
   activeTeam,
   dispatchChangePlayerPosition,
@@ -38,7 +40,8 @@ const FieldsGrid = ({
   dispatchPlayerAttack,
   dispatchPlayerKill,
   dispatchShowRangeFields,
-  dispatchClearFieldsInRange
+  dispatchClearFieldsInRange,
+  dispatchFinishGame
 }) => {
   const [fields, changeFields] = useState(null);
   const [teams, changePlayers] = useState(null);
@@ -46,6 +49,10 @@ const FieldsGrid = ({
   const [roundActiveTeam, changeRoundActiveTeam] = useState(null);
 
   useEffect(() => {
+    if (roundMoveCount > 1) {
+      console.log(checkBothTeamsAlive(teamsState));
+      if (!checkBothTeamsAlive(teamsState)) dispatchFinishGame();
+    }
     changePlayers(teamsState);
   }, [teamsState]);
 
@@ -249,10 +256,11 @@ const mapDispatchToProps = dispatch => ({
   dispatchPlayerAttack: params => dispatch(attackPlayer(params)),
   dispatchPlayerKill: params => dispatch(killPlayer(params)),
   dispatchShowRangeFields: params => dispatch(setFieldsInRange(params)),
-  dispatchClearFieldsInRange: () => dispatch(clearFieldsInRange())
+  dispatchClearFieldsInRange: () => dispatch(clearFieldsInRange()),
+  dispatchFinishGame: () => dispatch(finishGame())
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FieldsGrid);
+)(Board);

@@ -18,3 +18,7 @@ export const addGameEvent = (
     ...params
   }
 });
+
+export const finishGame = (): { type: gameActions } => ({
+  type: gameActions.finishGame
+});

@@ -16,7 +16,8 @@ export enum fieldsActions {
 export enum gameActions {
   incrementRound = "__INCREMENT_ROUND_GAME",
   changeActiveTeam = "__CHANGE_TEAM_GAME",
-  createEvent = "__ADD_EVENT_GAME"
+  createEvent = "__ADD_EVENT_GAME",
+  finishGame = "__FINISH_GAME"
 }
 
 export default {};
