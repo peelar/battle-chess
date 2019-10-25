@@ -36,9 +36,10 @@ const Content = styled.div`
   display: grid;
   align-items: center;
   justify-items: center;
+  text-align: center;
 `;
 
-const teams = ["black", "White"];
+const teams = ["Black", "White"];
 
 const Overlay = ({
   isGameFinished,
