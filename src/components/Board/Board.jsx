@@ -50,7 +50,6 @@ const Board = ({
 
   useEffect(() => {
     if (roundMoveCount > 1) {
-      console.log(checkBothTeamsAlive(teamsState));
       if (!checkBothTeamsAlive(teamsState)) dispatchFinishGame();
     }
     changePlayers(teamsState);
