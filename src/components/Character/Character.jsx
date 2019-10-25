@@ -135,9 +135,13 @@ const Caption = styled.p`
 const Info = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
-  grid-gap: 0.3rem;
+  grid-gap: 0.25rem;
   font-size: 1.05rem;
   align-items: center;
+
+  @media (min-width: ${DEFAULT}) {
+    grid-gap: 0.3rem;
+  }
 `;
 
 const Attack = styled.div`
