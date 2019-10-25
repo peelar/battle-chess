@@ -15,8 +15,12 @@ const Container = styled.div`
   justify-items: center;
   align-items: center;
   background: whitesmoke;
+  height: 80vh;
   filter: opacity(0.8);
-  height: 100vh;
+
+  @media (min-width: ${DESKTOP}) {
+    height: 70vh;
+  }
 `;
 
 const Fields = styled.div`
