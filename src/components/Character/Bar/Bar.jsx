@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import uuid4 from "uuid";
+import { DEFAULT, DESKTOP } from "../../../breakpoints";
 
 const HealthBar = styled.ul`
   list-style: none;
@@ -14,9 +15,17 @@ const HealthBar = styled.ul`
 
 const Point = styled.li`
   border: 1px solid black;
-  padding: 0.3rem;
+  padding: 1.15vw;
   background-color: #c5beaa;
   border-radius: 50%;
+
+  @media (min-width: ${DEFAULT}) {
+    padding: 0.45rem;
+  }
+
+  @media (min-width: ${DESKTOP}) {
+    padding: 0.3rem;
+  }
 
   ${props =>
     props.full &&
@@ -27,10 +36,17 @@ const Point = styled.li`
 
 const Bar = ({ currentHp, maxHp, color }) => {
   const points = Array(maxHp).fill(0);
+  const size = maxHp >= 4 ? "0.25" : "0.3";
+
   return (
     <HealthBar>
       {points.map((el, index) => (
-        <Point key={uuid4()} full={index < currentHp} color={color} />
+        <Point
+          key={uuid4()}
+          size={size}
+          full={index < currentHp}
+          color={color}
+        />
       ))}
     </HealthBar>
   );
