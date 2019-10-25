@@ -100,7 +100,7 @@ const FieldsGrid = ({
 
   const handlePlayerAttack = foundPlayer => {
     const activePlayer = getActivePlayer(teams);
-    const { name, attack } = activePlayer.attributes;
+    const { attack } = activePlayer.attributes;
     if (
       !isMoveInRange(
         activePlayer.coordinates,
@@ -110,15 +110,11 @@ const FieldsGrid = ({
     )
       return;
 
-    dispatchEvent({ text: `${name} attacks ${foundPlayer.attributes.name}!` });
     dispatchTogglePlayerActiveness(activePlayer.id);
     const isPlayerDead = foundPlayer.attributes.currentHp - attack <= 0;
 
     if (isPlayerDead) {
       dispatchPlayerKill({ player: foundPlayer });
-      dispatchEvent({
-        text: `${name} killed ${foundPlayer.attributes.name} :(`
-      });
     } else {
       dispatchPlayerAttack({
         victimId: foundPlayer.id,
@@ -151,8 +147,14 @@ const FieldsGrid = ({
     const activePlayer = getActivePlayer(teams);
     if (!activePlayer) return;
 
+    const { name } = activePlayer.attributes;
     const gotMoves = activePlayer.attributes.moves > 0;
-    if (!gotMoves) return;
+    if (!gotMoves) {
+      dispatchEvent({ text: `${name} doesn't have any moves left.` });
+      dispatchTogglePlayerActiveness(activePlayer.id);
+      dispatchClearFieldsInRange();
+      return;
+    }
 
     const { targetField, targetPlayer, prevField } = getMoveCharacterData(
       teams,
@@ -199,13 +201,6 @@ const FieldsGrid = ({
 
     dispatchTogglePlayerActiveness(activePlayer.id);
     dispatchClearFieldsInRange();
-
-    const coordinatesText = `[${targetField.point[0]}, ${
-      targetField.point[1]
-    }]`;
-    dispatchEvent({
-      text: `${activePlayer.attributes.name} moves to ${coordinatesText}`
-    });
   };
 
   return grid.map(point => {

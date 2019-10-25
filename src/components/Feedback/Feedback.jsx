@@ -29,6 +29,10 @@ const Feedback = ({ events }) => {
         }, 250);
       }
     });
+
+    setTimeout(() => {
+      dispatchAnimation(false);
+    }, 2500);
   }, [events]);
 
   const { xy, opacity } = useSpring({
