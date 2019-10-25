@@ -128,6 +128,9 @@ const Board = ({
 
     if (isPlayerDead) {
       dispatchPlayerKill({ player: victim });
+      dispatchEvent({
+        text: `${victim.attributes.name} got killed!`
+      });
     } else {
       dispatchPlayerAttack({
         victimId: victim.id,
