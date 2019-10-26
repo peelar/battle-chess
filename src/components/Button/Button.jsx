@@ -16,6 +16,10 @@ const Button = styled.button`
     color: whitesmoke;
   }
 
+  &:focus {
+    outline: none;
+  }
+
   svg {
     width: 2rem;
     height: 2rem;
