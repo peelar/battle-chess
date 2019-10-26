@@ -7,12 +7,32 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en_US: {
     translation: {
-      play: "Play Battle Chess"
+      play: "Play Battle Chess",
+      icons_info: "Icons made by",
+      icons_from: "from",
+      team_won: "Team {{team}} won",
+      team_0: "Black",
+      team_1: "White",
+      round: "Round",
+      team: "Team",
+      out_of_reach: "{{name}} is out of reach.",
+      killed: "{{name}} got killed.",
+      no_moves: "{{name}}'s got no moves left."
     }
   },
   pl_PL: {
     translation: {
-      play: "Zagraj w Battle Chess"
+      play: "Zagraj w Battle Chess",
+      icons_info: "Ikony stworzone przez",
+      icons_from: "pobrane z",
+      team_won: "{{team}} zwyciężyli",
+      team_0: "Biali",
+      team_1: "Czarni",
+      round: "Runda",
+      team: "Drużyna",
+      out_of_reach: "{{name}} jest poza zasięgiem.",
+      killed: "Zabito {{name}}.",
+      no_moves: "{{name}} nie ma więcej ruchów."
     }
   }
 };

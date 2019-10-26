@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const Container = styled.footer`
   position: absolute;
@@ -17,14 +18,15 @@ const Container = styled.footer`
 `;
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <Container>
       <span>
-        Icons made by
+        {t("icons_info")}
         <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
           Freepik
         </a>
-        from
+        {t("icons_from")}
         <a href="https://www.flaticon.com/" title="Flaticon">
           www.flaticon.com
         </a>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import uuid4 from "uuid";
+import { useTranslation } from "react-i18next";
 import {
   getMatchingFieldsField,
   getActivePlayer,
@@ -43,6 +44,7 @@ const Board = ({
   dispatchClearFieldsInRange,
   dispatchFinishGame
 }) => {
+  const { t } = useTranslation();
   const [fields, changeFields] = useState(null);
   const [teams, changePlayers] = useState(null);
   const [roundMoveCount, changeRoundMoveCount] = useState(0);
@@ -119,7 +121,9 @@ const Board = ({
         activePlayer.attributes.range
       )
     ) {
-      dispatchEvent({ text: `${victim.attributes.name} is out of reach.` });
+      dispatchEvent({
+        text: t("out_of_reach", { name: victim.attributes.name })
+      });
       return;
     }
 
@@ -129,7 +133,7 @@ const Board = ({
     if (isPlayerDead) {
       dispatchPlayerKill({ player: victim });
       dispatchEvent({
-        text: `${victim.attributes.name} got killed!`
+        text: t("killed", { name: victim.attributes.name })
       });
     } else {
       dispatchPlayerAttack({
@@ -166,7 +170,9 @@ const Board = ({
     const { name } = activePlayer.attributes;
     const gotMoves = activePlayer.attributes.moves > 0;
     if (!gotMoves) {
-      dispatchEvent({ text: `${name} doesn't have any moves left.` });
+      dispatchEvent({
+        text: t("no_moves", { name })
+      });
       dispatchTogglePlayerActiveness(activePlayer.id);
       dispatchClearFieldsInRange();
       return;

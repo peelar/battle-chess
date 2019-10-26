@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Counter = styled.div`
   display: ${props => (props.show ? "flex" : "none")};
@@ -15,18 +16,22 @@ const Counter = styled.div`
   }
 `;
 
-const Round = ({ show, count, team }) => (
-  <Counter show={show}>
-    <h1>
-      <strong>Round: </strong>
-      {count}
-    </h1>
-    <h1>
-      <strong>Team: </strong>
-      {`${team === 0 ? "Black" : "White"}`}
-    </h1>
-  </Counter>
-);
+const Round = ({ show, count, team }) => {
+  const { t } = useTranslation();
+
+  return (
+    <Counter show={show}>
+      <h1>
+        <strong>{`${t("round")}: `}</strong>
+        {count}
+      </h1>
+      <h1>
+        <strong>{`${t("team")}: `}</strong>
+        {`${team === 0 ? t("team_0") : t("team_1")}`}
+      </h1>
+    </Counter>
+  );
+};
 
 const mapStateToProps = state => ({
   count: state.gameState.round,

@@ -2,6 +2,7 @@ import React from "react";
 import { GiCrossedSwords } from "react-icons/gi";
 import styled, { css } from "styled-components";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 import Button from "../Button/Button";
 import { resetGame } from "../../redux/rootActions";
 
@@ -39,14 +40,14 @@ const Content = styled.div`
   text-align: center;
 `;
 
-const teams = ["Black", "White"];
-
 const Overlay = ({
   isGameFinished,
   activeTeam,
   dispatchResetGame,
   playAgain
 }) => {
+  const { t } = useTranslation();
+  const teams = [t("team_0"), t("team_1")];
   const playAgainHandler = () => {
     playAgain();
     dispatchResetGame();
@@ -55,7 +56,7 @@ const Overlay = ({
   return (
     <Container show={isGameFinished}>
       <Content>
-        <h1>{`Team ${teams[activeTeam]} won`}</h1>
+        <h1>{t("team_won", { team: teams[activeTeam] })}</h1>
         <Button type="button" onClick={() => playAgainHandler()}>
           <GiCrossedSwords />
           Play Again
