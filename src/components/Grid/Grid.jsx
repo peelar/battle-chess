@@ -50,18 +50,25 @@ const Fields = styled.div`
 
 const Grid = ({ dispatchChangeTeams, dispatchChangeFields }) => {
   const [grid, changeGrid] = useState(null);
+  const [engine, setEngine] = useState(null);
   const DIM = 6;
-  const game = initializeGame(DIM);
 
   useEffect(() => {
-    const gamestate = game.getGameState();
-    const { initialTeams, initialFields, initialGrid } = gamestate;
+    const game = initializeGame(DIM);
+    setEngine(game);
+  }, []);
 
-    changeGrid(initialGrid);
+  useEffect(() => {
+    if (engine !== null) {
+      const gamestate = engine.getGameState();
+      const { initialTeams, initialFields, initialGrid } = gamestate;
 
-    dispatchChangeTeams(initialTeams);
-    dispatchChangeFields(initialFields);
-  }, [dispatchChangeFields, dispatchChangeTeams]);
+      changeGrid(initialGrid);
+
+      dispatchChangeTeams(initialTeams);
+      dispatchChangeFields(initialFields);
+    }
+  }, [dispatchChangeFields, dispatchChangeTeams, engine]);
 
   return (
     <Container>

@@ -126,7 +126,7 @@ class GameGenerator {
     dim: number,
     maxHpPerPlayer: number,
     maxAttackPerPlayer: number,
-    maxMovesPerPlayer = 20,
+    maxMovesPerPlayer = 15,
     maxDistancePerPlayer = 2
   ) {
     this.dim = dim;
@@ -209,9 +209,11 @@ class GameGenerator {
     const maxTeamProp = (this[perPlayerMax] - 1) * this.dim;
     const properties = Array.from(Array(this.dim)).fill(1);
 
-    let teamSum = this[teamMax]
-      ? this[teamMax]
-      : getRandomInt(minTeamProp, maxTeamProp);
+    let teamSum =
+      this[teamMax] !== null
+        ? this[teamMax]
+        : getRandomInt(minTeamProp, maxTeamProp);
+
     this[teamMax] = teamSum;
 
     let counter = 0;
