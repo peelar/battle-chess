@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
@@ -57,13 +57,17 @@ const FlagButton = styled.button`
 
 const Nav = () => {
   const { i18n } = useTranslation();
-  const [localLanguage, changeLocalLanguage] = useState(i18n.language);
+  const [localLanguage, changeLocalLanguage] = useState("en_US");
 
   const changeLanguage = () => {
     const newLanguage = localLanguage === "en_US" ? "pl_PL" : "en_US";
     changeLocalLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
   };
+
+  useEffect(() => {
+    changeLocalLanguage(i18n.language);
+  }, [i18n.language]);
 
   return (
     <Navbar>
