@@ -51,7 +51,7 @@ const FlagButton = styled.button`
   cursor: pointer;
 
   svg {
-    width: 3vw;
+    width: 4vh;
   }
 `;
 
