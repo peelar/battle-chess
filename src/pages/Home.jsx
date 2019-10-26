@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { useSpring, animated, config } from "react-spring";
+// import { useSpring, animated, config } from "react-spring";
 import { GiCrossedSwords } from "react-icons/gi";
+import { useTranslation } from "react-i18next";
 import Button from "../components/Button/Button";
 import Nav from "../components/Nav/Nav";
 import Footer from "../components/Footer/Footer";
@@ -18,13 +19,14 @@ const HomeScreen = styled.div`
 
 const Home = () => {
   const history = useHistory();
+  const { t } = useTranslation();
 
   return (
     <HomeScreen>
       <Nav />
       <Button type="button" onClick={() => history.push("/game")}>
         <GiCrossedSwords />
-        Play Battle Chess
+        {t("play")}
       </Button>
       <Footer />
     </HomeScreen>
