@@ -5,9 +5,9 @@ import { useTranslation } from "react-i18next";
 const Container = styled.footer`
   position: absolute;
   bottom: 0;
-  left: 0;
+  right: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0;
   font-size: 0.75rem;
   color: #c7c6c4;
 
@@ -17,11 +17,15 @@ const Container = styled.footer`
   }
 `;
 
+const Content = styled.div`
+  padding: 0 2rem;
+`;
+
 const Footer = () => {
   const { t } = useTranslation();
   return (
     <Container>
-      <span>
+      <Content>
         {t("icons_info")}
         <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
           Freepik
@@ -30,7 +34,7 @@ const Footer = () => {
         <a href="https://www.flaticon.com/" title="Flaticon">
           www.flaticon.com
         </a>
-      </span>
+      </Content>
     </Container>
   );
 };
