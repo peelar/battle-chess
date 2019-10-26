@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
@@ -64,10 +64,6 @@ const Nav = () => {
     changeLocalLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
   };
-
-  useEffect(() => {
-    changeLocalLanguage(i18n.language);
-  }, [i18n.language]);
 
   return (
     <Navbar>
