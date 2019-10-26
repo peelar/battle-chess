@@ -52,8 +52,8 @@ const FlagButton = styled.button`
   background-color: transparent;
   cursor: pointer;
 
-  svg {
-    width: 3vw;
+  img {
+    width: 5vh;
   }
 `;
 
@@ -75,7 +75,7 @@ const Nav = () => {
     <Navbar>
       <Container>
         <FlagButton type="button" onClick={changeLanguage}>
-          <SVG src={flags[localLanguage]} />
+          <img alt="Flag" src={flags[localLanguage]} />
         </FlagButton>
         <LinkList>
           <li>
