@@ -5,8 +5,6 @@ import styled from "styled-components";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import SVG from "react-inlinesvg";
-import polishFlag from "../../assets/polish.svg";
-import englishFlag from "../../assets/english.svg";
 
 const Navbar = styled.nav`
   display: flex;
@@ -60,8 +58,10 @@ const FlagButton = styled.button`
 const Nav = () => {
   const { i18n } = useTranslation();
   const flags = {
-    en_US: polishFlag,
-    pl_PL: englishFlag
+    en_US:
+      "https://res.cloudinary.com/dbqh97mz3/image/upload/v1572086062/Battle%20Chess/polish.svg",
+    pl_PL:
+      "https://res.cloudinary.com/dbqh97mz3/image/upload/v1572086062/Battle%20Chess/english.svg"
   };
   const [localLanguage, changeLocalLanguage] = useState(i18n.language);
 
@@ -75,7 +75,7 @@ const Nav = () => {
     <Navbar>
       <Container>
         <FlagButton type="button" onClick={changeLanguage}>
-          <SVG src={flags[localLanguage]} />
+          <SVG src={flags[localLanguage]} title="Country flag" />
         </FlagButton>
         <LinkList>
           <li>

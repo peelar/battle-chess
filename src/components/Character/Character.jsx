@@ -6,8 +6,6 @@ import { GiBattleAxe } from "react-icons/gi";
 // import { useSpring, animated } from "react-spring";
 
 import SVG from "react-inlinesvg";
-import Knight from "../../assets/knight.svg";
-import Wizard from "../../assets/wizard.svg";
 import { DEFAULT, MOBILE_S, PAD_L, DESKTOP } from "../../breakpoints";
 import Bar from "./Bar/Bar";
 
@@ -203,7 +201,9 @@ const Character = ({
   const { name, maxHp, currentHp, attack, moves, range } = character.attributes;
 
   const isDistanceCharacter = range !== 1;
-  const heroPath = isDistanceCharacter ? Wizard : Knight;
+  const heroPath = isDistanceCharacter
+    ? "https://res.cloudinary.com/dbqh97mz3/image/upload/c_scale,w_250/v1572086062/Battle%20Chess/wizard.svg"
+    : "https://res.cloudinary.com/dbqh97mz3/image/upload/c_scale,w_250/v1572086062/Battle%20Chess/knight.svg";
   const isSecondary = team === 1;
 
   const healthLevel = getHealthLevel({ currentHp, maxHp });
