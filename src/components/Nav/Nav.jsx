@@ -57,12 +57,6 @@ const FlagButton = styled.button`
 
 const Nav = () => {
   const { i18n } = useTranslation();
-  const flags = {
-    en_US:
-      "https://res.cloudinary.com/dbqh97mz3/image/upload/v1572086062/Battle%20Chess/polish.svg",
-    pl_PL:
-      "https://res.cloudinary.com/dbqh97mz3/image/upload/v1572086062/Battle%20Chess/english.svg"
-  };
   const [localLanguage, changeLocalLanguage] = useState(i18n.language);
 
   const changeLanguage = () => {
@@ -75,7 +69,18 @@ const Nav = () => {
     <Navbar>
       <Container>
         <FlagButton type="button" onClick={changeLanguage}>
-          <SVG src={flags[localLanguage]} title="Country flag" />
+          {localLanguage === "en_US" && (
+            <SVG
+              src="https://res.cloudinary.com/dbqh97mz3/image/upload/v1572086062/Battle%20Chess/polish.svg"
+              title="Polish flag"
+            />
+          )}
+          {localLanguage === "pl_PL" && (
+            <SVG
+              src="https://res.cloudinary.com/dbqh97mz3/image/upload/v1572086062/Battle%20Chess/english.svg"
+              title="English flag"
+            />
+          )}
         </FlagButton>
         <LinkList>
           <li>
