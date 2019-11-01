@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useSpring, animated, config } from "react-spring";
 import Grid from "../components/Grid/Grid";
 import Hud from "../components/Hud/Hud";
 import Overlay from "../components/Overlay/Overlay";
 
-const MainGrid = styled.main`
+const MainGrid = styled(animated.main)`
   display: grid;
   grid-template-rows: 1fr auto;
 `;
@@ -23,10 +24,16 @@ function Game() {
     changeGameKey(generateGameKey(gameNumber));
   }, [gameNumber]);
 
+  const fadeIn = useSpring({
+    from: { opacity: 0 },
+    opacity: 1,
+    config: config.gentle
+  });
+
   return (
     <>
       <Overlay playAgain={playAgainHandler} />
-      <MainGrid>
+      <MainGrid style={fadeIn}>
         <Hud show />
         <Grid key={gameKey} />
       </MainGrid>
