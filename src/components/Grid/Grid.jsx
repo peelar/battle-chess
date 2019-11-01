@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { useSpring, animated, config } from "react-spring";
 import Board from "../Board/Board";
 import { changePlayersState, changeFieldsState } from "../../redux/rootActions";
 import { PAD_S, PAD_L, DESKTOP, DEFAULT } from "../../breakpoints";
 import { initializeGame } from "../../redux/helpers";
 
-const Container = styled.div`
+const Container = styled(animated.div)`
   display: grid;
   justify-items: center;
   align-items: center;
@@ -53,6 +54,12 @@ const Grid = ({ dispatchChangeTeams, dispatchChangeFields }) => {
   const [engine, setEngine] = useState(null);
   const DIM = 6;
 
+  const fadeIn = useSpring({
+    from: { opacity: 0 },
+    opacity: 1,
+    config: config.gentle
+  });
+
   useEffect(() => {
     const game = initializeGame(DIM);
     setEngine(game);
@@ -71,7 +78,7 @@ const Grid = ({ dispatchChangeTeams, dispatchChangeFields }) => {
   }, [dispatchChangeFields, dispatchChangeTeams, engine]);
 
   return (
-    <Container>
+    <Container style={fadeIn}>
       <Fields xdim={DIM} ydim={DIM}>
         <Board grid={grid} />
       </Fields>
