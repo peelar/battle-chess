@@ -18,6 +18,7 @@ const Navbar = styled.nav`
   background-color: transparent;
   color: #c7c6c4;
   padding: 0;
+  z-index: 15;
 `;
 
 const LinkList = styled.ul`
