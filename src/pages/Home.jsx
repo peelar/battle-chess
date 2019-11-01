@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { GiCrossedSwords } from "react-icons/gi";
 import { useTranslation } from "react-i18next";
+import { useSpring, animated } from "react-spring";
 import Button from "../components/Button/Button";
 import Nav from "../components/Nav/Nav";
 import Footer from "../components/Footer/Footer";
@@ -17,12 +17,8 @@ const HomeScreen = styled.div`
   justify-content: space-around;
 `;
 
-const NavLink = styled(Link)`
+const FadeContainer = styled(animated.div)`
   z-index: 20;
-
-  &:hover {
-    text-decoration: none;
-  }
 `;
 
 const BorderButton = styled(Button)`
@@ -36,17 +32,20 @@ const BorderButton = styled(Button)`
 const Home = () => {
   const { t } = useTranslation();
   const [on, toggle] = useState(false);
+  const fadeOut = useSpring({
+    opacity: on ? 0 : 1
+  });
 
   return (
     <HomeScreen>
-      <Nav />
+      <Nav animation={fadeOut} />
       <Panes on={on} />
-      <NavLink to="/game" onClick={() => toggle(true)}>
-        <BorderButton type="button">
+      <FadeContainer style={fadeOut}>
+        <BorderButton type="button" onClick={() => toggle(true)}>
           <GiCrossedSwords />
           {t("play")}
         </BorderButton>
-      </NavLink>
+      </FadeContainer>
       <Footer />
     </HomeScreen>
   );

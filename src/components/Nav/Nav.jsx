@@ -5,9 +5,10 @@ import styled from "styled-components";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import SVG from "react-inlinesvg";
+import { animated } from "react-spring";
 import { englishFlag, polishFlag } from "../../assets/assets";
 
-const Navbar = styled.nav`
+const Navbar = styled(animated.nav)`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,6 +31,8 @@ const LinkList = styled.ul`
 
   svg {
     fill: #c7c6c4;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   li {
@@ -57,7 +60,7 @@ const FlagButton = styled.button`
   }
 `;
 
-const Nav = () => {
+const Nav = ({ animation }) => {
   const { i18n } = useTranslation();
   const [localLanguage, changeLocalLanguage] = useState("en_US");
 
@@ -83,7 +86,7 @@ const Nav = () => {
   };
 
   return (
-    <Navbar>
+    <Navbar style={animation}>
       <Container>
         <FlagButton type="button" onClick={changeLanguage}>
           <SVG src={flags[localLanguage].flag} />

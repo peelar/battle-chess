@@ -3,6 +3,7 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const PanesContainer = styled.div`
   position: absolute;
@@ -30,9 +31,17 @@ const PaneRight = styled(animated.div)`
   border-left: 1px solid black;
 `;
 
+const redirectToGame = history => {
+  setTimeout(() => {
+    history.push("/game");
+  }, 750);
+};
+
 const Panes = ({ on }) => {
+  const history = useHistory();
   const { x } = useSpring({
-    x: on ? 100 : 0
+    x: on ? 100 : 0,
+    onRest: on && redirectToGame(history)
   });
 
   return (
