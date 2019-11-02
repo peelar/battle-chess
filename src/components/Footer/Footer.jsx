@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
 const Container = styled.footer`
+  display: flex;
+  flex-direction: row-reverse;
   position: absolute;
   bottom: 0;
   right: 0;

@@ -4,6 +4,7 @@ import React from "react";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import Footer from "../Footer/Footer";
 
 const PanesContainer = styled.div`
   position: absolute;
@@ -29,6 +30,7 @@ const PaneRight = styled(animated.div)`
   height: 100%;
   background-color: gray;
   border-left: 1px solid black;
+  position: relative;
 `;
 
 const redirectToGame = history => {
@@ -55,7 +57,9 @@ const Panes = ({ on }) => {
         style={{
           transform: x.interpolate(x => `translate3d(${x}%, 0, 0)`)
         }}
-      />
+      >
+        <Footer />
+      </PaneRight>
     </PanesContainer>
   );
 };

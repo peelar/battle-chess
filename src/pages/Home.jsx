@@ -46,7 +46,6 @@ const Home = () => {
           {t("play")}
         </BorderButton>
       </FadeContainer>
-      <Footer />
     </HomeScreen>
   );
 };
