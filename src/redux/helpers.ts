@@ -1,6 +1,7 @@
 import { Field } from "./fields/interface";
-import { Player } from "./teams/interface";
+import { Player, PlayerAttributes } from "./teams/interface";
 import GameGenerator from "./gameGenerator";
+import * as icons from "../assets/assets";
 
 const RANGE = [
   [-1, 0],
@@ -112,6 +113,30 @@ export const initializeGame = (DIM: number) => {
   generator.createGameState();
 
   return generator;
+};
+
+const characterTests = {
+  wizard: attributes => attributes.range > 1,
+  spartan: attributes => attributes.range > 2
+};
+
+const testCharacterRole = (attributes: PlayerAttributes) => {
+  const tests = Object.keys(characterTests).map(test => {
+    const isValid = characterTests[test];
+    return { role: test, valid: isValid(attributes) };
+  });
+
+  const character = tests.find(test => test.valid === true);
+  const role = character ? character.role : "knight";
+
+  return role;
+};
+
+export const getCharacterRole = (attributes: PlayerAttributes) => {
+  const role = testCharacterRole(attributes);
+  const heroPath = icons[role];
+
+  return heroPath;
 };
 
 export default {};

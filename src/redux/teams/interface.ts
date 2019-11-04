@@ -1,6 +1,15 @@
 import { teamsActions } from "../rootTypes";
 import { Field } from "../fields/interface";
 
+export interface PlayerAttributes {
+  name: string;
+  maxHp: number;
+  currentHp: number;
+  attack: number;
+  moves: number;
+  range: number;
+}
+
 export interface Player {
   uuid?: number;
   active: boolean;
@@ -8,14 +17,7 @@ export interface Player {
   coordinates: number[];
   fieldId: number;
   team: number;
-  attributes: {
-    name: string;
-    maxHp: number;
-    currentHp: number;
-    attack: number;
-    moves: number;
-    range: number;
-  };
+  attributes: PlayerAttributes;
 }
 
 export type Activeness = {
