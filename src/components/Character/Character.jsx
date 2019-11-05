@@ -7,7 +7,7 @@ import SVG from "react-inlinesvg";
 import { getCharacterRole } from "../../redux/helpers";
 // import { useSpring, animated } from "react-spring";
 
-import { DEFAULT, MOBILE_S, PAD_L, DESKTOP } from "../../breakpoints";
+import { MOBILE_LARGE, MOBILE_SMALL, PAD_LARGE, DESKTOP_SMALL } from "../../breakpoints";
 import Bar from "./Bar/Bar";
 
 const Dot = styled.div`
@@ -29,22 +29,22 @@ const Dot = styled.div`
   position: relative;
   border: 2px solid black;
 
-  @media (min-width: ${MOBILE_S}) {
+  @media (min-width: ${MOBILE_SMALL}) {
     max-height: 50px;
     max-width: 50px;
   }
 
-  @media (min-width: ${DEFAULT}) {
+  @media (min-width: ${MOBILE_LARGE}) {
     max-height: 70px;
     max-width: 70px;
   }
 
-  @media (min-width: ${PAD_L}) {
+  @media (min-width: ${PAD_LARGE}) {
     max-height: 82px;
     max-width: 82px;
   }
 
-  @media (min-width: ${DESKTOP}) {
+  @media (min-width: ${DESKTOP_SMALL}) {
     max-height: 70px;
     max-width: 70px;
   }
@@ -122,11 +122,11 @@ const Caption = styled.p`
   color: black;
   font-size: 0.65rem;
 
-  @media (min-width: ${MOBILE_S}) {
+  @media (min-width: ${MOBILE_SMALL}) {
     font-size: 1rem;
   }
 
-  @media (min-width: ${DEFAULT}) {
+  @media (min-width: ${MOBILE_LARGE}) {
     font-size: initial;
   }
 `;
@@ -138,7 +138,7 @@ const Info = styled.div`
   font-size: 1.05rem;
   align-items: center;
 
-  @media (min-width: ${DEFAULT}) {
+  @media (min-width: ${MOBILE_LARGE}) {
     grid-gap: 0.3rem;
   }
 `;

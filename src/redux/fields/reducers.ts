@@ -2,11 +2,11 @@ import { fieldsActions, teamsActions } from "../rootTypes";
 import { replaceArrayItem, checkBothCoordinates } from "../helpers";
 import { Field, State, Action } from "./interface";
 
-export const DEFAULT_STATE: State = {
+export const MOBILE_LARGE_STATE: State = {
   fields: []
 };
 
-const fieldsState = (state = DEFAULT_STATE, action: Action): State => {
+const fieldsState = (state = MOBILE_LARGE_STATE, action: Action): State => {
   switch (action.type) {
     case fieldsActions.changeFields:
       return {

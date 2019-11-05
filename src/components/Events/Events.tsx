@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import uuid4 from "uuid";
 import { connect } from "react-redux";
-import { XL } from "../../breakpoints";
+import { DESKTOP_LARGE } from "../../breakpoints";
 import { GameEvents } from "../../redux/game/interface";
 
 const Container = styled.div`
@@ -14,7 +14,7 @@ const Container = styled.div`
   margin-right: 3vh;
   padding: 1rem;
 
-  @media (min-width: ${XL}) {
+  @media (min-width: ${DESKTOP_LARGE}) {
     display: flex;
   }
 

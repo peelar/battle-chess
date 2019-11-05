@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import uuid4 from "uuid";
-import { DEFAULT, DESKTOP } from "../../../breakpoints";
+import { MOBILE_LARGE, DESKTOP_SMALL } from "../../../breakpoints";
 
 const HealthBar = styled.ul`
   list-style: none;
@@ -19,11 +19,11 @@ const Point = styled.li`
   background-color: #c5beaa;
   border-radius: 50%;
 
-  @media (min-width: ${DEFAULT}) {
+  @media (min-width: ${MOBILE_LARGE}) {
     padding: 0.45rem;
   }
 
-  @media (min-width: ${DESKTOP}) {
+  @media (min-width: ${DESKTOP_SMALL}) {
     padding: 0.3rem;
   }
 

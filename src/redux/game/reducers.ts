@@ -2,14 +2,14 @@ import uuid4 from "uuid";
 import { gameActions } from "../rootTypes";
 import { State, Action } from "./interface";
 
-export const DEFAULT_STATE: State = {
+export const MOBILE_LARGE_STATE: State = {
   round: 0,
   activeTeam: 0,
   events: [],
   finished: false
 };
 
-const gameState = (state = DEFAULT_STATE, action: Action): State => {
+const gameState = (state = MOBILE_LARGE_STATE, action: Action): State => {
   switch (action.type) {
     case gameActions.incrementRound:
       return {

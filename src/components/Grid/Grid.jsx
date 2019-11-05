@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import Board from "../Board/Board";
 import { changePlayersState, changeFieldsState } from "../../redux/rootActions";
-import { PAD_S, PAD_L, DESKTOP, DEFAULT } from "../../breakpoints";
+import { PAD_SMALL, PAD_LARGE, DESKTOP_SMALL, MOBILE_LARGE } from "../../breakpoints";
 import { initializeGame } from "../../redux/helpers";
 
 const Container = styled.div`
@@ -14,7 +14,7 @@ const Container = styled.div`
   height: 80vh;
   filter: opacity(0.8);
 
-  @media (min-width: ${DESKTOP}) {
+  @media (min-width: ${DESKTOP_SMALL}) {
     height: 70vh;
   }
 `;
@@ -29,21 +29,21 @@ const Fields = styled.div`
   width: 95%;
   max-height: 370px;
 
-  @media (min-width: ${DEFAULT}) {
+  @media (min-width: ${MOBILE_LARGE}) {
     max-height: unset;
   }
 
-  @media (min-width: ${PAD_S}) {
+  @media (min-width: ${PAD_SMALL}) {
     width: 100%;
   }
 
-  @media (min-width: ${PAD_L}) {
+  @media (min-width: ${PAD_LARGE}) {
     height: 65vh;
     max-width: 750px;
     max-height: 650px;
   }
 
-  @media (min-width: ${DESKTOP}) {
+  @media (min-width: ${DESKTOP_SMALL}) {
     max-width: 650px;
   }
 `;

@@ -1,6 +1,6 @@
-export const MOBILE_S = '375px';
-export const DEFAULT = '480px';
-export const PAD_S = '768px';
-export const PAD_L = '980px';
-export const DESKTOP = '1280px';
-export const XL = '1690px';
+export const MOBILE_SMALL = "375px";
+export const MOBILE_LARGE = "480px";
+export const PAD_SMALL = "768px";
+export const PAD_LARGE = "980px";
+export const DESKTOP_SMALL = "1280px";
+export const DESKTOP_LARGE = "1690px";

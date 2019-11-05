@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Game from "./pages/Game";
 import Home from "./pages/Home";
-import { MOBILE_S, DEFAULT, XL } from "./breakpoints";
+import { MOBILE_SMALL, MOBILE_LARGE, DESKTOP_LARGE } from "./breakpoints";
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -17,15 +17,15 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
-    @media (min-width: ${MOBILE_S}) {
+    @media (min-width: ${MOBILE_SMALL}) {
       font-size: 12px;
     }
 
-    @media (min-width: ${DEFAULT}) {
+    @media (min-width: ${MOBILE_LARGE}) {
       font-size: 15px;
     }
 
-    @media (min-width: ${XL}) {
+    @media (min-width: ${DESKTOP_LARGE}) {
       font-size: 18px;
     }
   }
