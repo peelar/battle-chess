@@ -1,6 +1,8 @@
 import uuid4 from "uuid";
 import { Field } from "./fields/interface";
 import { Player } from "./teams/interface";
+import { getRandomInt, getRandomPlayerName } from "./random";
+import { generateField, generateGridPoint } from "./generators";
 
 const names = [
   "Adam",
@@ -44,48 +46,6 @@ const names = [
 type nestedArray = {
   [index: number]: number;
 };
-
-const getRandomInt = (min: number, max: number): number => {
-  const minNum = Math.ceil(min);
-  const maxNum = Math.floor(max);
-  return Math.floor(Math.random() * (maxNum - minNum)) + minNum;
-};
-
-const getRandomPlayerName = (array): string => {
-  const randomIndex = getRandomInt(0, array.length);
-  const name = array[randomIndex];
-
-  return name;
-};
-
-const generateField = ({
-  fieldId,
-  coordinates,
-  userId,
-  team
-}: {
-  fieldId: number;
-  coordinates: number[];
-  userId: any;
-  team: any;
-}): Field => ({
-  fieldId,
-  point: [...coordinates],
-  inRange: false,
-  inDanger: false,
-  character: { present: userId !== null, uuid: userId, team }
-});
-
-const generateGridPoint = ({
-  fieldId,
-  coordinates
-}: {
-  fieldId: number;
-  coordinates: number[];
-}): { id: number; point: number[] } => ({
-  id: fieldId,
-  point: [...coordinates]
-});
 
 class GameGenerator {
   private dim: number;
