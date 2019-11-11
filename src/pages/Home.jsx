@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { useSpring, animated } from "react-spring";
 import Button from "../components/Button/Button";
 import Nav from "../components/Nav/Nav";
-import Footer from "../components/Footer/Footer";
 import Panes from "../components/Panes/Panes";
 
 const HomeScreen = styled.div`

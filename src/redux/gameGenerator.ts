@@ -45,6 +45,33 @@ const names = [
   "Steven"
 ];
 
+const PROPERTIES = [
+  {
+    min: 1,
+    teamMaxKey: "maxHpPerTeam",
+    perPlayerMaxKey: "maxHpPerPlayer",
+    targetKey: "teamsHp"
+  },
+  {
+    min: 1,
+    teamMaxKey: "maxAttackPerTeam",
+    perPlayerMaxKey: "maxAttackPerPlayer",
+    targetKey: "teamsAttack"
+  },
+  {
+    min: 8,
+    teamMaxKey: "maxMovesPerTeam",
+    perPlayerMaxKey: "maxMovesPerPlayer",
+    targetKey: "teamsMoves"
+  },
+  {
+    min: 0,
+    teamMaxKey: "maxDistancePerTeam",
+    perPlayerMaxKey: "maxDistancePerPlayer",
+    targetKey: "teamsDistance"
+  }
+];
+
 type nestedArray = {
   [index: number]: number;
 };
@@ -154,21 +181,51 @@ class GameGenerator {
     };
   }
 
-  getRandomPropertyNumber({
-    max,
-    start
+  getRandomPropertyValue({
+    maxValue,
+    prevValue
   }: {
-    max: number;
-    start: number;
+    maxValue: number;
+    prevValue: number;
   }): number {
     let plus = getRandomInt(0, 2);
-    const newPropertyValue = start + plus;
+    const newPropertyValue = prevValue + plus;
 
-    if (newPropertyValue > max) {
+    if (newPropertyValue > maxValue) {
       plus = 0;
     }
 
     return plus;
+  }
+
+  getRandomValuesTilMax({
+    teamMax,
+    playerMax
+  }: {
+    teamMax: number;
+    playerMax: number;
+  }): number[] {
+    const properties = Array.from(Array(this.dim)).fill(1);
+
+    let counter = 0;
+    let teamSum = teamMax;
+
+    while (teamSum > 0) {
+      if (counter === properties.length) counter = 0;
+
+      const plus = this.getRandomPropertyValue({
+        maxValue: playerMax,
+        prevValue: properties[counter]
+      });
+      const newPropertyValue = properties[counter] + plus;
+
+      properties[counter] = newPropertyValue;
+      teamSum -= plus;
+
+      counter += 1;
+    }
+
+    return properties;
   }
 
   generateProperty({
@@ -186,32 +243,16 @@ class GameGenerator {
   }): { newProperties: nestedArray[]; teamMax: number } {
     const minTeamProp = this.dim * min;
     const maxTeamProp = (this[perPlayerMaxKey] - 1) * this.dim;
-    const properties = Array.from(Array(this.dim)).fill(1);
 
-    let teamSum =
+    const teamMax =
       this[teamMaxKey] !== null
         ? this[teamMaxKey]
         : getRandomInt(minTeamProp, maxTeamProp);
-    const teamMax = teamSum;
 
-    let counter = 0;
-
-    while (teamSum > 0) {
-      if (counter === properties.length) counter = 0;
-
-      const plus = this.getRandomPropertyNumber({
-        max: this[perPlayerMaxKey],
-        start: properties[counter]
-      });
-      const newPropertyValue = properties[counter] + plus;
-
-      properties[counter] = newPropertyValue;
-      teamSum -= plus;
-
-      counter += 1;
-    }
-
-    this[teamMax] = teamSum;
+    const properties = this.getRandomValuesTilMax({
+      teamMax,
+      playerMax: this[perPlayerMaxKey]
+    });
 
     const newProperties = [...this[targetKey]];
     newProperties[team] = properties;
@@ -222,34 +263,7 @@ class GameGenerator {
   createGameState(): void {
     const lastXCoordinate = this.dim - 1;
 
-    const properties = [
-      {
-        min: 1,
-        teamMaxKey: "maxHpPerTeam",
-        perPlayerMaxKey: "maxHpPerPlayer",
-        targetKey: "teamsHp"
-      },
-      {
-        min: 1,
-        teamMaxKey: "maxAttackPerTeam",
-        perPlayerMaxKey: "maxAttackPerPlayer",
-        targetKey: "teamsAttack"
-      },
-      {
-        min: 8,
-        teamMaxKey: "maxMovesPerTeam",
-        perPlayerMaxKey: "maxMovesPerPlayer",
-        targetKey: "teamsMoves"
-      },
-      {
-        min: 0,
-        teamMaxKey: "maxDistancePerTeam",
-        perPlayerMaxKey: "maxDistancePerPlayer",
-        targetKey: "teamsDistance"
-      }
-    ];
-
-    properties.forEach(property => {
+    PROPERTIES.forEach(property => {
       for (let team = 0; team <= 1; team += 1) {
         const { newProperties, teamMax } = this.generateProperty({
           ...property,
