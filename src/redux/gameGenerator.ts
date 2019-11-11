@@ -164,7 +164,7 @@ class GameGenerator {
     perPlayerMax: string;
     team: number;
     target: string;
-  }): void {
+  }): any {
     const minTeamProp = this.dim * min;
     const maxTeamProp = (this[perPlayerMax] - 1) * this.dim;
     const properties = Array.from(Array(this.dim)).fill(1);
@@ -173,8 +173,6 @@ class GameGenerator {
       this[teamMax] !== null
         ? this[teamMax]
         : getRandomInt(minTeamProp, maxTeamProp);
-
-    this[teamMax] = teamSum;
 
     let counter = 0;
 
@@ -194,69 +192,49 @@ class GameGenerator {
     const newProperties = [...this[target]];
     newProperties[team] = properties;
 
-    this[target] = newProperties;
+    return { newProperties, teamSum };
   }
 
   createGameState(): void {
     const lastXCoordinate = this.dim - 1;
-    this.generateProperty({
-      min: 1,
-      teamMax: "maxHpPerTeam",
-      perPlayerMax: "maxHpPerPlayer",
-      target: "teamsHp",
-      team: 0
-    });
-    this.generateProperty({
-      min: 1,
-      teamMax: "maxHpPerTeam",
-      perPlayerMax: "maxHpPerPlayer",
-      target: "teamsHp",
-      team: 1
-    });
 
-    this.generateProperty({
-      min: 1,
-      teamMax: "maxAttackPerTeam",
-      perPlayerMax: "maxAttackPerPlayer",
-      target: "teamsAttack",
-      team: 0
-    });
-    this.generateProperty({
-      min: 1,
-      teamMax: "maxAttackPerTeam",
-      perPlayerMax: "maxAttackPerPlayer",
-      target: "teamsAttack",
-      team: 1
-    });
+    const properties = [
+      {
+        min: 1,
+        teamMax: "maxHpPerTeam",
+        perPlayerMax: "maxHpPerPlayer",
+        target: "teamsHp"
+      },
+      {
+        min: 1,
+        teamMax: "maxAttackPerTeam",
+        perPlayerMax: "maxAttackPerPlayer",
+        target: "teamsAttack"
+      },
+      {
+        min: 8,
+        teamMax: "maxMovesPerTeam",
+        perPlayerMax: "maxMovesPerPlayer",
+        target: "teamsMoves"
+      },
+      {
+        min: 0,
+        teamMax: "maxDistancePerTeam",
+        perPlayerMax: "maxDistancePerPlayer",
+        target: "teamsDistance"
+      }
+    ];
 
-    this.generateProperty({
-      min: 8,
-      teamMax: "maxMovesPerTeam",
-      perPlayerMax: "maxMovesPerPlayer",
-      target: "teamsMoves",
-      team: 0
-    });
-    this.generateProperty({
-      min: 8,
-      teamMax: "maxMovesPerTeam",
-      perPlayerMax: "maxMovesPerPlayer",
-      target: "teamsMoves",
-      team: 1
-    });
+    properties.forEach(property => {
+      for (let team = 0; team <= 1; team += 1) {
+        const { newProperties, teamSum } = this.generateProperty({
+          ...property,
+          team
+        });
 
-    this.generateProperty({
-      min: 0,
-      teamMax: "maxDistancePerTeam",
-      perPlayerMax: "maxDistancePerPlayer",
-      target: "teamsDistance",
-      team: 0
-    });
-    this.generateProperty({
-      min: 0,
-      teamMax: "maxDistancePerTeam",
-      perPlayerMax: "maxDistancePerPlayer",
-      target: "teamsDistance",
-      team: 1
+        this[property.target] = newProperties;
+        this[property.teamMax] = teamSum;
+      }
     });
 
     for (let j = 0; j < this.dim; j += 1) {
