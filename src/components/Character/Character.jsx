@@ -7,7 +7,12 @@ import SVG from "react-inlinesvg";
 import { getCharacterRole } from "../../redux/helpers";
 // import { useSpring, animated } from "react-spring";
 
-import { MOBILE_LARGE, MOBILE_SMALL, PAD_LARGE, DESKTOP_SMALL } from "../../breakpoints";
+import {
+  MOBILE_LARGE,
+  MOBILE_SMALL,
+  PAD_LARGE,
+  DESKTOP_SMALL
+} from "../../breakpoints";
 import Bar from "./Bar/Bar";
 
 const Dot = styled.div`
@@ -211,8 +216,6 @@ const Character = ({
     success: "#32B67A"
   };
 
-  // const animation = useSpring({ opacity: 1, from: { opacity: 0 } });
-
   return (
     <Dot
       secondary={isSecondary}
@@ -222,7 +225,6 @@ const Character = ({
       inDanger={inDanger}
       health={healthLevel}
       onClick={() => interactWithCharacter(!isCharacterActive)}
-      // style={animation}
     >
       {isCharacterActive ? (
         <Stats active={isCharacterActive}>

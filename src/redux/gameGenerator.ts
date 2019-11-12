@@ -235,7 +235,9 @@ class GameGenerator {
     max: number;
   }): number {
     const teamMaxHasValue = this[teamMaxKey] !== null;
-    return teamMaxHasValue ? this[teamMaxKey] : getRandomInt(min, max);
+    const teamMax = teamMaxHasValue ? this[teamMaxKey] : getRandomInt(min, max);
+
+    return teamMax;
   }
 
   generateProperty({
@@ -252,7 +254,7 @@ class GameGenerator {
     targetKey: string;
   }): { newProperties: nestedArray[]; teamMax: number } {
     const minRandomProp = this.dim * min;
-    const maxRandomProp = (perPlayerMax - 1) * this.dim;
+    const maxRandomProp = (perPlayerMax - 1) * (this.dim - 2);
 
     const teamMax = this.getTeamMax({
       teamMaxKey,
