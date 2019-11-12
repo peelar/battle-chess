@@ -109,7 +109,7 @@ export const isMoveInRange = (
 };
 
 export const initializeGame = (DIM: number) => {
-  const generator = new GameGenerator(DIM, 5, 4);
+  const generator = new GameGenerator(DIM);
   generator.createGameState();
 
   return generator;

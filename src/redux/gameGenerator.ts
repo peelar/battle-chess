@@ -49,25 +49,25 @@ const PROPERTIES = [
   {
     min: 1,
     teamMaxKey: "maxHpPerTeam",
-    perPlayerMaxKey: "maxHpPerPlayer",
+    perPlayerMax: 5,
     targetKey: "teamsHp"
   },
   {
     min: 1,
     teamMaxKey: "maxAttackPerTeam",
-    perPlayerMaxKey: "maxAttackPerPlayer",
+    perPlayerMax: 4,
     targetKey: "teamsAttack"
   },
   {
     min: 8,
     teamMaxKey: "maxMovesPerTeam",
-    perPlayerMaxKey: "maxMovesPerPlayer",
+    perPlayerMax: 15,
     targetKey: "teamsMoves"
   },
   {
     min: 0,
     teamMaxKey: "maxDistancePerTeam",
-    perPlayerMaxKey: "maxDistancePerPlayer",
+    perPlayerMax: 2,
     targetKey: "teamsDistance"
   }
 ];
@@ -79,25 +79,21 @@ type nestedArray = {
 class GameGenerator {
   private dim: number;
 
-  private maxHpPerPlayer: number;
-
   private maxHpPerTeam: null | number;
 
   private teamsHp: nestedArray[];
-
-  private maxMovesPerPlayer: number;
 
   private maxMovesPerTeam: null | number;
 
   private teamsMoves: nestedArray[];
 
-  private maxAttackPerPlayer: number;
-
   private maxAttackPerTeam: null | number;
 
   private teamsAttack: nestedArray[];
 
-  private maxDistancePerPlayer: number;
+  private maxAttackAreaPerTeam: null | number;
+
+  private teamsAttackArea: nestedArray[];
 
   private maxDistancePerTeam: null | number;
 
@@ -111,30 +107,23 @@ class GameGenerator {
 
   private uniqueNames: string[];
 
-  constructor(
-    dim: number,
-    maxHpPerPlayer: number,
-    maxAttackPerPlayer: number,
-    maxMovesPerPlayer = 15,
-    maxDistancePerPlayer = 2
-  ) {
+  constructor(dim: number) {
     this.dim = dim;
 
-    this.maxHpPerPlayer = maxHpPerPlayer;
     this.maxHpPerTeam = null;
     this.teamsHp = [];
 
-    this.maxMovesPerPlayer = maxMovesPerPlayer;
     this.maxMovesPerTeam = null;
     this.teamsMoves = [];
 
-    this.maxAttackPerPlayer = maxAttackPerPlayer;
     this.maxAttackPerTeam = null;
     this.teamsAttack = [];
 
-    this.maxDistancePerPlayer = maxDistancePerPlayer;
     this.maxDistancePerTeam = null;
     this.teamsDistance = [];
+
+    this.maxAttackAreaPerTeam = null;
+    this.teamsAttackArea = [];
 
     this.xyTeams = [];
     this.fields = [];
@@ -244,18 +233,18 @@ class GameGenerator {
   generateProperty({
     min,
     teamMaxKey,
-    perPlayerMaxKey,
+    perPlayerMax,
     targetKey,
     team
   }: {
     min: number;
     teamMaxKey: string;
-    perPlayerMaxKey: string;
+    perPlayerMax: number;
     team: number;
     targetKey: string;
   }): { newProperties: nestedArray[]; teamMax: number } {
     const minRandomProp = this.dim * min;
-    const maxRandomProp = (this[perPlayerMaxKey] - 1) * this.dim;
+    const maxRandomProp = (perPlayerMax - 1) * this.dim;
 
     const teamMax = this.getTeamMax({
       teamMaxKey,
@@ -265,7 +254,7 @@ class GameGenerator {
 
     const properties = this.getRandomValuesTilMax({
       teamMax,
-      playerMax: this[perPlayerMaxKey]
+      playerMax: perPlayerMax
     });
 
     const newProperties = [...this[targetKey]];
