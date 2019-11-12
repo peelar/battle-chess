@@ -8,6 +8,7 @@ export interface PlayerAttributes {
   attack: number;
   moves: number;
   range: number;
+  attackArea: number;
 }
 
 export interface Player {

@@ -117,7 +117,7 @@ export const initializeGame = (DIM: number) => {
 
 const characterTests = {
   wizard: attributes => attributes.range > 1,
-  spartan: attributes => attributes.range > 2
+  spartan: attributes => attributes.attackArea > 1
 };
 
 const testCharacterRole = (attributes: PlayerAttributes) => {

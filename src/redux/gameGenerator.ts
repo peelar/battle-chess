@@ -69,6 +69,12 @@ const PROPERTIES = [
     teamMaxKey: "maxDistancePerTeam",
     perPlayerMax: 2,
     targetKey: "teamsDistance"
+  },
+  {
+    min: 0,
+    teamMaxKey: "maxAttackAreaPerTeam",
+    perPlayerMax: 2,
+    targetKey: "teamsAttackArea"
   }
 ];
 
@@ -152,6 +158,7 @@ class GameGenerator {
     const characterAttackPoints = this.teamsAttack[team][index];
     const characterMoves = this.teamsMoves[team][index];
     const range = this.teamsDistance[team][index];
+    const attackArea = this.teamsAttackArea[team][index];
 
     return {
       id: userId,
@@ -165,6 +172,7 @@ class GameGenerator {
         currentHp: characterHpPoints,
         attack: characterAttackPoints,
         moves: characterMoves,
+        attackArea,
         range
       }
     };
