@@ -41,7 +41,6 @@ const names = [
   "Rose",
   "Max",
   "Alfred",
-  "Marika",
   "Steven"
 ];
 
