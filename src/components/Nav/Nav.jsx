@@ -63,6 +63,7 @@ const FlagButton = styled.button`
 const Nav = ({ animation }) => {
   const { i18n } = useTranslation();
   const [localLanguage, changeLocalLanguage] = useState("en_US");
+  console.log(localLanguage);
 
   const changeLanguage = () => {
     const newLanguage = localLanguage === "en_US" ? "pl_PL" : "en_US";
@@ -89,7 +90,7 @@ const Nav = ({ animation }) => {
     <Navbar style={animation}>
       <Container>
         <FlagButton type="button" onClick={changeLanguage}>
-          <SVG src={flags[localLanguage].flag} />
+          {flags[localLanguage] && <SVG src={flags[localLanguage].flag} />}
         </FlagButton>
         <LinkList>
           <li>
